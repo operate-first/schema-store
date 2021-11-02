@@ -1,0 +1,475 @@
+{
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "v2v.kubevirt.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "VirtualMachineImport"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "VirtualMachineImportSpec defines the desired state of VirtualMachineImport",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "providerCredentialsSecret",
+        "source"
+      ],
+      "properties": {
+        "providerCredentialsSecret": {
+          "description": "ProviderCredentialsSecret defines how a secret resource should be identified on kubevirt",
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "namespace": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "resourceMapping": {
+          "description": "ObjectIdentifier defines how a resource should be identified",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "namespace": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "source": {
+          "description": "VirtualMachineImportSourceSpec defines the source provider and the internal mapping resources",
+          "type": "object",
+          "properties": {
+            "ovirt": {
+              "description": "VirtualMachineImportOvirtSourceSpec defines the mapping resources and the VM identity for oVirt source provider",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "vm"
+              ],
+              "properties": {
+                "mappings": {
+                  "description": "OvirtMappings defines the mappings of ovirt resources to kubevirt",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "diskMappings": {
+                      "description": "DiskMappings defines the mapping of disks to storage\n\t\t\t\t\tclasses DiskMappings.Source.ID represents the disk ID on ovirt (as opposed to disk-attachment ID) DiskMappings.Source.Name represents\n\t\t\t\t\tthe disk alias on ovirt DiskMappings is respected only when provided in context of a single VM import within VirtualMachineImport.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "ResourceMappingItem defines the mapping of a single resource from the provider to kubevirt",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "source"
+                        ],
+                        "properties": {
+                          "source": {
+                            "description": "Source defines how to identify a resource on the provider, either by ID or by name",
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "name": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "target": {
+                            "description": "ObjectIdentifier defines how a resource should be identified on kubevirt",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "name"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "namespace": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "type": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "networkMappings": {
+                      "description": "NetworkMappings defines the mapping of vnic profile\n\t\t\t\t\tto network attachment definition When providing source network by name, the format is 'network name/vnic profile name'. When\n\t\t\t\t\tproviding source network by ID, the ID represents the vnic profile ID. A logical network from ovirt can be mapped to multiple network\n\t\t\t\t\tattachment definitions on kubevirt by using vnic profile to network attachment definition mapping.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "ResourceMappingItem defines the mapping of a single resource from the provider to kubevirt",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "source"
+                        ],
+                        "properties": {
+                          "source": {
+                            "description": "Source defines how to identify a resource on the provider, either by ID or by name",
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "name": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "target": {
+                            "description": "ObjectIdentifier defines how a resource should be identified on kubevirt",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "name"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "namespace": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "type": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "storageMappings": {
+                      "description": "StorageMappings defines the mapping of storage domains to storage classes.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "ResourceMappingItem defines the mapping of a single resource from the provider to kubevirt",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "source"
+                        ],
+                        "properties": {
+                          "source": {
+                            "description": "Source defines how to identify a resource on the provider, either by ID or by name",
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "name": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "target": {
+                            "description": "ObjectIdentifier defines how a resource should be identified on kubevirt",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "name"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "namespace": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "type": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "vm": {
+                  "description": "VirtualMachineImportOvirtSourceVMSpec defines the definition of the VM info in oVirt",
+                  "type": "object",
+                  "properties": {
+                    "cluster": {
+                      "description": "VirtualMachineImportOvirtSourceVMClusterSpec defines the source cluster's identity of the VM in oVirt",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "startVm": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "targetVmName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 63
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "VirtualMachineImportStatus defines the observed state of VirtualMachineImport",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "description": "A list of current conditions of the VirtualMachineImport resource",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastHeartbeatTime": {
+                "description": "The last time we got an update on a given condition",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "description": "The last time the condition transit from one status to another",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "description": "A human-readable message indicating details about last transition",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "description": "A brief CamelCase string that describes why the VM import process is in current condition status",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Status of the condition, one of True, False, Unknown",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type of virtual machine import condition",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "dataVolumes": {
+          "description": "DataVolumeItem defines the details of a data volume created by the VM import process",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "targetVmName": {
+          "description": "The name of the virtual machine created by the import process",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "v2v.kubevirt.io",
+      "kind": "VirtualMachineImport",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

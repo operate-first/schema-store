@@ -1,0 +1,55 @@
+{
+  "description": "ManagedClusterStatus represents the current status of joined managed cluster.",
+  "type": "object",
+  "required": [
+    "conditions"
+  ],
+  "properties": {
+    "allocatable": {
+      "description": "Allocatable represents the total allocatable resources on the managed cluster.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+      }
+    },
+    "capacity": {
+      "description": "Capacity represents the total resource capacity from all nodeStatuses on the managed cluster.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+      }
+    },
+    "clusterClaims": {
+      "description": "ClusterClaims represents cluster information that a managed cluster claims, for example a unique cluster identifier (id.k8s.io) and kubernetes version (kubeversion.open-cluster-management.io). They are written from the managed cluster. The set of claims is not uniform across a fleet, some claims can be vendor or version specific and may not be included from all managed clusters.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterClaim"
+      }
+    },
+    "conditions": {
+      "description": "Conditions contains the different condition statuses for this managed cluster.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Condition"
+      }
+    },
+    "version": {
+      "description": "Version represents the kubernetes version of the managed cluster.",
+      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterVersion"
+    }
+  },
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

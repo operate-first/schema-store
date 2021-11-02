@@ -1,0 +1,149 @@
+{
+  "description": "VerticalPodAutoscalerCheckpoint is the checkpoint of the internal state of VPA that is used for recovery after recommender's restart.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "autoscaling.k8s.io/v1beta2"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "VerticalPodAutoscalerCheckpoint"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "Specification of the checkpoint. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "containerName": {
+          "description": "Name of the checkpointed container.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vpaObjectName": {
+          "description": "Name of the VPA object that stored VerticalPodAutoscalerCheckpoint object.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "Data of the checkpoint.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "cpuHistogram": {
+          "description": "Checkpoint of histogram for consumption of CPU.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "bucketWeights": {
+              "description": "Map from bucket index to bucket weight.",
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "referenceTimestamp": {
+              "description": "Reference timestamp for samples collected within this histogram.",
+              "format": "date-time"
+            },
+            "totalWeight": {
+              "description": "Sum of samples to be used as denominator for weights from BucketWeights.",
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "firstSampleStart": {
+          "description": "Timestamp of the fist sample from the histograms.",
+          "format": "date-time"
+        },
+        "lastSampleStart": {
+          "description": "Timestamp of the last sample from the histograms.",
+          "format": "date-time"
+        },
+        "lastUpdateTime": {
+          "description": "The time when the status was last refreshed.",
+          "format": "date-time"
+        },
+        "memoryHistogram": {
+          "description": "Checkpoint of histogram for consumption of memory.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "bucketWeights": {
+              "description": "Map from bucket index to bucket weight.",
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "referenceTimestamp": {
+              "description": "Reference timestamp for samples collected within this histogram.",
+              "format": "date-time"
+            },
+            "totalWeight": {
+              "description": "Sum of samples to be used as denominator for weights from BucketWeights.",
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "totalSamplesCount": {
+          "description": "Total number of samples in the histograms.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "version": {
+          "description": "Version of the format of the stored data.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "autoscaling.k8s.io",
+      "kind": "VerticalPodAutoscalerCheckpoint",
+      "version": "v1beta2"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

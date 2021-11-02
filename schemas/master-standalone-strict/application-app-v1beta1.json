@@ -1,0 +1,838 @@
+{
+  "description": "Application is the Schema for the applications API",
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "app.k8s.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Application"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "ApplicationSpec defines the specification for an Application.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "addOwnerRef": {
+          "description": "AddOwnerRef objects - flag to indicate if we need to add OwnerRefs to matching objects Matching is done by using Selector to query all ComponentGroupKinds",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "assemblyPhase": {
+          "description": "AssemblyPhase represents the current phase of the application's assembly. An empty value is equivalent to \"Succeeded\".",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "componentKinds": {
+          "description": "ComponentGroupKinds is a list of Kinds for Application's components (e.g. Deployments, Pods, Services, CRDs). It can be used in conjunction with the Application's Selector to list or watch the Applications components.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "GroupKind specifies a Group and a Kind, but does not force a version.  This is useful for identifying concepts during lookup stages without having partially valid types",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "group",
+              "kind"
+            ],
+            "properties": {
+              "group": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "descriptor": {
+          "description": "Descriptor regroups information and metadata about an application.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "description": {
+              "description": "Description is a brief string description of the Application.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "icons": {
+              "description": "Icons is an optional list of icons for an application. Icon information includes the source, size, and mime type.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "ImageSpec contains information about an image used as an icon.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "src"
+                ],
+                "properties": {
+                  "size": {
+                    "description": "(optional) The size of the image in pixels (e.g., 25x25).",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "src": {
+                    "description": "The source for image represented as either an absolute URL to the image or a Data URL containing the image. Data URLs are defined in RFC 2397.",
+                    "type": "string"
+                  },
+                  "type": {
+                    "description": "(optional) The mine type of the image (e.g., \"image/png\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "keywords": {
+              "description": "Keywords is an optional list of key words associated with the application (e.g. MySQL, RDBMS, database).",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "links": {
+              "description": "Links are a list of descriptive URLs intended to be used to surface additional documentation, dashboards, etc.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "Link contains information about an URL to surface documentation, dashboards, etc.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "description": {
+                    "description": "Description is human readable content explaining the purpose of the link.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "url": {
+                    "description": "Url typically points at a website address.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "maintainers": {
+              "description": "Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the the source code, images, and package for the application.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "ContactData contains information about an individual or organization.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "email": {
+                    "description": "Email is the email address.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "description": "Name is the descriptive name.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "url": {
+                    "description": "Url could typically be a website address.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "notes": {
+              "description": "Notes contain a human readable snippets intended as a quick start for the users of the Application. CommonMark markdown syntax may be used for rich text representation.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "owners": {
+              "description": "Owners is an optional list of the owners of the installed application. The owners of the application should be contacted in the event of a planned or unplanned disruption affecting the application.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "ContactData contains information about an individual or organization.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "email": {
+                    "description": "Email is the email address.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "description": "Name is the descriptive name.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "url": {
+                    "description": "Url could typically be a website address.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "type": {
+              "description": "Type is the type of the application (e.g. WordPress, MySQL, Cassandra).",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "version": {
+              "description": "Version is an optional version indicator for the Application.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "info": {
+          "description": "Info contains human readable key,value pairs for the Application.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "InfoItem is a human readable key,value pair containing important information about how to access the Application.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "name": {
+                "description": "Name is a human readable title for this piece of information.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "type": {
+                "description": "Type of the value for this InfoItem.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "value": {
+                "description": "Value is human readable content.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "valueFrom": {
+                "description": "ValueFrom defines a reference to derive the value from another source.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "configMapKeyRef": {
+                    "description": "Selects a key of a ConfigMap.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "apiVersion": {
+                        "description": "API version of the referent.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "fieldPath": {
+                        "description": "If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: \"spec.containers{name}\" (where \"name\" refers to the name of the container that triggered the event) or if no container name is specified \"spec.containers[2]\" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. TODO: this design is not final and this field is subject to change in the future.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "key": {
+                        "description": "The key to select.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "kind": {
+                        "description": "Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "resourceVersion": {
+                        "description": "Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "uid": {
+                        "description": "UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "ingressRef": {
+                    "description": "Select an Ingress.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "apiVersion": {
+                        "description": "API version of the referent.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "fieldPath": {
+                        "description": "If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: \"spec.containers{name}\" (where \"name\" refers to the name of the container that triggered the event) or if no container name is specified \"spec.containers[2]\" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. TODO: this design is not final and this field is subject to change in the future.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "host": {
+                        "description": "The optional host to select.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "kind": {
+                        "description": "Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "path": {
+                        "description": "The optional HTTP path.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "protocol": {
+                        "description": "Protocol for the ingress",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "resourceVersion": {
+                        "description": "Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "uid": {
+                        "description": "UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "secretKeyRef": {
+                    "description": "Selects a key of a Secret.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "apiVersion": {
+                        "description": "API version of the referent.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "fieldPath": {
+                        "description": "If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: \"spec.containers{name}\" (where \"name\" refers to the name of the container that triggered the event) or if no container name is specified \"spec.containers[2]\" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. TODO: this design is not final and this field is subject to change in the future.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "key": {
+                        "description": "The key to select.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "kind": {
+                        "description": "Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "resourceVersion": {
+                        "description": "Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "uid": {
+                        "description": "UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "serviceRef": {
+                    "description": "Select a Service.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "apiVersion": {
+                        "description": "API version of the referent.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "fieldPath": {
+                        "description": "If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: \"spec.containers{name}\" (where \"name\" refers to the name of the container that triggered the event) or if no container name is specified \"spec.containers[2]\" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. TODO: this design is not final and this field is subject to change in the future.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "kind": {
+                        "description": "Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "path": {
+                        "description": "The optional HTTP path.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "port": {
+                        "description": "The optional port to select.",
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "format": "int32"
+                      },
+                      "protocol": {
+                        "description": "Protocol for the service",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "resourceVersion": {
+                        "description": "Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "uid": {
+                        "description": "UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "type": {
+                    "description": "Type of source.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "selector": {
+          "description": "Selector is a label query over kinds that created by the application. It must match the component objects' labels. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "matchExpressions": {
+              "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                    "type": "string"
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "ApplicationStatus defines controller's the observed state of Application",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "components": {
+          "description": "Object status array for all matching objects",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ObjectStatus is a generic status holder for objects",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "group": {
+                "description": "Object group",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "kind": {
+                "description": "Kind of object",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "link": {
+                "description": "Link to object",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "description": "Name of object",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Status. Values: InProgress, Ready, Unknown",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "componentsReady": {
+          "description": "ComponentsReady: status of the components in the format ready/total",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "conditions": {
+          "description": "Conditions represents the latest state of the object",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Condition describes the state of an object at a certain point.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastTransitionTime": {
+                "description": "Last time the condition transitioned from one status to another.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastUpdateTime": {
+                "description": "Last time the condition was probed",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "description": "A human readable message indicating details about the transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "description": "The reason for the condition's last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Status of the condition, one of True, False, Unknown.",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type of condition.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "observedGeneration": {
+          "description": "ObservedGeneration is the most recent generation observed. It corresponds to the Object's generation, which is updated on mutation by the API Server.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "app.k8s.io",
+      "kind": "Application",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

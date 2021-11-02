@@ -1,0 +1,303 @@
+{
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "submariner.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Gateway"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "status": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "connections",
+        "haStatus",
+        "localEndpoint",
+        "statusFailure",
+        "version"
+      ],
+      "properties": {
+        "connections": {
+          "type": "array",
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "endpoint",
+              "status",
+              "statusMessage"
+            ],
+            "properties": {
+              "endpoint": {
+                "type": "object",
+                "required": [
+                  "backend",
+                  "cable_name",
+                  "cluster_id",
+                  "hostname",
+                  "nat_enabled",
+                  "private_ip",
+                  "public_ip",
+                  "subnets"
+                ],
+                "properties": {
+                  "backend": {
+                    "type": "string"
+                  },
+                  "backend_config": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "cable_name": {
+                    "type": "string"
+                  },
+                  "cluster_id": {
+                    "type": "string"
+                  },
+                  "healthCheckIP": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "hostname": {
+                    "type": "string"
+                  },
+                  "nat_enabled": {
+                    "type": "boolean"
+                  },
+                  "private_ip": {
+                    "type": "string"
+                  },
+                  "public_ip": {
+                    "type": "string"
+                  },
+                  "subnets": {
+                    "type": "array",
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "latency": {
+                "description": "LatencySpec describes the round trip time information in nanoseconds for a packet between the gateway pods of two clusters.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "averageRTT": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "lastRTT": {
+                    "description": "TODO This shall be deleted once the operator is using the latest. Using Optional to avoid validation errors when this field is not used.",
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "maxRTT": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "minRTT": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "stddevRTT": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "latencyRTT": {
+                "description": "LatencySpec describes the round trip time information for a packet between the gateway pods of two clusters.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "average": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "last": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "max": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "min": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "stdDev": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "status": {
+                "type": "string"
+              },
+              "statusMessage": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "haStatus": {
+          "type": "string"
+        },
+        "localEndpoint": {
+          "type": "object",
+          "required": [
+            "backend",
+            "cable_name",
+            "cluster_id",
+            "hostname",
+            "nat_enabled",
+            "private_ip",
+            "public_ip",
+            "subnets"
+          ],
+          "properties": {
+            "backend": {
+              "type": "string"
+            },
+            "backend_config": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "cable_name": {
+              "type": "string"
+            },
+            "cluster_id": {
+              "type": "string"
+            },
+            "healthCheckIP": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "hostname": {
+              "type": "string"
+            },
+            "nat_enabled": {
+              "type": "boolean"
+            },
+            "private_ip": {
+              "type": "string"
+            },
+            "public_ip": {
+              "type": "string"
+            },
+            "subnets": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "statusFailure": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "submariner.io",
+      "kind": "Gateway",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

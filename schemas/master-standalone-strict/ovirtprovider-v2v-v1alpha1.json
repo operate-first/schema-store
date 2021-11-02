@@ -1,0 +1,130 @@
+{
+  "description": "OVirtProvider is the Schema for the ovirtproviders API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "v2v.kubevirt.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "OVirtProvider"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "OVirtProviderSpec defines the desired state of OVirtProvider",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "connection": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "timeToLive": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vms": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "OVirtVM aligns with maintained UI interface",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "cluster",
+              "id",
+              "name"
+            ],
+            "properties": {
+              "cluster": {
+                "type": "string"
+              },
+              "detail": {
+                "description": "OVirtVMDetail contains ovirt vm details as json string",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "raw": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "detailRequest": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "OVirtProviderStatus defines the observed state of OVirtProvider",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "phase": {
+          "description": "VirtualMachineProviderPhase defines provider phase",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "v2v.kubevirt.io",
+      "kind": "OVirtProvider",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

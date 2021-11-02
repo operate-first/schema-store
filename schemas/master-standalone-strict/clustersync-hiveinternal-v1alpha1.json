@@ -1,0 +1,329 @@
+{
+  "description": "ClusterSync is the status of all of the SelectorSyncSets and SyncSets that apply to a ClusterDeployment.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "hiveinternal.openshift.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ClusterSync"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "ClusterSyncSpec defines the desired state of ClusterSync",
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "status": {
+      "description": "ClusterSyncStatus defines the observed state of ClusterSync",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "description": "Conditions is a list of conditions associated with syncing to the cluster.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ClusterSyncCondition contains details for the current condition of a ClusterSync",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastProbeTime": {
+                "description": "LastProbeTime is the last time we probed the condition.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "description": "LastTransitionTime is the last time the condition transitioned from one status to another.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "description": "Message is a human-readable message indicating details about the last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "description": "Reason is a unique, one-word, CamelCase reason for the condition's last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Status is the status of the condition.",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type is the type of the condition.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "firstSuccessTime": {
+          "description": "FirstSuccessTime is the time we first successfully applied all (selector)syncsets to a cluster.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "selectorSyncSets": {
+          "description": "SelectorSyncSets is the sync status of all of the SelectorSyncSets for the cluster.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "SyncStatus is the status of applying a specific SyncSet or SelectorSyncSet to the cluster.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "lastTransitionTime",
+              "name",
+              "observedGeneration",
+              "result"
+            ],
+            "properties": {
+              "failureMessage": {
+                "description": "FailureMessage is a message describing why the SyncSet or SelectorSyncSet could not be applied. This is only set when Result is Failure.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "firstSuccessTime": {
+                "description": "FirstSuccessTime is the time when the SyncSet or SelectorSyncSet was first successfully applied to the cluster.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "description": "LastTransitionTime is the time when this status last changed.",
+                "type": "string",
+                "format": "date-time"
+              },
+              "name": {
+                "description": "Name is the name of the SyncSet or SelectorSyncSet.",
+                "type": "string"
+              },
+              "observedGeneration": {
+                "description": "ObservedGeneration is the generation of the SyncSet or SelectorSyncSet that was last observed.",
+                "type": "integer",
+                "format": "int64"
+              },
+              "resourcesToDelete": {
+                "description": "ResourcesToDelete is the list of resources in the cluster that should be deleted when the SyncSet or SelectorSyncSet is deleted or is no longer matched to the cluster.",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "SyncResourceReference is a reference to a resource that is synced to a cluster via a SyncSet or SelectorSyncSet.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "apiVersion",
+                    "name"
+                  ],
+                  "properties": {
+                    "apiVersion": {
+                      "description": "APIVersion is the Group and Version of the resource.",
+                      "type": "string"
+                    },
+                    "kind": {
+                      "description": "Kind is the Kind of the resource.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "name": {
+                      "description": "Name is the name of the resource.",
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "description": "Namespace is the namespace of the resource.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "result": {
+                "description": "Result is the result of the last attempt to apply the SyncSet or SelectorSyncSet to the cluster.",
+                "type": "string",
+                "enum": [
+                  "Success",
+                  "Failure"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "syncSets": {
+          "description": "SyncSets is the sync status of all of the SyncSets for the cluster.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "SyncStatus is the status of applying a specific SyncSet or SelectorSyncSet to the cluster.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "lastTransitionTime",
+              "name",
+              "observedGeneration",
+              "result"
+            ],
+            "properties": {
+              "failureMessage": {
+                "description": "FailureMessage is a message describing why the SyncSet or SelectorSyncSet could not be applied. This is only set when Result is Failure.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "firstSuccessTime": {
+                "description": "FirstSuccessTime is the time when the SyncSet or SelectorSyncSet was first successfully applied to the cluster.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "description": "LastTransitionTime is the time when this status last changed.",
+                "type": "string",
+                "format": "date-time"
+              },
+              "name": {
+                "description": "Name is the name of the SyncSet or SelectorSyncSet.",
+                "type": "string"
+              },
+              "observedGeneration": {
+                "description": "ObservedGeneration is the generation of the SyncSet or SelectorSyncSet that was last observed.",
+                "type": "integer",
+                "format": "int64"
+              },
+              "resourcesToDelete": {
+                "description": "ResourcesToDelete is the list of resources in the cluster that should be deleted when the SyncSet or SelectorSyncSet is deleted or is no longer matched to the cluster.",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "SyncResourceReference is a reference to a resource that is synced to a cluster via a SyncSet or SelectorSyncSet.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "apiVersion",
+                    "name"
+                  ],
+                  "properties": {
+                    "apiVersion": {
+                      "description": "APIVersion is the Group and Version of the resource.",
+                      "type": "string"
+                    },
+                    "kind": {
+                      "description": "Kind is the Kind of the resource.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "name": {
+                      "description": "Name is the name of the resource.",
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "description": "Namespace is the namespace of the resource.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "result": {
+                "description": "Result is the result of the last attempt to apply the SyncSet or SelectorSyncSet to the cluster.",
+                "type": "string",
+                "enum": [
+                  "Success",
+                  "Failure"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "hiveinternal.openshift.io",
+      "kind": "ClusterSync",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

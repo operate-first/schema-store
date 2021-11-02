@@ -1,0 +1,123 @@
+{
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ceph.rook.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CephFilesystem"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "metadataServer"
+      ],
+      "properties": {
+        "dataPools": {},
+        "metadataPool": {},
+        "metadataServer": {
+          "type": "object",
+          "required": [
+            "activeCount"
+          ],
+          "properties": {
+            "activeCount": {
+              "type": "integer",
+              "format": "int32",
+              "maximum": 10,
+              "minimum": 1
+            },
+            "activeStandby": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "annotations": {
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "labels": {
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "placement": {
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "priorityClassName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "resources": {
+              "x-kubernetes-preserve-unknown-fields": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "mirroring": {},
+        "preserveFilesystemOnDelete": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "preservePoolsOnDelete": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ceph.rook.io",
+      "kind": "CephFilesystem",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

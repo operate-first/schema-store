@@ -1,0 +1,458 @@
+{
+  "description": "FybrikApplication provides information about the application being used by a Data Scientist, the nature of the processing, and the data sets that the Data Scientist has chosen for processing by the application. The FybrikApplication controller (aka pilot) obtains instructions regarding any governance related changes that must be performed on the data, identifies the modules capable of performing such changes, and finally generates the Blueprint which defines the secure runtime environment and all the components in it.  This runtime environment provides the Data Scientist's application with access to the data requested in a secure manner and without having to provide any credentials for the data sets.  The credentials are obtained automatically by the manager from an external credential management system, which may or may not be part of a data catalog.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "app.fybrik.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "FybrikApplication"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "FybrikApplicationSpec defines the desired state of FybrikApplication.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "appInfo",
+        "data"
+      ],
+      "properties": {
+        "appInfo": {
+          "description": "AppInfo contains information describing the reasons for the processing that will be done by the Data Scientist's application.",
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "data": {
+          "description": "Data contains the identifiers of the data to be used by the Data Scientist's application, and the protocol used to access it and the format expected.",
+          "type": "array",
+          "items": {
+            "description": "DataContext indicates data set chosen by the Data Scientist to be used by his application, and includes information about the data format and technologies used by the application to access the data.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "dataSetID",
+              "requirements"
+            ],
+            "properties": {
+              "catalogService": {
+                "description": "CatalogService represents the catalog service for accessing the requested dataset. If not specified, the enterprise catalog service will be used.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "dataSetID": {
+                "description": "DataSetID is a unique identifier of the dataset chosen from the data catalog for processing by the data user application.",
+                "type": "string",
+                "minLength": 1
+              },
+              "requirements": {
+                "description": "Requirements from the system",
+                "type": "object",
+                "required": [
+                  "interface"
+                ],
+                "properties": {
+                  "copy": {
+                    "description": "CopyRequrements include the requirements for copying the data",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "catalog": {
+                        "description": "Catalog indicates that the data asset must be cataloged.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "catalogID": {
+                            "description": "CatalogID specifies the catalog where the data will be cataloged.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "service": {
+                            "description": "CatalogService specifies the datacatalog service that will be used for catalogging the data into.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "required": {
+                        "description": "Required indicates that the data must be copied.",
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "interface": {
+                    "description": "Interface indicates the protocol and format expected by the data user",
+                    "type": "object",
+                    "required": [
+                      "protocol"
+                    ],
+                    "properties": {
+                      "dataformat": {
+                        "description": "DataFormat defines the data format type",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "protocol": {
+                        "description": "Protocol defines the interface protocol used for data transactions",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "secretRef": {
+          "description": "SecretRef points to the secret that holds credentials for each system the user has been authenticated with. The secret is deployed in FybrikApplication namespace.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selector": {
+          "description": "Selector enables to connect the resource to the application Application labels should match the labels in the selector. For some flows the selector may not be used.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "workloadSelector"
+          ],
+          "properties": {
+            "clusterName": {
+              "description": "Cluster name",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "workloadSelector": {
+              "description": "WorkloadSelector enables to connect the resource to the application Application labels should match the labels in the selector.",
+              "type": "object",
+              "properties": {
+                "matchExpressions": {
+                  "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "key",
+                      "operator"
+                    ],
+                    "properties": {
+                      "key": {
+                        "description": "key is the label key that the selector applies to.",
+                        "type": "string"
+                      },
+                      "operator": {
+                        "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                        "type": "string"
+                      },
+                      "values": {
+                        "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "matchLabels": {
+                  "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "FybrikApplicationStatus defines the observed state of FybrikApplication.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "assetStates": {
+          "description": "AssetStates provides a status per asset",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "description": "AssetState defines the observed state of an asset",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "catalogedAsset": {
+                "description": "CatalogedAsset provides a new asset identifier after being registered in the enterprise catalog",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "conditions": {
+                "description": "Conditions indicate the asset state (Ready, Deny, Error)",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "Condition describes the state of a FybrikApplication at a certain point.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "status",
+                    "type"
+                  ],
+                  "properties": {
+                    "message": {
+                      "description": "Message contains the details of the current condition",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "status": {
+                      "description": "Status of the condition: true or false",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "Type of the condition",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "endpoint": {
+                "description": "Endpoint provides the endpoint spec from which the asset will be served to the application",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "port",
+                  "scheme"
+                ],
+                "properties": {
+                  "hostname": {
+                    "description": "Hostname is the hostname to connect to for connecting to a module exposed service. By default this equals to \"fybrik-crd.fybrik-system\" of the module. <br/> Module developers can overide the default behavior by providing a template that may use the \".Release.Name\", \".Release.Namespace\" and \".Values.labels\" variables.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "port": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "scheme": {
+                    "description": "For example: http, https, grpc, grpc+tls, jdbc:oracle:thin:@ etc",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "errorMessage": {
+          "description": "ErrorMessage indicates that an error has happened during the reconcile, unrelated to a specific asset",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "generated": {
+          "description": "Generated resource identifier",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "appVersion",
+            "kind",
+            "name",
+            "namespace"
+          ],
+          "properties": {
+            "appVersion": {
+              "description": "Version of FybrikApplication that has generated this resource",
+              "type": "integer",
+              "format": "int64"
+            },
+            "kind": {
+              "description": "Kind of the resource (Blueprint, Plotter)",
+              "type": "string"
+            },
+            "name": {
+              "description": "Name of the resource",
+              "type": "string"
+            },
+            "namespace": {
+              "description": "Namespace of the resource",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "observedGeneration": {
+          "description": "ObservedGeneration is taken from the FybrikApplication metadata.  This is used to determine during reconcile whether reconcile was called because the desired state changed, or whether the Blueprint status changed.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "provisionedStorage": {
+          "description": "ProvisionedStorage maps a dataset (identified by AssetID) to the new provisioned bucket. It allows FybrikApplication controller to manage buckets in case the spec has been modified, an error has occurred, or a delete event has been received. ProvisionedStorage has the information required to register the dataset once the owned plotter resource is ready",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "description": "DatasetDetails contain dataset connection and metadata required to register this dataset in the enterprise catalog",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "datasetRef": {
+                "description": "Reference to a Dataset resource containing the request to provision storage",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "details": {
+                "description": "Dataset information",
+                "x-kubernetes-preserve-unknown-fields": true
+              },
+              "secretRef": {
+                "description": "Reference to a secret where the credentials are stored",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "ready": {
+          "description": "Ready is true if all specified assets are either ready to be used or are denied access.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "validApplication": {
+          "description": "ValidApplication indicates whether the FybrikApplication is valid given the defined taxonomy",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "validatedGeneration": {
+          "description": "ValidatedGeneration is the version of the FyrbikApplication that has been validated with the taxonomy defined.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "app.fybrik.io",
+      "kind": "FybrikApplication",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
