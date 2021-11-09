@@ -1,33 +1,23 @@
-# Operate First template for repositories
+# Operate First - OpenShift JSON schemas
 
-Derive new repositories from this template
+This repository stores OpenShift JSON schemas used with Kubeval tool to validate YAML Kubernetes configuration files.
 
-List of featurese:
+## Structure of the repository
 
-## License
+Schemas are stored as JSON files in schemas/ at the root of the repo. The directories within schemas are named using the following format: `${version}-${reference}-${mode}`, where:
 
-This template ensures new repos are created compliant with [ADR 0001](https://www.operate-first.cloud/blueprints/blueprint/docs/adr/0001-use-gpl3-as-license.md) and use GNU GPL v3 license.
+```
+version = Version of Kubernetes from which schemas were extracted (default for Kubeval is "master").
+reference = Refence tells us if JSON schemas contain all the definitions of parameters, or the definitions are referenced in a different file and schema contains only reference to this file.
+mode = Mode tells if we are using stronger strict JSON schemas which do not allow arbitrary parameters or weaker JSON schemas which allow arbitrary parameters.
+```
 
-## AI-CoE CI Github application
+## Acquiring schemas
+To acquire JSON schemas we can use OpenAPi endpoint of cluster and tool called [openapi2jsonschema](https://github.com/instrumenta/openapi2jsonschema) which generates schemas from given OpenAPI JSON.
+Acquiring schemas from big cluster may prove challenging. OpenAPI may not have all CRDs defined. This will lead to openapi2jsonschema failing. To resolve this problem we can use script which  Andrew Block [created](https://github.com/sabre1041/k8s-manifest-validation/blob/main/scripts/build_schema.py). Details on how to use it and in depth reasons why we have to use it can be found in this [blog](https://cloud.redhat.com/blog/validating-openshift-manifests-in-a-gitops-world).
+Script mentioned above is included in this repository. Use it running following command when you are logged in to your cluster through CLI:
 
-AI-CoE CI provides easy and quick integration for build pipelines and checks for pull requests.
-
-An empty [`.aicoe-ci.yaml`](.aicoe-ci.yaml) is created here, disabling all checks via this CI provider by default. Documentation can be found [here](https://github.com/AICoE/aicoe-ci/).
-
-## Prow CI
-
-Prow is a CI provider developed for Kubernetes needs. Provides chat-ops management of pull requests, issues and declarative management for labels, branches and many more.
-
-We host our own deployment of Prow in Operate First available at [https://prow.operate-first.cloud/](https://prow.operate-first.cloud/).
-
-Supported commands are listed [here](https://prow.operate-first.cloud/command-help). We have also enabled Prow to consume on-repository configuration files. You can specify your config in [`.prow.yaml`](.prow.yaml). Additional centralized configuration can be found in the [thoth-application repository](https://github.com/thoth-station/thoth-application/tree/master/prow/overlays/cnv-prod).
-
-## Pre-commit
-
-By extension to Prow, we define a default pre-commit config for new repositories. Default hook configuration can be found in [`.pre-commit-config.yaml`](.pre-commit-config.yaml). Pre-commit is executed via Prow, see [`.prow.yaml`](.prow.yaml) for details.
-
-We enable yamllint hook by default, since most of our repositories use yaml files extensively. Default configuration for this hook is located at [`yamllint-config.yaml`](yamllint-config.yaml).
-
-To install and enable pre-commit locally please follow the instructions [here](https://pre-commit.com/#quick-start).
-
-It is advised for all contributors to enable pre-commit git hook via `pre-commit install` after cloning any repo within Operate First.
+```
+python build_schema.py -u $(oc whoami --show-server) -t $(oc whoami -t) -s STRICT
+```
+When the script finishes there will be new folders called `openshift-json-schema/master-standalone-strict` containing all the schemas obtained from OpenAPI endpoint. After that copy missing schema to repository.
