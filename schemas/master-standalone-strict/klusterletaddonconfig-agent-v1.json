@@ -1,0 +1,198 @@
+{
+  "description": "KlusterletAddonConfig is the Schema for the klusterletaddonconfigs API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "agent.open-cluster-management.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "KlusterletAddonConfig"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "KlusterletAddonConfigSpec defines the desired state of KlusterletAddonConfig",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "applicationManager",
+        "certPolicyController",
+        "clusterLabels",
+        "clusterName",
+        "clusterNamespace",
+        "iamPolicyController",
+        "policyController",
+        "searchCollector"
+      ],
+      "properties": {
+        "applicationManager": {
+          "description": "KlusterletAddonConfigApplicationManagerSpec defines configuration for the ApplicationManager component",
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "argocdCluster": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "certPolicyController": {
+          "description": "KlusterletAddonConfigCertPolicyControllerSpec defines configuration for the CertPolicyController component",
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "clusterLabels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "clusterName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "clusterNamespace": {
+          "type": "string",
+          "minLength": 1
+        },
+        "componentOperatorImage": {
+          "description": "used for dev work only",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "iamPolicyController": {
+          "description": "KlusterletAddonConfigIAMPolicyControllerSpec defines configuration for the IAMPolicyController component",
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "imageNamePostfix": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "imagePullPolicy": {
+          "description": "PullPolicy describes a policy for if/when to pull a container image",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "Always",
+            "Never",
+            "IfNotPresent"
+          ]
+        },
+        "imagePullSecret": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "imageRegistry": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "policyController": {
+          "description": "KlusterletAddonConfigPolicyControllerSpec defines configuration for the PolicyController component",
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "searchCollector": {
+          "description": "KlusterletAddonConfigSearchCollectorSpec defines configuration for the SearchCollector component",
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "KlusterletAddonConfigStatus defines the observed state of KlusterletAddonConfig",
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "agent.open-cluster-management.io",
+      "kind": "KlusterletAddonConfig",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

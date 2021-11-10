@@ -1,0 +1,205 @@
+{
+  "description": "FakeClusterInstall represents a fake request to provision an agent based cluster.",
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "hiveinternal.openshift.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "FakeClusterInstall"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "FakeClusterInstallSpec defines the desired state of the FakeClusterInstall.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "clusterDeploymentRef",
+        "imageSetRef"
+      ],
+      "properties": {
+        "clusterDeploymentRef": {
+          "description": "ClusterDeploymentRef is a reference to the ClusterDeployment associated with this AgentClusterInstall.",
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "clusterMetadata": {
+          "description": "ClusterMetadata contains metadata information about the installed cluster. It should be populated once the cluster install is completed. (it can be populated sooner if desired, but Hive will not copy back to ClusterDeployment until the Installed condition goes True.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "adminKubeconfigSecretRef",
+            "adminPasswordSecretRef",
+            "clusterID",
+            "infraID"
+          ],
+          "properties": {
+            "adminKubeconfigSecretRef": {
+              "description": "AdminKubeconfigSecretRef references the secret containing the admin kubeconfig for this cluster.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "adminPasswordSecretRef": {
+              "description": "AdminPasswordSecretRef references the secret containing the admin username/password which can be used to login to this cluster.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "clusterID": {
+              "description": "ClusterID is a globally unique identifier for this cluster generated during installation. Used for reporting metrics among other places.",
+              "type": "string"
+            },
+            "infraID": {
+              "description": "InfraID is an identifier for this cluster generated during installation and used for tagging/naming resources in cloud providers.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "imageSetRef": {
+          "description": "ImageSetRef is a reference to a ClusterImageSet. The release image specified in the ClusterImageSet will be used to install the cluster.",
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name is the name of the ClusterImageSet that this refers to",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "FakeClusterInstallStatus defines the observed state of the FakeClusterInstall.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "description": "Conditions includes more detailed status for the cluster install.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ClusterInstallCondition contains details for the current condition of a cluster install.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastProbeTime": {
+                "description": "LastProbeTime is the last time we probed the condition.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "description": "LastTransitionTime is the last time the condition transitioned from one status to another.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "description": "Message is a human-readable message indicating details about last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "description": "Reason is a unique, one-word, CamelCase reason for the condition's last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Status is the status of the condition.",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type is the type of the condition.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "hiveinternal.openshift.io",
+      "kind": "FakeClusterInstall",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

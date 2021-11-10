@@ -1,0 +1,96 @@
+{
+  "description": "SearchCustomization is the schema for the search customizations API.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "search.open-cluster-management.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "SearchCustomization"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "SearchCustomizationSpec defines the desired state of SearchCustomization properties.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "persistence": {
+          "description": "If set to true, then a PVC is created on the storageClass that is specified. If there is no storageClass specified, default storageClass is used to persist Redisgraph data. If set to false, persisting to filesystem is disabled.",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "pattern": "(true|false)"
+        },
+        "storageClass": {
+          "description": "If specified, this storageClass is used. Otherwise the default storageClass is used by Kubernetes.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "storageSize": {
+          "description": "Size of the PVC which is used by search-redisgraph pod. Once PVC is created, updates to size should be done in PVC defenition.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[1-9](Gi)|^[1-9][0-9](Gi)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "SearchCustomizationStatus defines the observed state of SearchCustomization.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "persistence",
+        "storageClass",
+        "storageSize"
+      ],
+      "properties": {
+        "persistence": {
+          "type": "boolean"
+        },
+        "storageClass": {
+          "type": "string"
+        },
+        "storageSize": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "search.open-cluster-management.io",
+      "kind": "SearchCustomization",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

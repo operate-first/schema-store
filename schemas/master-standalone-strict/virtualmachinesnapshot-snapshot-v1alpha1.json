@@ -1,0 +1,202 @@
+{
+  "description": "VirtualMachineSnapshot defines the operation of snapshotting a VM",
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "snapshot.kubevirt.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "VirtualMachineSnapshot"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "VirtualMachineSnapshotSpec is the spec for a VirtualMachineSnapshot resource",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "deletionPolicy": {
+          "description": "DeletionPolicy defines that to do with VirtualMachineSnapshot when VirtualMachineSnapshot is deleted",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "description": "TypedLocalObjectReference contains enough information to let you locate the typed referenced object inside the same namespace.",
+          "type": "object",
+          "required": [
+            "kind",
+            "name"
+          ],
+          "properties": {
+            "apiGroup": {
+              "description": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "kind": {
+              "description": "Kind is the type of resource being referenced",
+              "type": "string"
+            },
+            "name": {
+              "description": "Name is the name of resource being referenced",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "VirtualMachineSnapshotStatus is the status for a VirtualMachineSnapshot resource",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Condition defines conditions",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastProbeTime": {
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "format": "date-time"
+              },
+              "message": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": "string"
+              },
+              "type": {
+                "description": "ConditionType is the const type for Conditions",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "creationTime": {
+          "format": "date-time"
+        },
+        "error": {
+          "description": "Error is the last error encountered during the snapshot/restore",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "message": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "time": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        },
+        "indications": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Indication is a way to indicate the state of the vm when taking the snapshot",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "x-kubernetes-list-type": "set"
+        },
+        "readyToUse": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "sourceUID": {
+          "description": "UID is a type that holds unique ID values, including UUIDs.  Because we don't ONLY use UUIDs, this is an alias to string.  Being a type captures intent and helps make sure that UIDs and names do not get conflated.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "virtualMachineSnapshotContentName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "snapshot.kubevirt.io",
+      "kind": "VirtualMachineSnapshot",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

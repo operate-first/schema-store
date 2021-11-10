@@ -1,0 +1,191 @@
+{
+  "description": "ServiceImport describes a service imported from clusters in a ClusterSet.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "multicluster.x-k8s.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ServiceImport"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "spec defines the behavior of a ServiceImport.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "ports",
+        "type"
+      ],
+      "properties": {
+        "ips": {
+          "description": "ip will be used as the VIP for this service when type is ClusterSetIP.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "maxItems": 1,
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "description": "ServicePort represents the port on which the service is exposed",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "port"
+            ],
+            "properties": {
+              "appProtocol": {
+                "description": "The application protocol for this port. This field follows standard Kubernetes label syntax. Un-prefixed names are reserved for IANA standard service names (as per RFC-6335 and http://www.iana.org/assignments/service-names). Non-standard protocols should use prefixed names such as mycompany.com/my-custom-protocol. Field can be enabled with ServiceAppProtocol feature gate.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "description": "The name of this port within the service. This must be a DNS_LABEL. All ports within a ServiceSpec must have unique names. When considering the endpoints for a Service, this must match the 'name' field in the EndpointPort. Optional if only one ServicePort is defined on this service.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "port": {
+                "description": "The port that will be exposed by this service.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "protocol": {
+                "description": "The IP protocol for this port. Supports \"TCP\", \"UDP\", and \"SCTP\". Default is TCP.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "x-kubernetes-list-type": "atomic"
+        },
+        "sessionAffinity": {
+          "description": "Supports \"ClientIP\" and \"None\". Used to maintain session affinity. Enable client IP based session affinity. Must be ClientIP or None. Defaults to None. Ignored when type is Headless More info: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sessionAffinityConfig": {
+          "description": "sessionAffinityConfig contains session affinity configuration.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "clientIP": {
+              "description": "clientIP contains the configurations of Client IP based session affinity.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "timeoutSeconds": {
+                  "description": "timeoutSeconds specifies the seconds of ClientIP type session sticky time. The value must be >0 && <=86400(for 1 day) if ServiceAffinity == \"ClientIP\". Default value is 10800(for 3 hours).",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "type": {
+          "description": "type defines the type of this service. Must be ClusterSetIP or Headless.",
+          "type": "string",
+          "enum": [
+            "ClusterSetIP",
+            "Headless"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "status contains information about the exported services that form the multi-cluster service referenced by this ServiceImport.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "clusters": {
+          "description": "clusters is the list of exporting clusters from which this service was derived.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ClusterStatus contains service configuration mapped to a specific source cluster",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "cluster"
+            ],
+            "properties": {
+              "cluster": {
+                "description": "cluster is the name of the exporting cluster. Must be a valid RFC-1123 DNS label.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "x-kubernetes-list-map-keys": [
+            "cluster"
+          ],
+          "x-kubernetes-list-type": "map"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "multicluster.x-k8s.io",
+      "kind": "ServiceImport",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

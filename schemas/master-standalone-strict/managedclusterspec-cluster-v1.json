@@ -1,0 +1,36 @@
+{
+  "description": "ManagedClusterSpec provides the information to securely connect to a remote server and verify its identity.",
+  "type": "object",
+  "required": [
+    "hubAcceptsClient"
+  ],
+  "properties": {
+    "hubAcceptsClient": {
+      "description": "hubAcceptsClient represents that hub accepts the join of Klusterlet agent on the managed cluster to the hub. The default value is false, and can only be set true when the user on hub has an RBAC rule to UPDATE on the virtual subresource of managedclusters/accept. When the value is set true, a namespace whose name is same as the name of ManagedCluster is created on hub representing the managed cluster, also role/rolebinding is created on the namespace to grant the permision of access from agent on managed cluster. When the value is set false, the namespace representing the managed cluster is deleted.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "leaseDurationSeconds": {
+      "description": "LeaseDurationSeconds is used to coordinate the lease update time of Klusterlet agents on the managed cluster. If its value is zero, the Klusterlet agent will update its lease every 60s by default",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "int32"
+    },
+    "managedClusterClientConfigs": {
+      "description": "ManagedClusterClientConfigs represents a list of the apiserver address of the managed cluster. If it is empty, managed cluster has no accessible address to be visited from hub.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ClientConfig"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

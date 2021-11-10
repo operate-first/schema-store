@@ -1,0 +1,121 @@
+{
+  "description": "NodeMaintenance is the Schema for the nodemaintenances API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "nodemaintenance.kubevirt.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "NodeMaintenance"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "NodeMaintenanceSpec defines the desired state of NodeMaintenance",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "nodeName"
+      ],
+      "properties": {
+        "nodeName": {
+          "description": "Node name to apply maintanance on/off",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason for maintanance",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "NodeMaintenanceStatus defines the observed state of NodeMaintenance",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "errorOnLeaseCount": {
+          "description": "Consecutive number of errors upon obtaining a lease",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "evictionPods": {
+          "description": "EvictionPods is the total number of pods up for eviction from the start",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "lastError": {
+          "description": "LastError represents the latest error if any in the latest reconciliation",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pendingPods": {
+          "description": "PendingPods is a list of pending pods for eviction",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "phase": {
+          "description": "Phase is the represtation of the maintenance progress (Running,Succeeded,Failed)",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "totalpods": {
+          "description": "TotalPods is the total number of all pods on the node from the start",
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "nodemaintenance.kubevirt.io",
+      "kind": "NodeMaintenance",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

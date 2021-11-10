@@ -1,0 +1,137 @@
+{
+  "description": "ClusterState is the Schema for the clusterstates API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "hive.openshift.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ClusterState"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "ClusterStateSpec defines the desired state of ClusterState",
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "status": {
+      "description": "ClusterStateStatus defines the observed state of ClusterState",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "clusterOperators": {
+          "description": "ClusterOperators contains the state for every cluster operator in the target cluster",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ClusterOperatorState summarizes the status of a single cluster operator",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "conditions": {
+                "description": "Conditions is the set of conditions in the status of the cluster operator on the target cluster",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "ClusterOperatorStatusCondition represents the state of the operator's managed and monitored components.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "lastTransitionTime",
+                    "status",
+                    "type"
+                  ],
+                  "properties": {
+                    "lastTransitionTime": {
+                      "description": "lastTransitionTime is the time of the last update to the current status property.",
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "message": {
+                      "description": "message provides additional information about the current condition. This is only to be consumed by humans.  It may contain Line Feed characters (U+000A), which should be rendered as new lines.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "reason": {
+                      "description": "reason is the CamelCase reason for the condition's current status.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "status": {
+                      "description": "status of the condition, one of True, False, Unknown.",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "type specifies the aspect reported by this condition.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "name": {
+                "description": "Name is the name of the cluster operator",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "lastUpdated": {
+          "description": "LastUpdated is the last time that operator state was updated",
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "hive.openshift.io",
+      "kind": "ClusterState",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

@@ -1,0 +1,326 @@
+{
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "katalog.fybrik.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Asset"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "secretRef",
+        "assetMetadata",
+        "assetDetails"
+      ],
+      "properties": {
+        "assetDetails": {
+          "description": "Asset details",
+          "type": "object",
+          "required": [
+            "connection"
+          ],
+          "properties": {
+            "connection": {
+              "description": "Connection information",
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "db2": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "database": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "port": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ssl": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "table": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "url": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "kafka": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "bootstrap_servers": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "key_deserializer": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "sasl_mechanism": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "schema_registry": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "security_protocol": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ssl_truststore": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ssl_truststore_password": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "topic_name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "value_deserializer": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "s3": {
+                  "description": "Connection information for S3 compatible object store",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "bucket",
+                    "endpoint",
+                    "objectKey"
+                  ],
+                  "properties": {
+                    "bucket": {
+                      "type": "string"
+                    },
+                    "endpoint": {
+                      "type": "string"
+                    },
+                    "objectKey": {
+                      "type": "string"
+                    },
+                    "region": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "s3",
+                    "db2",
+                    "kafka"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "dataFormat": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "assetMetadata": {
+          "type": "object",
+          "properties": {
+            "componentsMetadata": {
+              "description": "metadata for each component in asset (e.g., column)",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "componentType": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "namedMetadata": {
+                    "description": "Named terms, that exist in Catalog toxonomy and the values for these terms for columns we will have \"SchemaDetails\" key, that will include technical schema details for this column TODO: Consider create special field for schema outside of metadata",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "tags": {
+                    "description": "Tags - can be any free text added to a component (no taxonomy)",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "geography": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "namedMetadata": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "owner": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "tags": {
+              "description": "Tags associated with the asset",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "secretRef": {
+          "description": "Reference to a Secret resource holding credentials for this asset",
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name of the Secret resource (must exist in the same namespace)",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "katalog.fybrik.io",
+      "kind": "Asset",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

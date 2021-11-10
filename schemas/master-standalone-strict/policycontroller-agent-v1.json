@@ -1,0 +1,129 @@
+{
+  "description": "PolicyController is the Schema for the policycontrollers API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "agent.open-cluster-management.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "PolicyController"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "PolicyControllerSpec defines the desired state of PolicyController",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "fullnameOverride",
+        "hubKubeconfigSecret"
+      ],
+      "properties": {
+        "clusterName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "clusterNamespace": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "deployedOnHub": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "fullnameOverride": {
+          "type": "string",
+          "minLength": 1
+        },
+        "global": {
+          "description": "GlobalValues defines the global values",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "imageOverrides": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "imagePullPolicy": {
+              "description": "PullPolicy describes a policy for if/when to pull a container image",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "imagePullSecret": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "hubKubeconfigSecret": {
+          "type": "string",
+          "minLength": 1
+        },
+        "postDeleteJobServiceAccount": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "PolicyControllerStatus defines the observed state of PolicyController",
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "agent.open-cluster-management.io",
+      "kind": "PolicyController",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

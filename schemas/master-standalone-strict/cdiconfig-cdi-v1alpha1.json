@@ -1,0 +1,336 @@
+{
+  "description": "CDIConfig provides a user configuration for CDI",
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "cdi.kubevirt.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CDIConfig"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "CDIConfigSpec defines specification for user configuration",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "featureGates": {
+          "description": "FeatureGates are a list of specific enabled feature gates",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "filesystemOverhead": {
+          "description": "FilesystemOverhead describes the space reserved for overhead when using Filesystem volumes. A value is between 0 and 1, if not defined it is 0.055 (5.5% overhead)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "global": {
+              "description": "Global is how much space of a Filesystem volume should be reserved for overhead. This value is used unless overridden by a more specific value (per storageClass)",
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^(0(?:\\.\\d{1,3})?|1)$"
+            },
+            "storageClass": {
+              "description": "StorageClass specifies how much space of a Filesystem volume should be reserved for safety. The keys are the storageClass and the values are the overhead. This value overrides the global value",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "description": "Percent is a string that can only be a value between [0,1) (Note: we actually rely on reconcile to reject invalid values)",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^(0(?:\\.\\d{1,3})?|1)$"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "importProxy": {
+          "description": "ImportProxy contains importer pod proxy configuration.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "HTTPProxy": {
+              "description": "HTTPProxy is the URL http://<username>:<pswd>@<ip>:<port> of the import proxy for HTTP requests.  Empty means unset and will not result in the import pod env var.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "HTTPSProxy": {
+              "description": "HTTPSProxy is the URL https://<username>:<pswd>@<ip>:<port> of the import proxy for HTTPS requests.  Empty means unset and will not result in the import pod env var.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "noProxy": {
+              "description": "NoProxy is a comma-separated list of hostnames and/or CIDRs for which the proxy should not be used. Empty means unset and will not result in the import pod env var.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "trustedCAProxy": {
+              "description": "TrustedCAProxy is the name of a ConfigMap in the cdi namespace that contains a user-provided trusted certificate authority (CA) bundle. The TrustedCAProxy field is consumed by the import controller that is resposible for coping it to a config map named trusted-ca-proxy-bundle-cm in the cdi namespace. Here is an example of the ConfigMap (in yaml): \n apiVersion: v1 kind: ConfigMap metadata:   name: trusted-ca-proxy-bundle-cm   namespace: cdi data:   ca.pem: |     -----BEGIN CERTIFICATE----- \t   ... <base64 encoded cert> ... \t   -----END CERTIFICATE-----",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "insecureRegistries": {
+          "description": "InsecureRegistries is a list of TLS disabled registries",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "podResourceRequirements": {
+          "description": "ResourceRequirements describes the compute resource requirements.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "limits": {
+              "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                "x-kubernetes-int-or-string": true
+              }
+            },
+            "requests": {
+              "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                "x-kubernetes-int-or-string": true
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "preallocation": {
+          "description": "Preallocation controls whether storage for DataVolumes should be allocated in advance.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "scratchSpaceStorageClass": {
+          "description": "Override the storage class to used for scratch space during transfer operations. The scratch space storage class is determined in the following order: 1. value of scratchSpaceStorageClass, if that doesn't exist, use the default storage class, if there is no default storage class, use the storage class of the DataVolume, if no storage class specified, use no storage class for scratch space",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "uploadProxyURLOverride": {
+          "description": "Override the URL used when uploading to a DataVolume",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "CDIConfigStatus provides the most recently observed status of the CDI Config resource",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "defaultPodResourceRequirements": {
+          "description": "ResourceRequirements describes the compute resource requirements.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "limits": {
+              "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                "x-kubernetes-int-or-string": true
+              }
+            },
+            "requests": {
+              "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                "x-kubernetes-int-or-string": true
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "filesystemOverhead": {
+          "description": "FilesystemOverhead describes the space reserved for overhead when using Filesystem volumes. A percentage value is between 0 and 1",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "global": {
+              "description": "Global is how much space of a Filesystem volume should be reserved for overhead. This value is used unless overridden by a more specific value (per storageClass)",
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^(0(?:\\.\\d{1,3})?|1)$"
+            },
+            "storageClass": {
+              "description": "StorageClass specifies how much space of a Filesystem volume should be reserved for safety. The keys are the storageClass and the values are the overhead. This value overrides the global value",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "description": "Percent is a string that can only be a value between [0,1) (Note: we actually rely on reconcile to reject invalid values)",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^(0(?:\\.\\d{1,3})?|1)$"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "importProxy": {
+          "description": "ImportProxy contains importer pod proxy configuration.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "HTTPProxy": {
+              "description": "HTTPProxy is the URL http://<username>:<pswd>@<ip>:<port> of the import proxy for HTTP requests.  Empty means unset and will not result in the import pod env var.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "HTTPSProxy": {
+              "description": "HTTPSProxy is the URL https://<username>:<pswd>@<ip>:<port> of the import proxy for HTTPS requests.  Empty means unset and will not result in the import pod env var.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "noProxy": {
+              "description": "NoProxy is a comma-separated list of hostnames and/or CIDRs for which the proxy should not be used. Empty means unset and will not result in the import pod env var.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "trustedCAProxy": {
+              "description": "TrustedCAProxy is the name of a ConfigMap in the cdi namespace that contains a user-provided trusted certificate authority (CA) bundle. The TrustedCAProxy field is consumed by the import controller that is resposible for coping it to a config map named trusted-ca-proxy-bundle-cm in the cdi namespace. Here is an example of the ConfigMap (in yaml): \n apiVersion: v1 kind: ConfigMap metadata:   name: trusted-ca-proxy-bundle-cm   namespace: cdi data:   ca.pem: |     -----BEGIN CERTIFICATE----- \t   ... <base64 encoded cert> ... \t   -----END CERTIFICATE-----",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "preallocation": {
+          "description": "Preallocation controls whether storage for DataVolumes should be allocated in advance.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "scratchSpaceStorageClass": {
+          "description": "The calculated storage class to be used for scratch space",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "uploadProxyURL": {
+          "description": "The calculated upload proxy URL",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "cdi.kubevirt.io",
+      "kind": "CDIConfig",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

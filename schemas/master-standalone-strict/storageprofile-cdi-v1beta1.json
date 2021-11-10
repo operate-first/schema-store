@@ -1,0 +1,150 @@
+{
+  "description": "StorageProfile provides a CDI specific recommendation for storage parameters",
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "cdi.kubevirt.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "StorageProfile"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "StorageProfileSpec defines specification for StorageProfile",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "claimPropertySets": {
+          "description": "ClaimPropertySets is a provided set of properties applicable to PVC",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ClaimPropertySet is a set of properties applicable to PVC",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "accessModes": {
+                "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "volumeMode": {
+                "description": "volumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "StorageProfileStatus provides the most recently observed status of the StorageProfile",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "claimPropertySets": {
+          "description": "ClaimPropertySets computed from the spec and detected in the system",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ClaimPropertySet is a set of properties applicable to PVC",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "accessModes": {
+                "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "volumeMode": {
+                "description": "volumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "provisioner": {
+          "description": "The Storage class provisioner plugin name",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "storageClass": {
+          "description": "The StorageClass name for which capabilities are defined",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "cdi.kubevirt.io",
+      "kind": "StorageProfile",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

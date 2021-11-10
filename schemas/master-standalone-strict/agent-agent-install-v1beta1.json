@@ -1,0 +1,701 @@
+{
+  "description": "Agent is the Schema for the hosts API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "agent-install.openshift.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Agent"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "AgentSpec defines the desired state of Agent",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "approved",
+        "clusterDeploymentName",
+        "role"
+      ],
+      "properties": {
+        "approved": {
+          "type": "boolean"
+        },
+        "clusterDeploymentName": {
+          "description": "ClusterReference represents a Cluster Reference. It has enough information to retrieve cluster in any namespace",
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Name is unique within a namespace to reference a cluster resource.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "namespace": {
+              "description": "Namespace defines the space within which the cluster name must be unique.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "hostname": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ignitionConfigOverrides": {
+          "description": "Json formatted string containing the user overrides for the host's ignition config",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "installation_disk_id": {
+          "description": "InstallationDiskID defines the installation destination disk (must be equal to the inventory disk id).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "installerArgs": {
+          "description": "Json formatted string containing the user overrides for the host's coreos installer args",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "machineConfigPool": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "role": {
+          "description": "HostRole host role \n swagger:model host-role",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "AgentStatus defines the observed state of Agent",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "bootstrap": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "conditions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Condition represents the state of the operator's reconciliation functionality.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastHeartbeatTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": "string"
+              },
+              "type": {
+                "description": "ConditionType is the state of the operator's reconciliation functionality.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "debugInfo": {
+          "description": "DebugInfo includes information for debugging the installation process.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "eventsURL": {
+              "description": "EventsURL specifies an HTTP/S URL that contains events which occured during the cluster installation process",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "state": {
+              "description": "Current state of the Agent",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "stateInfo": {
+              "description": "Additional information pertaining to the status of the Agent",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "hostname": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "inventory": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "bmcAddress": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "bmcV6Address": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "boot": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "currentBootMode": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "pxeInterface": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "cpu": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "architecture": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "clockMegahertz": {
+                  "description": "Name in REST API: frequency",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64"
+                },
+                "count": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64"
+                },
+                "flags": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "modelName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "disks": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "bootable": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "byID": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "byPath": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "driveType": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "hctl": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "installationEligibility": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "notEligibleReasons"
+                    ],
+                    "properties": {
+                      "eligible": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "notEligibleReasons": {
+                        "type": "array",
+                        "items": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "ioPerf": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "syncDurationMilliseconds": {
+                        "description": "99th percentile of fsync duration in milliseconds",
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "format": "int64"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "model": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "path": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "serial": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "sizeBytes": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "smart": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "vendor": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "wwn": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "hostname": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "interfaces": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "flags",
+                  "ipV4Addresses",
+                  "ipV6Addresses"
+                ],
+                "properties": {
+                  "biosDevName": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "clientID": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "flags": {
+                    "type": "array",
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "hasCarrier": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "ipV4Addresses": {
+                    "type": "array",
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "ipV6Addresses": {
+                    "type": "array",
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "macAddress": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "mtu": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "product": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "speedMbps": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "vendor": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "memory": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "physicalBytes": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64"
+                },
+                "usableBytes": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64"
+                }
+              },
+              "additionalProperties": false
+            },
+            "reportTime": {
+              "description": "Name in REST API: timestamp",
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            },
+            "systemVendor": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "manufacturer": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "productName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "serialNumber": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "virtual": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "ntpSources": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "sourceName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "sourceState": {
+                "description": "SourceState source state \n swagger:model source_state",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "progress": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "currentStage": {
+              "description": "HostStage host stage \n swagger:model host-stage",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "progressInfo": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "stageStartTime": {
+              "description": "Name in REST API: stage_started_at",
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            },
+            "stageUpdateTime": {
+              "description": "Name in REST API: stage_updated_at",
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        },
+        "role": {
+          "description": "HostRole host role \n swagger:model host-role",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "agent-install.openshift.io",
+      "kind": "Agent",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

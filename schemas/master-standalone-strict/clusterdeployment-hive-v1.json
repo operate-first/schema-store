@@ -1,0 +1,1501 @@
+{
+  "description": "ClusterDeployment is the Schema for the clusterdeployments API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "hive.openshift.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ClusterDeployment"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "ClusterDeploymentSpec defines the desired state of ClusterDeployment",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "baseDomain",
+        "clusterName",
+        "platform"
+      ],
+      "properties": {
+        "baseDomain": {
+          "description": "BaseDomain is the base domain to which the cluster should belong.",
+          "type": "string"
+        },
+        "boundServiceAccountSigningKeySecretRef": {
+          "description": "BoundServiceAccountSignkingKeySecretRef refers to a Secret that contains a 'bound-service-account-signing-key.key' data key pointing to the private key that will be used to sign ServiceAccount objects. Primarily used to provision AWS clusters to use Amazon's Security Token Service.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "certificateBundles": {
+          "description": "CertificateBundles is a list of certificate bundles associated with this cluster",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "CertificateBundleSpec specifies a certificate bundle associated with a cluster deployment",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "certificateSecretRef",
+              "name"
+            ],
+            "properties": {
+              "certificateSecretRef": {
+                "description": "CertificateSecretRef is the reference to the secret that contains the certificate bundle. If the certificate bundle is to be generated, it will be generated with the name in this reference. Otherwise, it is expected that the secret should exist in the same namespace as the ClusterDeployment",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "generate": {
+                "description": "Generate indicates whether this bundle should have real certificates generated for it.",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "name": {
+                "description": "Name is an identifier that must be unique within the bundle and must be referenced by an ingress or by the control plane serving certs",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "clusterInstallRef": {
+          "description": "ClusterInstallLocalReference provides reference to an object that implements the hivecontract ClusterInstall. The namespace of the object is same as the ClusterDeployment. This cannot be set when Provisioning is also set.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "group",
+            "kind",
+            "name",
+            "version"
+          ],
+          "properties": {
+            "group": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "clusterMetadata": {
+          "description": "ClusterMetadata contains metadata information about the installed cluster.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "adminKubeconfigSecretRef",
+            "adminPasswordSecretRef",
+            "clusterID",
+            "infraID"
+          ],
+          "properties": {
+            "adminKubeconfigSecretRef": {
+              "description": "AdminKubeconfigSecretRef references the secret containing the admin kubeconfig for this cluster.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "adminPasswordSecretRef": {
+              "description": "AdminPasswordSecretRef references the secret containing the admin username/password which can be used to login to this cluster.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "clusterID": {
+              "description": "ClusterID is a globally unique identifier for this cluster generated during installation. Used for reporting metrics among other places.",
+              "type": "string"
+            },
+            "infraID": {
+              "description": "InfraID is an identifier for this cluster generated during installation and used for tagging/naming resources in cloud providers.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "clusterName": {
+          "description": "ClusterName is the friendly name of the cluster. It is used for subdomains, some resource tagging, and other instances where a friendly name for the cluster is useful.",
+          "type": "string"
+        },
+        "clusterPoolRef": {
+          "description": "ClusterPoolRef is a reference to the ClusterPool that this ClusterDeployment originated from.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "namespace",
+            "poolName"
+          ],
+          "properties": {
+            "claimName": {
+              "description": "ClaimName is the name of the ClusterClaim that claimed the cluster from the pool.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "namespace": {
+              "description": "Namespace is the namespace where the ClusterPool resides.",
+              "type": "string"
+            },
+            "poolName": {
+              "description": "PoolName is the name of the ClusterPool for which the cluster was created.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "controlPlaneConfig": {
+          "description": "ControlPlaneConfig contains additional configuration for the target cluster's control plane",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "apiURLOverride": {
+              "description": "APIURLOverride is the optional URL override to which Hive will transition for communication with the API server of the remote cluster. When a remote cluster is created, Hive will initially communicate using the API URL established during installation. If an API URL Override is specified, Hive will periodically attempt to connect to the remote cluster using the override URL. Once Hive has determined that the override URL is active, Hive will use the override URL for further communications with the API server of the remote cluster.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "servingCertificates": {
+              "description": "ServingCertificates specifies serving certificates for the control plane",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "additional": {
+                  "description": "Additional is a list of additional domains and certificates that are also associated with the control plane's api endpoint.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ControlPlaneAdditionalCertificate defines an additional serving certificate for a control plane",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "domain",
+                      "name"
+                    ],
+                    "properties": {
+                      "domain": {
+                        "description": "Domain is the domain of the additional control plane certificate",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Name references a CertificateBundle in the ClusterDeployment.Spec that should be used for this additional certificate.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "default": {
+                  "description": "Default references the name of a CertificateBundle in the ClusterDeployment that should be used for the control plane's default endpoint.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "hibernateAfter": {
+          "description": "HibernateAfter will transition a cluster to hibernating power state after it has been running for the given duration. The time that a cluster has been running is the time since the cluster was installed or the time since the cluster last came out of hibernation.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ingress": {
+          "description": "Ingress allows defining desired clusteringress/shards to be configured on the cluster.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ClusterIngress contains the configurable pieces for any ClusterIngress objects that should exist on the cluster.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "domain",
+              "name"
+            ],
+            "properties": {
+              "domain": {
+                "description": "Domain (sometimes referred to as shard) is the full DNS suffix that the resulting IngressController object will service (eg abcd.mycluster.mydomain.com).",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the ClusterIngress object to create.",
+                "type": "string"
+              },
+              "namespaceSelector": {
+                "description": "NamespaceSelector allows filtering the list of namespaces serviced by the ingress controller.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "matchExpressions": {
+                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "key",
+                        "operator"
+                      ],
+                      "properties": {
+                        "key": {
+                          "description": "key is the label key that the selector applies to.",
+                          "type": "string"
+                        },
+                        "operator": {
+                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                          "type": "string"
+                        },
+                        "values": {
+                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "matchLabels": {
+                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "routeSelector": {
+                "description": "RouteSelector allows filtering the set of Routes serviced by the ingress controller",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "matchExpressions": {
+                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "key",
+                        "operator"
+                      ],
+                      "properties": {
+                        "key": {
+                          "description": "key is the label key that the selector applies to.",
+                          "type": "string"
+                        },
+                        "operator": {
+                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                          "type": "string"
+                        },
+                        "values": {
+                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "matchLabels": {
+                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "servingCertificate": {
+                "description": "ServingCertificate references a CertificateBundle in the ClusterDeployment.Spec that should be used for this Ingress",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "installAttemptsLimit": {
+          "description": "InstallAttemptsLimit is the maximum number of times Hive will attempt to install the cluster.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        },
+        "installed": {
+          "description": "Installed is true if the cluster has been installed",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "machineManagement": {
+          "description": "MachineManagement contains machine management settings including the strategy that will be used when provisioning worker machines.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "central": {
+              "description": "Central contains settings for central machine management. If set Central indicates that central machine management will be used as opposed to management on the spoke cluster.",
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "targetNamespace": {
+              "description": "TargetNamespace is the namespace in which we will create worker machineset resources. Resources required to create machines will be copied to the TargetNamespace. TargetNamespace is created for you and cannot be set during creation. TargetNamespace is also immutable once set.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "manageDNS": {
+          "description": "ManageDNS specifies whether a DNSZone should be created and managed automatically for this ClusterDeployment",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "platform": {
+          "description": "Platform is the configuration for the specific platform upon which to perform the installation.",
+          "type": "object",
+          "properties": {
+            "agentBareMetal": {
+              "description": "AgentBareMetal is the configuration used when performing an Assisted Agent based installation to bare metal.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "agentSelector"
+              ],
+              "properties": {
+                "agentSelector": {
+                  "description": "AgentSelector is a label selector used for associating relevant custom resources with this cluster. (Agent, BareMetalHost, etc)",
+                  "type": "object",
+                  "properties": {
+                    "matchExpressions": {
+                      "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "key",
+                          "operator"
+                        ],
+                        "properties": {
+                          "key": {
+                            "description": "key is the label key that the selector applies to.",
+                            "type": "string"
+                          },
+                          "operator": {
+                            "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                            "type": "string"
+                          },
+                          "values": {
+                            "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "matchLabels": {
+                      "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "aws": {
+              "description": "AWS is the configuration used when installing on AWS.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "region"
+              ],
+              "properties": {
+                "credentialsAssumeRole": {
+                  "description": "CredentialsAssumeRole refers to the IAM role that must be assumed to obtain AWS account access for the cluster operations.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "roleARN"
+                  ],
+                  "properties": {
+                    "externalID": {
+                      "description": "ExternalID is random string generated by platform so that assume role is protected from confused deputy problem. more info: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "roleARN": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "credentialsSecretRef": {
+                  "description": "CredentialsSecretRef refers to a secret that contains the AWS account access credentials.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "privateLink": {
+                  "description": "PrivateLink allows uses to enable access to the cluster's API server using AWS PrivateLink. AWS PrivateLink includes a pair of VPC Endpoint Service and VPC Endpoint accross AWS accounts and allows clients to connect to services using AWS's internal networking instead of the Internet.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "enabled"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "region": {
+                  "description": "Region specifies the AWS region where the cluster will be created.",
+                  "type": "string"
+                },
+                "userTags": {
+                  "description": "UserTags specifies additional tags for AWS resources created for the cluster.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "azure": {
+              "description": "Azure is the configuration used when installing on Azure.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "credentialsSecretRef",
+                "region"
+              ],
+              "properties": {
+                "baseDomainResourceGroupName": {
+                  "description": "BaseDomainResourceGroupName specifies the resource group where the azure DNS zone for the base domain is found",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "credentialsSecretRef": {
+                  "description": "CredentialsSecretRef refers to a secret that contains the Azure account access credentials.",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "region": {
+                  "description": "Region specifies the Azure region where the cluster will be created.",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "baremetal": {
+              "description": "BareMetal is the configuration used when installing on bare metal.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "libvirtSSHPrivateKeySecretRef"
+              ],
+              "properties": {
+                "libvirtSSHPrivateKeySecretRef": {
+                  "description": "LibvirtSSHPrivateKeySecretRef is the reference to the secret that contains the private SSH key to use for access to the libvirt provisioning host. The SSH private key is expected to be in the secret data under the \"ssh-privatekey\" key.",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "gcp": {
+              "description": "GCP is the configuration used when installing on Google Cloud Platform.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "credentialsSecretRef",
+                "region"
+              ],
+              "properties": {
+                "credentialsSecretRef": {
+                  "description": "CredentialsSecretRef refers to a secret that contains the GCP account access credentials.",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "region": {
+                  "description": "Region specifies the GCP region where the cluster will be created.",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "openstack": {
+              "description": "OpenStack is the configuration used when installing on OpenStack",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "cloud",
+                "credentialsSecretRef"
+              ],
+              "properties": {
+                "certificatesSecretRef": {
+                  "description": "CertificatesSecretRef refers to a secret that contains CA certificates necessary for communicating with the OpenStack. There is additional configuration required for the OpenShift cluster to trust the certificates provided in this secret. The \"clouds.yaml\" file included in the credentialsSecretRef Secret must also include a reference to the certificate bundle file for the OpenShift cluster being created to trust the OpenStack endpoints. The \"clouds.yaml\" file must set the \"cacert\" field to either \"/etc/openstack-ca/<key name containing the trust bundle in credentialsSecretRef Secret>\" or \"/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem\". \n For example, \"\"\"clouds.yaml clouds:   shiftstack:     auth: ...     cacert: \"/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem\" \"\"\"",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "cloud": {
+                  "description": "Cloud will be used to indicate the OS_CLOUD value to use the right section from the clouds.yaml in the CredentialsSecretRef.",
+                  "type": "string"
+                },
+                "credentialsSecretRef": {
+                  "description": "CredentialsSecretRef refers to a secret that contains the OpenStack account access credentials.",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "trunkSupport": {
+                  "description": "TrunkSupport indicates whether or not to use trunk ports in your OpenShift cluster.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "ovirt": {
+              "description": "Ovirt is the configuration used when installing on oVirt",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "certificatesSecretRef",
+                "credentialsSecretRef",
+                "ovirt_cluster_id",
+                "storage_domain_id"
+              ],
+              "properties": {
+                "certificatesSecretRef": {
+                  "description": "CertificatesSecretRef refers to a secret that contains the oVirt CA certificates necessary for communicating with oVirt.",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "credentialsSecretRef": {
+                  "description": "CredentialsSecretRef refers to a secret that contains the oVirt account access credentials with fields: ovirt_url, ovirt_username, ovirt_password, ovirt_ca_bundle",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "ovirt_cluster_id": {
+                  "description": "The target cluster under which all VMs will run",
+                  "type": "string"
+                },
+                "ovirt_network_name": {
+                  "description": "The target network of all the network interfaces of the nodes. Omitting defaults to ovirtmgmt network which is a default network for evert ovirt cluster.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "storage_domain_id": {
+                  "description": "The target storage domain under which all VM disk would be created.",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "vsphere": {
+              "description": "VSphere is the configuration used when installing on vSphere",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "certificatesSecretRef",
+                "credentialsSecretRef",
+                "datacenter",
+                "defaultDatastore",
+                "vCenter"
+              ],
+              "properties": {
+                "certificatesSecretRef": {
+                  "description": "CertificatesSecretRef refers to a secret that contains the vSphere CA certificates necessary for communicating with the VCenter.",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "cluster": {
+                  "description": "Cluster is the name of the cluster virtual machines will be cloned into.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "credentialsSecretRef": {
+                  "description": "CredentialsSecretRef refers to a secret that contains the vSphere account access credentials: GOVC_USERNAME, GOVC_PASSWORD fields.",
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "datacenter": {
+                  "description": "Datacenter is the name of the datacenter to use in the vCenter.",
+                  "type": "string"
+                },
+                "defaultDatastore": {
+                  "description": "DefaultDatastore is the default datastore to use for provisioning volumes.",
+                  "type": "string"
+                },
+                "folder": {
+                  "description": "Folder is the name of the folder that will be used and/or created for virtual machines.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "network": {
+                  "description": "Network specifies the name of the network to be used by the cluster.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "vCenter": {
+                  "description": "VCenter is the domain name or IP address of the vCenter.",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "powerState": {
+          "description": "PowerState indicates whether a cluster should be running or hibernating. When omitted, PowerState defaults to the Running state.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "",
+            "Running",
+            "Hibernating"
+          ]
+        },
+        "preserveOnDelete": {
+          "description": "PreserveOnDelete allows the user to disconnect a cluster from Hive without deprovisioning it. This can also be used to abandon ongoing cluster deprovision.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "provisioning": {
+          "description": "Provisioning contains settings used only for initial cluster provisioning. May be unset in the case of adopted clusters.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "imageSetRef": {
+              "description": "ImageSetRef is a reference to a ClusterImageSet. If a value is specified for ReleaseImage, that will take precedence over the one from the ClusterImageSet.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name is the name of the ClusterImageSet that this refers to",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "installConfigSecretRef": {
+              "description": "InstallConfigSecretRef is the reference to a secret that contains an openshift-install InstallConfig. This file will be passed through directly to the installer. Any version of InstallConfig can be used, provided it can be parsed by the openshift-install version for the release you are provisioning.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "installerEnv": {
+              "description": "InstallerEnv are extra environment variables to pass through to the installer. This may be used to enable additional features of the installer.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "EnvVar represents an environment variable present in a Container.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "Name of the environment variable. Must be a C_IDENTIFIER.",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "Variable references $(VAR_NAME) are expanded using the previous defined environment variables in the container and any service environment variables. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. Defaults to \"\".",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "valueFrom": {
+                    "description": "Source for the environment variable's value. Cannot be used if value is not empty.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "configMapKeyRef": {
+                        "description": "Selects a key of a ConfigMap.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "key"
+                        ],
+                        "properties": {
+                          "key": {
+                            "description": "The key to select.",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "optional": {
+                            "description": "Specify whether the ConfigMap or its key must be defined",
+                            "type": [
+                              "boolean",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "fieldRef": {
+                        "description": "Selects a field of the pod: supports metadata.name, metadata.namespace, `metadata.labels['<KEY>']`, `metadata.annotations['<KEY>']`, spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podIPs.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "fieldPath"
+                        ],
+                        "properties": {
+                          "apiVersion": {
+                            "description": "Version of the schema the FieldPath is written in terms of, defaults to \"v1\".",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "fieldPath": {
+                            "description": "Path of the field to select in the specified API version.",
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "resourceFieldRef": {
+                        "description": "Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "resource"
+                        ],
+                        "properties": {
+                          "containerName": {
+                            "description": "Container name: required for volumes, optional for env vars",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "divisor": {
+                            "description": "Specifies the output format of the exposed resources, defaults to \"1\"",
+                            "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                            "x-kubernetes-int-or-string": true
+                          },
+                          "resource": {
+                            "description": "Required: resource to select",
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "secretKeyRef": {
+                        "description": "Selects a key of a secret in the pod's namespace",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "key"
+                        ],
+                        "properties": {
+                          "key": {
+                            "description": "The key of the secret to select from.  Must be a valid secret key.",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "optional": {
+                            "description": "Specify whether the Secret or its key must be defined",
+                            "type": [
+                              "boolean",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "manifestsConfigMapRef": {
+              "description": "ManifestsConfigMapRef is a reference to user-provided manifests to add to or replace manifests that are generated by the installer.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "releaseImage": {
+              "description": "ReleaseImage is the image containing metadata for all components that run in the cluster, and is the primary and best way to specify what specific version of OpenShift you wish to install.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sshKnownHosts": {
+              "description": "SSHKnownHosts are known hosts to be configured in the hive install manager pod to avoid ssh prompts. Use of ssh in the install pod is somewhat limited today (failure log gathering from cluster, some bare metal provisioning scenarios), so this setting is often not needed.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "sshPrivateKeySecretRef": {
+              "description": "SSHPrivateKeySecretRef is the reference to the secret that contains the private SSH key to use for access to compute instances. This private key should correspond to the public key included in the InstallConfig. The private key is used by Hive to gather logs on the target cluster if there are install failures. The SSH private key is expected to be in the secret data under the \"ssh-privatekey\" key.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "pullSecretRef": {
+          "description": "PullSecretRef is the reference to the secret to use when pulling images.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "ClusterDeploymentStatus defines the observed state of ClusterDeployment",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "apiURL": {
+          "description": "APIURL is the URL where the cluster's API can be accessed.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "certificateBundles": {
+          "description": "CertificateBundles contains of the status of the certificate bundles associated with this cluster deployment.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "CertificateBundleStatus specifies whether a certificate bundle was generated for this cluster deployment.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "generated",
+              "name"
+            ],
+            "properties": {
+              "generated": {
+                "description": "Generated indicates whether the certificate bundle was generated",
+                "type": "boolean"
+              },
+              "name": {
+                "description": "Name of the certificate bundle",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "cliImage": {
+          "description": "CLIImage is the name of the oc cli image to use when installing the target cluster",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "conditions": {
+          "description": "Conditions includes more detailed status for the cluster deployment",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ClusterDeploymentCondition contains details for the current condition of a cluster deployment",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastProbeTime": {
+                "description": "LastProbeTime is the last time we probed the condition.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "description": "LastTransitionTime is the last time the condition transitioned from one status to another.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "description": "Message is a human-readable message indicating details about last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "description": "Reason is a unique, one-word, CamelCase reason for the condition's last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Status is the status of the condition.",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type is the type of the condition.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "installRestarts": {
+          "description": "InstallRestarts is the total count of container restarts on the clusters install job.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "installStartedTimestamp": {
+          "description": "InstallStartedTimestamp is the time when all pre-requisites were met and cluster installation was launched.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "installVersion": {
+          "description": "InstallVersion is the version of OpenShift as reported by the release image resolved for the installation.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "installedTimestamp": {
+          "description": "InstalledTimestamp is the time we first detected that the cluster has been successfully installed.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "installerImage": {
+          "description": "InstallerImage is the name of the installer image to use when installing the target cluster",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "platformStatus": {
+          "description": "Platform contains the observed state for the specific platform upon which to perform the installation.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "aws": {
+              "description": "AWS is the observed state on AWS.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "privateLink": {
+                  "description": "PrivateLinkAccessStatus contains the observed state for PrivateLinkAccess resources.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "hostedZoneID": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "vpcEndpointID": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "vpcEndpointService": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "provisionRef": {
+          "description": "ProvisionRef is a reference to the last ClusterProvision created for the deployment",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "webConsoleURL": {
+          "description": "WebConsoleURL is the URL for the cluster's web console UI.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "hive.openshift.io",
+      "kind": "ClusterDeployment",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
