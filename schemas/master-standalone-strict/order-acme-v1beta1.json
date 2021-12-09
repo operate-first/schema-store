@@ -1,0 +1,252 @@
+{
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "acme.cert-manager.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Order"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "issuerRef",
+        "request"
+      ],
+      "properties": {
+        "commonName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dnsNames": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "duration": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ipAddresses": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "issuerRef": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "group": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "kind": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "request": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "authorizations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "url"
+            ],
+            "properties": {
+              "challenges": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "token",
+                    "type",
+                    "url"
+                  ],
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "identifier": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "initialState": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "valid",
+                  "ready",
+                  "pending",
+                  "processing",
+                  "invalid",
+                  "expired",
+                  "errored"
+                ]
+              },
+              "url": {
+                "type": "string"
+              },
+              "wildcard": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "certificate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "byte"
+        },
+        "failureTime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "finalizeURL": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "valid",
+            "ready",
+            "pending",
+            "processing",
+            "invalid",
+            "expired",
+            "errored"
+          ]
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "acme.cert-manager.io",
+      "kind": "Order",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

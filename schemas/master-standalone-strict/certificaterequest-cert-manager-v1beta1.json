@@ -1,0 +1,253 @@
+{
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "cert-manager.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CertificateRequest"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "issuerRef",
+        "request"
+      ],
+      "properties": {
+        "duration": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "extra": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "groups": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "x-kubernetes-list-type": "atomic"
+        },
+        "isCA": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "issuerRef": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "group": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "kind": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "request": {
+          "type": "string",
+          "format": "byte"
+        },
+        "uid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "usages": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "signing",
+              "digital signature",
+              "content commitment",
+              "key encipherment",
+              "key agreement",
+              "data encipherment",
+              "cert sign",
+              "crl sign",
+              "encipher only",
+              "decipher only",
+              "any",
+              "server auth",
+              "client auth",
+              "code signing",
+              "email protection",
+              "s/mime",
+              "ipsec end system",
+              "ipsec tunnel",
+              "ipsec user",
+              "timestamping",
+              "ocsp signing",
+              "microsoft sgc",
+              "netscape sgc"
+            ]
+          }
+        },
+        "username": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "ca": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "byte"
+        },
+        "certificate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "byte"
+        },
+        "conditions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastTransitionTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "True",
+                  "False",
+                  "Unknown"
+                ]
+              },
+              "type": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "failureTime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "cert-manager.io",
+      "kind": "CertificateRequest",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

@@ -1,0 +1,108 @@
+{
+  "description": "Restore is the Schema for the restores API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "cluster.open-cluster-management.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Restore"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "RestoreSpec defines the desired state of Restore",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "veleroCredentialsBackupName",
+        "veleroManagedClustersBackupName",
+        "veleroResourcesBackupName"
+      ],
+      "properties": {
+        "veleroCredentialsBackupName": {
+          "description": "VeleroCredentialsBackupName is the name of the velero back-up used to restore credentials. Is required, valid values are latest, skip or backup_name If value is set to latest, the latest backup is used, skip will not restore this type of backup backup_name points to the name of the backup to be restored",
+          "type": "string"
+        },
+        "veleroManagedClustersBackupName": {
+          "description": "VeleroManagedClustersBackupName is the name of the velero back-up used to restore managed clusters. Is required, valid values are latest, skip or backup_name If value is set to latest, the latest backup is used, skip will not restore this type of backup backup_name points to the name of the backup to be restored",
+          "type": "string"
+        },
+        "veleroResourcesBackupName": {
+          "description": "VeleroResourcesBackupName is the name of the velero back-up used to restore resources. Is required, valid values are latest, skip or backup_name If value is set to latest, the latest backup is used, skip will not restore this type of backup backup_name points to the name of the backup to be restored",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "RestoreStatus defines the observed state of Restore",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "lastMessage": {
+          "description": "Message on the last operation",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "phase": {
+          "description": "Phase is the current phase of the restore",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "veleroCredentialsRestoreName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "veleroManagedClustersRestoreName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "veleroResourcesRestoreName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "cluster.open-cluster-management.io",
+      "kind": "Restore",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

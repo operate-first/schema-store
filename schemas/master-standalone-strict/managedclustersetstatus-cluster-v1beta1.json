@@ -1,0 +1,21 @@
+{
+  "description": "ManagedClusterSetStatus represents the current status of the ManagedClusterSet.",
+  "type": "object",
+  "required": [
+    "conditions"
+  ],
+  "properties": {
+    "conditions": {
+      "description": "Conditions contains the different condition statuses for this ManagedClusterSet.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Condition"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
