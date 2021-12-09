@@ -96,8 +96,13 @@ print("Downloading and parsing API schema from: {}\n".format(openapi_endpoint))
 openapi_data = loadYAML(openapi_endpoint)
 
 definitions = openapi_data["definitions"]
-delete_list = []
 spec_file = os.path.join(script_dir, OPENSHIFT_API_SPEC_FILE)
+delete_list = []
+invalid_specs_groups = []
+valid_specs_groups = []
+invalid_specs_kinds = []
+valid_specs_kinds = []
+invalid_kinds_fp = os.path.join(script_dir,  "skip_kinds")
 
 
 with open(spec_file, "w") as openapi_spec_file:
@@ -106,7 +111,41 @@ with open(spec_file, "w") as openapi_spec_file:
         if "x-kubernetes-group-version-kind" in type_def:
             for kube_ext in type_def["x-kubernetes-group-version-kind"]:
                 if "properties" not in type_def:
+                    invalid_specs_groups.append(type_def["x-kubernetes-group-version-kind"][0]["group"])
+                    invalid_specs_kinds.append(type_def["x-kubernetes-group-version-kind"][0]["kind"])
                     delete_list.append(type_name)
+                else:
+                    valid_specs_groups.append(type_def["x-kubernetes-group-version-kind"][0]["group"])
+                    valid_specs_kinds.append(type_def["x-kubernetes-group-version-kind"][0]["kind"])
+
+    try:
+        with open(invalid_kinds_fp, "r+") as skf:
+            skip_kinds_file = skf.read()
+            skip_kinds_file = skip_kinds_file.rstrip('\n')
+            skip_kinds_file = skip_kinds_file.split(",")
+    except IOError:
+        skip_kinds_file = []
+
+   # Iterate through invalid kinds and add them to file if they do not clash with other CRDs
+    with open(invalid_kinds_fp, "w+") as skf:
+        for item in skip_kinds_file:
+            if item == "":
+                skip_kinds_file.remove(item)
+            if item in valid_specs_kinds:
+                skip_kinds_file.remove(item)
+        for index, item in enumerate(invalid_specs_kinds):
+            print(valid_specs_groups)
+            if (item not in skip_kinds_file):
+                if item in valid_specs_kinds:
+                    idx = valid_specs_kinds.index(item)
+                    if invalid_specs_groups[index] != valid_specs_groups[idx]:
+                        skip_kinds_file.append(item)
+                else:
+                    skip_kinds_file.append(item)
+
+        print("Following kinds are added to the file:")
+        print(skip_kinds_file)
+        skf.write (",".join(skip_kinds_file))
 
     if len(delete_list) > 0:
         print("The following API resources do not have valid OpenAPI specifications:\n")
