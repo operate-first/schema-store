@@ -11,6 +11,7 @@ repos:
       - id: trailing-whitespace
       - id: check-merge-conflict
       - id: end-of-file-fixer
+        exclude: skip_kinds.txt
       - id: check-added-large-files
       - id: check-case-conflict
       - id: check-json
