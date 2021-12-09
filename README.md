@@ -21,3 +21,4 @@ Script mentioned above is included in this repository. Use it running following 
 python build_schema.py -u $(oc whoami --show-server) -t $(oc whoami -t) -s STRICT
 ```
 When the script finishes there will be new folders called `openshift-json-schema/master-standalone-strict` containing all the schemas obtained from OpenAPI endpoint. After that copy missing schema to repository.
+This script also creates (or appends) a file with kinds which do not have valid schemas. This file is called `skip_kinds` and is used in the kubeval validation.
