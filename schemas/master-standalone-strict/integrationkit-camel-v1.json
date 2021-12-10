@@ -1,0 +1,357 @@
+{
+  "description": "IntegrationKit is the Schema for the integrationkits API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "camel.apache.org/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "IntegrationKit"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "IntegrationKitSpec defines the desired state of IntegrationKit",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "configuration": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ConfigurationSpec --",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "type",
+              "value"
+            ],
+            "properties": {
+              "resourceKey": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "resourceMountPoint": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "resourceType": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "type": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "dependencies": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "profile": {
+          "description": "TraitProfile represents lists of traits that are enabled for the specific installation/integration",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repositories": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "traits": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "description": "A TraitSpec contains the configuration of a trait",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "configuration"
+            ],
+            "properties": {
+              "configuration": {
+                "description": "TraitConfiguration --",
+                "x-kubernetes-preserve-unknown-fields": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "IntegrationKitStatus defines the observed state of IntegrationKit",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "artifacts": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Artifact --",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "checksum": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "id": {
+                "type": "string"
+              },
+              "location": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "target": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "baseImage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "conditions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "IntegrationKitCondition describes the state of a resource at a certain point.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastTransitionTime": {
+                "description": "Last time the condition transitioned from one status to another.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastUpdateTime": {
+                "description": "The last time this condition was updated.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "description": "A human-readable message indicating details about the transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "description": "The reason for the condition's last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Status of the condition, one of True, False, Unknown.",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type of integration condition.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "failure": {
+          "description": "Failure --",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "reason",
+            "recovery",
+            "time"
+          ],
+          "properties": {
+            "reason": {
+              "type": "string"
+            },
+            "recovery": {
+              "description": "FailureRecovery --",
+              "type": "object",
+              "required": [
+                "attempt",
+                "attemptMax"
+              ],
+              "properties": {
+                "attempt": {
+                  "type": "integer"
+                },
+                "attemptMax": {
+                  "type": "integer"
+                },
+                "attemptTime": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date-time"
+                }
+              },
+              "additionalProperties": false
+            },
+            "time": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "phase": {
+          "description": "IntegrationKitPhase --",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "platform": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "runtimeProvider": {
+          "description": "RuntimeProvider --",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "runtimeVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "camel.apache.org",
+      "kind": "IntegrationKit",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

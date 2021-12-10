@@ -1,0 +1,1116 @@
+{
+  "description": "IntegrationPlatform is the Schema for the integrationplatforms API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "camel.apache.org/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "IntegrationPlatform"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "IntegrationPlatformSpec defines the desired state of IntegrationPlatform",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "build": {
+          "description": "IntegrationPlatformBuildSpec contains platform related build information",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "baseImage": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "buildStrategy": {
+              "description": "BuildStrategy specifies how the Build should be executed",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "routine",
+                "pod"
+              ]
+            },
+            "httpProxySecret": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "kanikoBuildCache": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "maven": {
+              "description": "MavenSpec --",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "caSecret": {
+                  "description": "The Secret name and key, containing the CA certificate(s) used to connect to remote Maven repositories. It can contain X.509 certificates, and PKCS#7 formatted certificate chains. A JKS formatted keystore is automatically created to store the CA certificate(s), and configured to be used as a trusted certificate(s) by the Maven commands. Note that the root CA certificates are also imported into the created keystore.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "key"
+                  ],
+                  "properties": {
+                    "key": {
+                      "description": "The key of the secret to select from.  Must be a valid secret key.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "optional": {
+                      "description": "Specify whether the Secret or its key must be defined",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "extension": {
+                  "description": "Maven build extensions https://maven.apache.org/guides/mini/guide-using-extensions.html",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "MavenArtifact --",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "artifactId",
+                      "groupId"
+                    ],
+                    "properties": {
+                      "artifactId": {
+                        "type": "string"
+                      },
+                      "groupId": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "localRepository": {
+                  "description": "The path of the local Maven repository.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "properties": {
+                  "description": "The Maven properties.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "repositories": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "Repository --",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "id",
+                      "url"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "releases": {
+                        "description": "RepositoryPolicy --",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "enabled"
+                        ],
+                        "properties": {
+                          "checksumPolicy": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "enabled": {
+                            "type": "boolean"
+                          },
+                          "updatePolicy": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "snapshots": {
+                        "description": "RepositoryPolicy --",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "enabled"
+                        ],
+                        "properties": {
+                          "checksumPolicy": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "enabled": {
+                            "type": "boolean"
+                          },
+                          "updatePolicy": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "settings": {
+                  "description": "A reference to the ConfigMap or Secret key that contains the Maven settings.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "configMapKeyRef": {
+                      "description": "Selects a key of a ConfigMap.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "key"
+                      ],
+                      "properties": {
+                        "key": {
+                          "description": "The key to select.",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "optional": {
+                          "description": "Specify whether the ConfigMap or its key must be defined",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "secretKeyRef": {
+                      "description": "Selects a key of a secret.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "key"
+                      ],
+                      "properties": {
+                        "key": {
+                          "description": "The key of the secret to select from.  Must be a valid secret key.",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "optional": {
+                          "description": "Specify whether the Secret or its key must be defined",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "timeout": {
+                  "description": "Deprecated: use IntegrationPlatform.Spec.Build.Timeout instead",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "additionalProperties": false
+              },
+              "additionalProperties": false
+            },
+            "persistentVolumeClaim": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "publishStrategy": {
+              "description": "IntegrationPlatformBuildPublishStrategy enumerates all implemented publish strategies",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry": {
+              "description": "RegistrySpec provides the configuration for the container registry",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "address": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "ca": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "insecure": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "organization": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "secret": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "runtimeProvider": {
+              "description": "RuntimeProvider --",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "runtimeVersion": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "timeout": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "cluster": {
+          "description": "IntegrationPlatformCluster is the kind of orchestration cluster the platform is installed into",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "configuration": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ConfigurationSpec --",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "type",
+              "value"
+            ],
+            "properties": {
+              "resourceKey": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "resourceMountPoint": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "resourceType": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "type": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "kamelet": {
+          "description": "IntegrationPlatformKameletSpec --",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "repositories": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "IntegrationPlatformKameletRepositorySpec --",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "uri": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "profile": {
+          "description": "TraitProfile represents lists of traits that are enabled for the specific installation/integration",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "resources": {
+          "description": "IntegrationPlatformResourcesSpec contains platform related resources",
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "traits": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "description": "A TraitSpec contains the configuration of a trait",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "configuration"
+            ],
+            "properties": {
+              "configuration": {
+                "description": "TraitConfiguration --",
+                "x-kubernetes-preserve-unknown-fields": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "IntegrationPlatformStatus defines the observed state of IntegrationPlatform",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "build": {
+          "description": "IntegrationPlatformBuildSpec contains platform related build information",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "baseImage": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "buildStrategy": {
+              "description": "BuildStrategy specifies how the Build should be executed",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "routine",
+                "pod"
+              ]
+            },
+            "httpProxySecret": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "kanikoBuildCache": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "maven": {
+              "description": "MavenSpec --",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "caSecret": {
+                  "description": "The Secret name and key, containing the CA certificate(s) used to connect to remote Maven repositories. It can contain X.509 certificates, and PKCS#7 formatted certificate chains. A JKS formatted keystore is automatically created to store the CA certificate(s), and configured to be used as a trusted certificate(s) by the Maven commands. Note that the root CA certificates are also imported into the created keystore.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "key"
+                  ],
+                  "properties": {
+                    "key": {
+                      "description": "The key of the secret to select from.  Must be a valid secret key.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "optional": {
+                      "description": "Specify whether the Secret or its key must be defined",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "extension": {
+                  "description": "Maven build extensions https://maven.apache.org/guides/mini/guide-using-extensions.html",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "MavenArtifact --",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "artifactId",
+                      "groupId"
+                    ],
+                    "properties": {
+                      "artifactId": {
+                        "type": "string"
+                      },
+                      "groupId": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "localRepository": {
+                  "description": "The path of the local Maven repository.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "properties": {
+                  "description": "The Maven properties.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "repositories": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "Repository --",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "id",
+                      "url"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "releases": {
+                        "description": "RepositoryPolicy --",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "enabled"
+                        ],
+                        "properties": {
+                          "checksumPolicy": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "enabled": {
+                            "type": "boolean"
+                          },
+                          "updatePolicy": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "snapshots": {
+                        "description": "RepositoryPolicy --",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "enabled"
+                        ],
+                        "properties": {
+                          "checksumPolicy": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "enabled": {
+                            "type": "boolean"
+                          },
+                          "updatePolicy": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "settings": {
+                  "description": "A reference to the ConfigMap or Secret key that contains the Maven settings.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "configMapKeyRef": {
+                      "description": "Selects a key of a ConfigMap.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "key"
+                      ],
+                      "properties": {
+                        "key": {
+                          "description": "The key to select.",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "optional": {
+                          "description": "Specify whether the ConfigMap or its key must be defined",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "secretKeyRef": {
+                      "description": "Selects a key of a secret.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "key"
+                      ],
+                      "properties": {
+                        "key": {
+                          "description": "The key of the secret to select from.  Must be a valid secret key.",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "optional": {
+                          "description": "Specify whether the Secret or its key must be defined",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "timeout": {
+                  "description": "Deprecated: use IntegrationPlatform.Spec.Build.Timeout instead",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "additionalProperties": false
+              },
+              "additionalProperties": false
+            },
+            "persistentVolumeClaim": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "publishStrategy": {
+              "description": "IntegrationPlatformBuildPublishStrategy enumerates all implemented publish strategies",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry": {
+              "description": "RegistrySpec provides the configuration for the container registry",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "address": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "ca": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "insecure": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "organization": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "secret": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "runtimeProvider": {
+              "description": "RuntimeProvider --",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "runtimeVersion": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "timeout": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "cluster": {
+          "description": "IntegrationPlatformCluster is the kind of orchestration cluster the platform is installed into",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "conditions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "IntegrationPlatformCondition describes the state of a resource at a certain point.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastTransitionTime": {
+                "description": "Last time the condition transitioned from one status to another.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastUpdateTime": {
+                "description": "The last time this condition was updated.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "description": "A human-readable message indicating details about the transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "description": "The reason for the condition's last transition.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Status of the condition, one of True, False, Unknown.",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type of integration condition.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "configuration": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ConfigurationSpec --",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "type",
+              "value"
+            ],
+            "properties": {
+              "resourceKey": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "resourceMountPoint": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "resourceType": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "type": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "kamelet": {
+          "description": "IntegrationPlatformKameletSpec --",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "repositories": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "IntegrationPlatformKameletRepositorySpec --",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "uri": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "phase": {
+          "description": "IntegrationPlatformPhase --",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "profile": {
+          "description": "TraitProfile represents lists of traits that are enabled for the specific installation/integration",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "resources": {
+          "description": "IntegrationPlatformResourcesSpec contains platform related resources",
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "traits": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "description": "A TraitSpec contains the configuration of a trait",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "configuration"
+            ],
+            "properties": {
+              "configuration": {
+                "description": "TraitConfiguration --",
+                "x-kubernetes-preserve-unknown-fields": true
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "camel.apache.org",
+      "kind": "IntegrationPlatform",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

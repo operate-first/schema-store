@@ -1,0 +1,573 @@
+{
+  "description": "CamelCatalog is the Schema for the camelcatalogs API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "camel.apache.org/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CamelCatalog"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "CamelCatalogSpec defines the desired state of CamelCatalog",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "artifacts",
+        "loaders",
+        "runtime"
+      ],
+      "properties": {
+        "artifacts": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "CamelArtifact --",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "artifactId",
+              "groupId"
+            ],
+            "properties": {
+              "artifactId": {
+                "type": "string"
+              },
+              "dataformats": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "dependencies": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "CamelArtifactDependency represent a maven's dependency",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "artifactId",
+                    "groupId"
+                  ],
+                  "properties": {
+                    "artifactId": {
+                      "type": "string"
+                    },
+                    "exclusions": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "CamelArtifactExclusion --",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "artifactId",
+                          "groupId"
+                        ],
+                        "properties": {
+                          "artifactId": {
+                            "type": "string"
+                          },
+                          "groupId": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "groupId": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "exclusions": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "CamelArtifactExclusion --",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "artifactId",
+                    "groupId"
+                  ],
+                  "properties": {
+                    "artifactId": {
+                      "type": "string"
+                    },
+                    "groupId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "groupId": {
+                "type": "string"
+              },
+              "javaTypes": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "languages": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "schemes": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "CamelScheme --",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "http",
+                    "id",
+                    "passive"
+                  ],
+                  "properties": {
+                    "consumer": {
+                      "description": "CamelSchemeScope contains scoped information about a scheme",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "dependencies": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "description": "CamelArtifactDependency represent a maven's dependency",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "artifactId",
+                              "groupId"
+                            ],
+                            "properties": {
+                              "artifactId": {
+                                "type": "string"
+                              },
+                              "exclusions": {
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "description": "CamelArtifactExclusion --",
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "artifactId",
+                                    "groupId"
+                                  ],
+                                  "properties": {
+                                    "artifactId": {
+                                      "type": "string"
+                                    },
+                                    "groupId": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "groupId": {
+                                "type": "string"
+                              },
+                              "version": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "http": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "passive": {
+                      "type": "boolean"
+                    },
+                    "producer": {
+                      "description": "CamelSchemeScope contains scoped information about a scheme",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "dependencies": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "description": "CamelArtifactDependency represent a maven's dependency",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "artifactId",
+                              "groupId"
+                            ],
+                            "properties": {
+                              "artifactId": {
+                                "type": "string"
+                              },
+                              "exclusions": {
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "description": "CamelArtifactExclusion --",
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "artifactId",
+                                    "groupId"
+                                  ],
+                                  "properties": {
+                                    "artifactId": {
+                                      "type": "string"
+                                    },
+                                    "groupId": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "groupId": {
+                                "type": "string"
+                              },
+                              "version": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "loaders": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "CamelLoader --",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "artifactId",
+              "groupId"
+            ],
+            "properties": {
+              "artifactId": {
+                "type": "string"
+              },
+              "dependencies": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "MavenArtifact --",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "artifactId",
+                    "groupId"
+                  ],
+                  "properties": {
+                    "artifactId": {
+                      "type": "string"
+                    },
+                    "groupId": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "groupId": {
+                "type": "string"
+              },
+              "languages": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "runtime": {
+          "description": "RuntimeSpec --",
+          "type": "object",
+          "required": [
+            "applicationClass",
+            "dependencies",
+            "provider",
+            "version"
+          ],
+          "properties": {
+            "applicationClass": {
+              "type": "string"
+            },
+            "capabilities": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "description": "Capability --",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "dependencies"
+                ],
+                "properties": {
+                  "dependencies": {
+                    "type": "array",
+                    "items": {
+                      "description": "MavenArtifact --",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "artifactId",
+                        "groupId"
+                      ],
+                      "properties": {
+                        "artifactId": {
+                          "type": "string"
+                        },
+                        "groupId": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "metadata": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "description": "MavenArtifact --",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "artifactId",
+                  "groupId"
+                ],
+                "properties": {
+                  "artifactId": {
+                    "type": "string"
+                  },
+                  "groupId": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "metadata": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "provider": {
+              "description": "RuntimeProvider --",
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "CamelCatalogStatus defines the observed state of CamelCatalog",
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "camel.apache.org",
+      "kind": "CamelCatalog",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
