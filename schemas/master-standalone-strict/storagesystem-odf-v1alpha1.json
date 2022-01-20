@@ -1,0 +1,136 @@
+{
+  "description": "StorageSystem is the Schema for the storagesystems API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "odf.openshift.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "StorageSystem"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "StorageSystemSpec defines the desired state of StorageSystem",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "name",
+        "namespace"
+      ],
+      "properties": {
+        "kind": {
+          "description": "Kind describes the kind of storage vendor",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "flashsystemcluster.odf.ibm.com/v1alpha1",
+            "storagecluster.ocs.openshift.io/v1"
+          ]
+        },
+        "name": {
+          "description": "Name describes the name of managed storage vendor CR",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace describes the namespace of managed storage vendor CR",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "StorageSystemStatus defines the observed state of StorageSystem",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "description": "Conditions describes the state of the StorageSystem resource.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Condition represents the state of the operator's reconciliation functionality.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastHeartbeatTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": "string"
+              },
+              "type": {
+                "description": "ConditionType is the state of the operator's reconciliation functionality.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "odf.openshift.io",
+      "kind": "StorageSystem",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

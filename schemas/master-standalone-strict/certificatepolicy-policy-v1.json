@@ -1,0 +1,259 @@
+{
+  "description": "CertificatePolicy is the Schema for the certificatepolicies API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "policy.open-cluster-management.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CertificatePolicy"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "CertificatePolicySpec defines the desired state of CertificatePolicy",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "allowedSANPattern": {
+          "description": "A pattern that must match any defined SAN entries in the certificate for the certificate to be compliant.  Golang's regexp symtax only",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disallowedSANPattern": {
+          "description": "A pattern that must not match any defined SAN entries in the certificate for the certificate to be compliant. Golang's regexp symtax only",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "labelSelector": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "maximumCADuration": {
+          "description": "Maximum CA duration for a signing certificate, longer duration is considered non-compliant. Golang's time units only",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "maximumDuration": {
+          "description": "Maximum duration for a certificate, longer duration is considered non-compliant. Golang's time units only",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "minimumCADuration": {
+          "description": "Minimum CA duration before a signing certificate expires that it is considered non-compliant. Golang's time units only",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "minimumDuration": {
+          "description": "Minimum duration before a certificate expires that it is considered non-compliant. Golang's time units only",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "namespaceSelector": {
+          "description": "selecting a list of namespaces where the policy applies",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "exclude": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "include": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "remediationAction": {
+          "description": "enforce, inform",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "severity": {
+          "description": "low, medium, or high",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "CertificatePolicyStatus defines the observed state of CertificatePolicy",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "compliancyDetails": {
+          "description": "map of namespaces to its compliancy details",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "description": "CompliancyDetails defines the all the details related to whether or not the policy is compliant",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "NonCompliantCertificatesList"
+            ],
+            "properties": {
+              "NonCompliantCertificates": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "NonCompliantCertificatesList": {
+                "type": "object",
+                "additionalProperties": {
+                  "description": "Cert contains its related secret and when it expires",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "ca": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "duration": {
+                      "description": "A Duration represents the elapsed time between two instants as an int64 nanosecond count. The representation limits the largest representable duration to approximately 290 years.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int64"
+                    },
+                    "expiration": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "expiry": {
+                      "description": "A Duration represents the elapsed time between two instants as an int64 nanosecond count. The representation limits the largest representable duration to approximately 290 years.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int64"
+                    },
+                    "sans": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "secretName": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "message": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "compliant": {
+          "description": "Compliant, NonCompliant, UnkownCompliancy",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "policy.open-cluster-management.io",
+      "kind": "CertificatePolicy",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
