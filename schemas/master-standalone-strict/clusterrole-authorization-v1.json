@@ -1,5 +1,5 @@
 {
-  "description": "ClusterRole is a logical grouping of PolicyRules that can be referenced as a unit by ClusterRoleBindings.\n\nCompatibility level 1: Stable within a major release for a minimum of 12 months or 3 minor releases (whichever is longer).",
+  "description": "ClusterRole is a logical grouping of PolicyRules that can be referenced as a unit by ClusterRoleBindings.",
   "type": "object",
   "required": [
     "rules"

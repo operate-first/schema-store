@@ -1,5 +1,4 @@
 {
-  "description": "SelfSubjectRulesReviewSpec defines the specification for SelfSubjectRulesReview.",
   "type": "object",
   "properties": {
     "namespace": {
