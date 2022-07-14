@@ -310,6 +310,23 @@
                     "null"
                   ]
                 },
+                "numa": {
+                  "description": "NUMA allows specifying settings for the guest NUMA topology",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "guestMappingPassthrough": {
+                      "description": "GuestMappingPassthrough will create an efficient guest topology based on host CPUs exclusively assigned to a pod. The created topology ensures that memory and CPUs on the virtual numa nodes never cross boundaries of host numa nodes.",
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "sockets": {
                   "description": "Sockets specifies the number of sockets inside the vmi. Must be a value greater or equal 1.",
                   "type": [
@@ -365,6 +382,13 @@
                   "description": "Whether or not to enable virtio multi-queue for block devices. Defaults to false.",
                   "type": [
                     "boolean",
+                    "null"
+                  ]
+                },
+                "clientPassthrough": {
+                  "description": "To configure and access client devices such as redirecting USB",
+                  "type": [
+                    "object",
                     "null"
                   ]
                 },
@@ -1400,6 +1424,68 @@
                   },
                   "additionalProperties": false
                 },
+                "kernelBoot": {
+                  "description": "Settings to set the kernel for booting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "container": {
+                      "description": "Container defines the container that containes kernel artifacts",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "image"
+                      ],
+                      "properties": {
+                        "image": {
+                          "description": "Image that container initrd / kernel files.",
+                          "type": "string"
+                        },
+                        "imagePullPolicy": {
+                          "description": "Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "imagePullSecret": {
+                          "description": "ImagePullSecret is the name of the Docker registry secret required to pull the image. The secret must already exist.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "initrdPath": {
+                          "description": "the fully-qualified path to the ramdisk image in the host OS",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "kernelPath": {
+                          "description": "The fully-qualified path to the kernel image in the host OS",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "kernelArgs": {
+                      "description": "Arguments to be passed to the kernel at boot time",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "serial": {
                   "description": "The system-serial-number in SMBIOS",
                   "type": [
@@ -1430,13 +1516,13 @@
                 "object",
                 "null"
               ],
-              "required": [
-                "type"
-              ],
               "properties": {
                 "type": {
                   "description": "QEMU machine type is the actual chipset of the VirtualMachineInstance.",
-                  "type": "string"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false

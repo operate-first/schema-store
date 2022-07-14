@@ -1,5 +1,5 @@
 {
-  "description": "NodeFeatureDiscovery is the Schema for the nodefeaturediscoveries API",
+  "description": "An Node Feature Discovery cluster instance",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -27,17 +27,14 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
     },
     "spec": {
-      "description": "NodeFeatureDiscoverySpec defines the desired state of NodeFeatureDiscovery",
+      "description": "Specification of the desired behavior of the Node Feature Discovery",
       "type": [
         "object",
         "null"
       ],
-      "required": [
-        "workerConfig"
-      ],
       "properties": {
         "customConfig": {
-          "description": "ConfigMap describes configuration options for the NFD worker",
+          "description": "WorkerConfig describes configuration options for the NFD worker.",
           "type": [
             "object",
             "null"
@@ -53,11 +50,14 @@
           },
           "additionalProperties": false
         },
+        "extraLabelNs": {
+          "description": "ExtraLabelNs defines the list of of allowed extra label namespaces By default, only allow labels in the default `feature.node.kubernetes.io` label namespace"
+        },
         "instance": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "description": "Run NFD in multiple deployment mode https://kubernetes-sigs.github.io/node-feature-discovery/v0.8/advanced/master-commandline-reference.html#-instance"
+        },
+        "labelWhiteList": {
+          "description": "LabelWhiteList defines a regular expression for filtering feature labels based on their name. Each label must match against the given reqular expression in order to be published."
         },
         "operand": {
           "description": "OperandSpec describes configuration options for the operand",
@@ -67,34 +67,31 @@
           ],
           "properties": {
             "image": {
-              "description": "Image defines the image to pull for the NFD operand [defaults to quay.io/openshift/origin-node-feature-discovery]",
-              "type": [
-                "string",
-                "null"
-              ],
+              "description": "Image defines the image to pull for the NFD operand",
               "pattern": "[a-zA-Z0-9\\-]+"
             },
             "imagePullPolicy": {
-              "description": "ImagePullPolicy defines Image pull policy for the NFD operand image [defaults to Always]",
+              "description": "ImagePullPolicy defines Image pull policy for the NFD operand image [defaults to Always]"
+            },
+            "servicePort": {
+              "description": "ServicePort specifies the TCP port that nfd-master listens for incoming requests.",
               "type": [
-                "string",
+                "integer",
                 "null"
               ]
-            },
-            "namespace": {
-              "description": "Namespace defines the namespace to deploy nfd-master and nfd-worker pods",
-              "type": [
-                "string",
-                "null"
-              ],
-              "pattern": "[a-zA-Z0-9\\.\\-\\/]+"
             }
           },
           "additionalProperties": false
         },
+        "resourceLabels": {
+          "description": "ResourceLabels defines the list of features to be advertised as extended resources instead of labels."
+        },
         "workerConfig": {
           "description": "ConfigMap describes configuration options for the NFD worker",
-          "type": "object",
+          "type": [
+            "object",
+            "null"
+          ],
           "required": [
             "configData"
           ],

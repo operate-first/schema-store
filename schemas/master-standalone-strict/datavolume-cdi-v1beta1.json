@@ -35,9 +35,6 @@
         "object",
         "null"
       ],
-      "required": [
-        "source"
-      ],
       "properties": {
         "checkpoints": {
           "description": "Checkpoints is a list of DataVolumeCheckpoints, representing stages in a multistage import.",
@@ -272,7 +269,10 @@
         },
         "source": {
           "description": "Source is the src of the data for the requested DataVolume",
-          "type": "object",
+          "type": [
+            "object",
+            "null"
+          ],
           "properties": {
             "blank": {
               "description": "DataVolumeBlankImage provides the parameters to create a new raw blank image for the PVC",
@@ -483,6 +483,35 @@
                 }
               },
               "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "sourceRef": {
+          "description": "SourceRef is an indirect reference to the source of data for the requested DataVolume",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "kind",
+            "name"
+          ],
+          "properties": {
+            "kind": {
+              "description": "The kind of the source reference, currently only \"DataSource\" is supported",
+              "type": "string"
+            },
+            "name": {
+              "description": "The name of the source reference",
+              "type": "string"
+            },
+            "namespace": {
+              "description": "The namespace of the source reference, defaults to the DataVolume namespace",
+              "type": [
+                "string",
+                "null"
+              ]
             }
           },
           "additionalProperties": false

@@ -137,6 +137,13 @@
               },
               "additionalProperties": false
             },
+            "connectTimeoutSeconds": {
+              "description": "The connect timeout in seconds when connecting to authorization server. If not set, the effective connect timeout is 60 seconds.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
             "disableTlsHostnameVerification": {
               "description": "Enable or disable TLS hostname verification. Default value is `false`.",
               "type": [
@@ -172,6 +179,13 @@
                 }
               },
               "additionalProperties": false
+            },
+            "readTimeoutSeconds": {
+              "description": "The read timeout in seconds when connecting to authorization server. If not set, the effective read timeout is 60 seconds.",
+              "type": [
+                "integer",
+                "null"
+              ]
             },
             "refreshToken": {
               "description": "Link to Kubernetes Secret containing the refresh token which can be used to obtain access token from the authorization server.",
@@ -238,10 +252,11 @@
               ]
             },
             "type": {
-              "description": "Authentication type. Currently the only supported types are `tls`, `scram-sha-512`, and `plain`. `scram-sha-512` type uses SASL SCRAM-SHA-512 Authentication. `plain` type uses SASL PLAIN Authentication. `oauth` type uses SASL OAUTHBEARER Authentication. The `tls` type uses TLS Client Authentication. The `tls` type is supported only over TLS connections.",
+              "description": "Authentication type. Currently the only supported types are `tls`, `scram-sha-256`, `scram-sha-512`, and `plain`. `scram-sha-256` and `scram-sha-512` types use SASL SCRAM-SHA-256 and SASL SCRAM-SHA-512 Authentication, respectively. `plain` type uses SASL PLAIN Authentication. `oauth` type uses SASL OAUTHBEARER Authentication. The `tls` type uses TLS Client Authentication. The `tls` type is supported only over TLS connections.",
               "type": "string",
               "enum": [
                 "tls",
+                "scram-sha-256",
                 "scram-sha-512",
                 "plain",
                 "oauth"
@@ -258,7 +273,7 @@
           "additionalProperties": false
         },
         "bootstrapServers": {
-          "description": "Bootstrap servers to connect to. This should be given as a comma separated list of _<hostname>_:\u200d_<port>_ pairs.",
+          "description": "Bootstrap servers to connect to. This should be given as a comma separated list of _<hostname>_:_<port>_ pairs.",
           "type": "string"
         },
         "build": {
@@ -967,7 +982,7 @@
           "additionalProperties": false
         },
         "rack": {
-          "description": "Configuration of the node label which will be used as the client.rack consumer configuration.",
+          "description": "Configuration of the node label which will be used as the `client.rack` consumer configuration.",
           "type": [
             "object",
             "null"
@@ -1128,7 +1143,7 @@
               ],
               "properties": {
                 "metadata": {
-                  "description": "Metadata to apply to the `PodDistruptionBugetTemplate` resource.",
+                  "description": "Metadata to apply to the `PodDisruptionBudgetTemplate` resource.",
                   "type": [
                     "object",
                     "null"
@@ -2461,7 +2476,7 @@
                   "minimum": 0
                 },
                 "tmpDirSizeLimit": {
-                  "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `1Mi`.",
+                  "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `5Mi`.",
                   "type": [
                     "string",
                     "null"
@@ -4243,7 +4258,7 @@
                   "minimum": 0
                 },
                 "tmpDirSizeLimit": {
-                  "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `1Mi`.",
+                  "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `5Mi`.",
                   "type": [
                     "string",
                     "null"
@@ -4400,7 +4415,7 @@
                   "minimum": 0
                 },
                 "metadata": {
-                  "description": "Metadata to apply to the `PodDistruptionBugetTemplate` resource.",
+                  "description": "Metadata to apply to the `PodDisruptionBudgetTemplate` resource.",
                   "type": [
                     "object",
                     "null"

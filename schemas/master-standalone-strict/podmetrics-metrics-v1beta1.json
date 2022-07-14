@@ -12,6 +12,9 @@
       "type": [
         "string",
         "null"
+      ],
+      "enum": [
+        "metrics.k8s.io/v1beta1"
       ]
     },
     "containers": {
@@ -29,6 +32,9 @@
       "type": [
         "string",
         "null"
+      ],
+      "enum": [
+        "PodMetrics"
       ]
     },
     "metadata": {
@@ -42,6 +48,13 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration"
     }
   },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "metrics.k8s.io",
+      "kind": "PodMetrics",
+      "version": "v1beta1"
+    }
+  ],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

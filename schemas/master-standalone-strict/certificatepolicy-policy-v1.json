@@ -157,9 +157,6 @@
               "object",
               "null"
             ],
-            "required": [
-              "NonCompliantCertificatesList"
-            ],
             "properties": {
               "NonCompliantCertificates": {
                 "type": [
@@ -168,7 +165,10 @@
                 ]
               },
               "NonCompliantCertificatesList": {
-                "type": "object",
+                "type": [
+                  "object",
+                  "null"
+                ],
                 "additionalProperties": {
                   "description": "Cert contains its related secret and when it expires",
                   "type": [

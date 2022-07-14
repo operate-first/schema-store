@@ -1369,6 +1369,53 @@
               },
               "additionalProperties": false
             },
+            "ibmcos": {
+              "description": "ibmcos represents configuration that uses IBM Cloud Object Storage.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "bucket": {
+                  "description": "bucket is the bucket name in which you want to store the registry's data. Optional, will be generated if not provided.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "location": {
+                  "description": "location is the IBM Cloud location in which your bucket exists. Optional, will be set based on the installed IBM Cloud location.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "resourceGroupName": {
+                  "description": "resourceGroupName is the name of the IBM Cloud resource group that this bucket and its service instance is associated with. Optional, will be set based on the installed IBM Cloud resource group.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "resourceKeyCRN": {
+                  "description": "resourceKeyCRN is the CRN of the IBM Cloud resource key that is created for the service instance. Commonly referred as a service credential and must contain HMAC type credentials. Optional, will be computed if not provided.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^crn:.+:.+:.+:cloud-object-storage:.+:.+:.+:resource-key:.+$"
+                },
+                "serviceInstanceCRN": {
+                  "description": "serviceInstanceCRN is the CRN of the IBM Cloud Object Storage service instance that this bucket is associated with. Optional, will be computed if not provided.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^crn:.+:.+:.+:cloud-object-storage:.+:.+:.+::$"
+                }
+              },
+              "additionalProperties": false
+            },
             "managementState": {
               "description": "managementState indicates if the operator manages the underlying storage unit. If Managed the operator will remove the storage when this operator gets Removed.",
               "type": [
@@ -1848,6 +1895,53 @@
                     "string",
                     "null"
                   ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "ibmcos": {
+              "description": "ibmcos represents configuration that uses IBM Cloud Object Storage.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "bucket": {
+                  "description": "bucket is the bucket name in which you want to store the registry's data. Optional, will be generated if not provided.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "location": {
+                  "description": "location is the IBM Cloud location in which your bucket exists. Optional, will be set based on the installed IBM Cloud location.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "resourceGroupName": {
+                  "description": "resourceGroupName is the name of the IBM Cloud resource group that this bucket and its service instance is associated with. Optional, will be set based on the installed IBM Cloud resource group.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "resourceKeyCRN": {
+                  "description": "resourceKeyCRN is the CRN of the IBM Cloud resource key that is created for the service instance. Commonly referred as a service credential and must contain HMAC type credentials. Optional, will be computed if not provided.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^crn:.+:.+:.+:cloud-object-storage:.+:.+:.+:resource-key:.+$"
+                },
+                "serviceInstanceCRN": {
+                  "description": "serviceInstanceCRN is the CRN of the IBM Cloud Object Storage service instance that this bucket is associated with. Optional, will be computed if not provided.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^crn:.+:.+:.+:cloud-object-storage:.+:.+:.+::$"
                 }
               },
               "additionalProperties": false

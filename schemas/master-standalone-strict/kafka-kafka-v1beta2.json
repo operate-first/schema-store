@@ -162,7 +162,7 @@
                   "minimum": 0
                 },
                 "disk": {
-                  "description": "Broker capacity for disk in bytes, for example, 100Gi.",
+                  "description": "Broker capacity for disk in bytes. Use a number value with either standard Kubernetes byte units (K, M, G, or T), their bibyte (power of two) equivalents (Ki, Mi, Gi, or Ti), or a byte value with or without E notation. For example, 100000M, 100000Mi, 104857600000, or 1e+11.",
                   "type": [
                     "string",
                     "null"
@@ -170,7 +170,7 @@
                   "pattern": "^[0-9]+([.][0-9]*)?([KMGTPE]i?|e[0-9]+)?$"
                 },
                 "inboundNetwork": {
-                  "description": "Broker capacity for inbound network throughput in bytes per second, for example, 10000KB/s.",
+                  "description": "Broker capacity for inbound network throughput in bytes per second. Use an integer value with standard Kubernetes byte units (K, M, G) or their bibyte (power of two) equivalents (Ki, Mi, Gi) per second. For example, 10000KiB/s.",
                   "type": [
                     "string",
                     "null"
@@ -178,7 +178,7 @@
                   "pattern": "^[0-9]+([KMG]i?)?B/s$"
                 },
                 "outboundNetwork": {
-                  "description": "Broker capacity for outbound network throughput in bytes per second, for example 10000KB/s.",
+                  "description": "Broker capacity for outbound network throughput in bytes per second. Use an integer value with standard Kubernetes byte units (K, M, G) or their bibyte (power of two) equivalents (Ki, Mi, Gi) per second. For example, 10000KiB/s.",
                   "type": [
                     "string",
                     "null"
@@ -189,7 +189,7 @@
               "additionalProperties": false
             },
             "config": {
-              "description": "The Cruise Control configuration. For a full list of configuration options refer to https://github.com/linkedin/cruise-control/wiki/Configurations. Note that properties with the following prefixes cannot be set: bootstrap.servers, client.id, zookeeper., network., security., failed.brokers.zk.path,webserver.http., webserver.api.urlprefix, webserver.session.path, webserver.accesslog., two.step., request.reason.required,metric.reporter.sampler.bootstrap.servers, metric.reporter.topic, partition.metric.sample.store.topic, broker.metric.sample.store.topic,capacity.config.file, self.healing., ssl. (with the exception of: ssl.cipher.suites, ssl.protocol, ssl.enabled.protocols, webserver.http.cors.enabled, webserver.http.cors.origin, webserver.http.cors.exposeheaders, webserver.security.enable, webserver.ssl.enable).",
+              "description": "The Cruise Control configuration. For a full list of configuration options refer to https://github.com/linkedin/cruise-control/wiki/Configurations. Note that properties with the following prefixes cannot be set: bootstrap.servers, client.id, zookeeper., network., security., failed.brokers.zk.path,webserver.http., webserver.api.urlprefix, webserver.session.path, webserver.accesslog., two.step., request.reason.required,metric.reporter.sampler.bootstrap.servers, capacity.config.file, self.healing., ssl., kafka.broker.failure.detection.enable, topic.config.provider.class (with the exception of: ssl.cipher.suites, ssl.protocol, ssl.enabled.protocols, webserver.http.cors.enabled, webserver.http.cors.origin, webserver.http.cors.exposeheaders, webserver.security.enable, webserver.ssl.enable).",
               "x-kubernetes-preserve-unknown-fields": true
             },
             "image": {
@@ -1899,7 +1899,7 @@
                       "minimum": 0
                     },
                     "tmpDirSizeLimit": {
-                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `1Mi`.",
+                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `5Mi`.",
                       "type": [
                         "string",
                         "null"
@@ -2056,7 +2056,7 @@
                       "minimum": 0
                     },
                     "metadata": {
-                      "description": "Metadata to apply to the `PodDistruptionBugetTemplate` resource.",
+                      "description": "Metadata to apply to the `PodDisruptionBudgetTemplate` resource.",
                       "type": [
                         "object",
                         "null"
@@ -3608,7 +3608,7 @@
                       "minimum": 0
                     },
                     "tmpDirSizeLimit": {
-                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `1Mi`.",
+                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `5Mi`.",
                       "type": [
                         "string",
                         "null"
@@ -6689,7 +6689,7 @@
                       "minimum": 0
                     },
                     "tmpDirSizeLimit": {
-                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `1Mi`.",
+                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `5Mi`.",
                       "type": [
                         "string",
                         "null"
@@ -6904,6 +6904,14 @@
                     "null"
                   ]
                 },
+                "connectTimeoutSeconds": {
+                  "description": "The connect timeout in seconds when connecting to authorization server. If not set, the effective connect timeout is 60 seconds.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
                 "delegateToKafkaAcls": {
                   "description": "Whether authorization decision should be delegated to the 'Simple' authorizer if DENIED by Keycloak Authorization Services policies. Default value is `false`.",
                   "type": [
@@ -6913,6 +6921,13 @@
                 },
                 "disableTlsHostnameVerification": {
                   "description": "Enable or disable TLS hostname verification. Default value is `false`.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "enableMetrics": {
+                  "description": "Defines whether the Open Policy Agent authorizer plugin should provide metrics. Defaults to `false`.",
                   "type": [
                     "boolean",
                     "null"
@@ -6954,6 +6969,14 @@
                     "integer",
                     "null"
                   ]
+                },
+                "readTimeoutSeconds": {
+                  "description": "The read timeout in seconds when connecting to authorization server. If not set, the effective read timeout is 60 seconds.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
                 },
                 "superUsers": {
                   "description": "List of super users, which are user principals with unlimited access rights.",
@@ -7038,7 +7061,7 @@
               ]
             },
             "config": {
-              "description": "Kafka broker config properties with the following prefixes cannot be set: listeners, advertised., broker., listener., host.name, port, inter.broker.listener.name, sasl., ssl., security., password., principal.builder.class, log.dir, zookeeper.connect, zookeeper.set.acl, zookeeper.ssl, zookeeper.clientCnxnSocket, authorizer., super.user, cruise.control.metrics.topic, cruise.control.metrics.reporter.bootstrap.servers (with the exception of: zookeeper.connection.timeout.ms, ssl.cipher.suites, ssl.protocol, ssl.enabled.protocols,cruise.control.metrics.topic.num.partitions, cruise.control.metrics.topic.replication.factor, cruise.control.metrics.topic.retention.ms,cruise.control.metrics.topic.auto.create.retries, cruise.control.metrics.topic.auto.create.timeout.ms,cruise.control.metrics.topic.min.insync.replicas).",
+              "description": "Kafka broker config properties with the following prefixes cannot be set: listeners, advertised., broker., listener., host.name, port, inter.broker.listener.name, sasl., ssl., security., password., log.dir, zookeeper.connect, zookeeper.set.acl, zookeeper.ssl, zookeeper.clientCnxnSocket, authorizer., super.user, cruise.control.metrics.topic, cruise.control.metrics.reporter.bootstrap.servers,node.id, process.roles, controller. (with the exception of: zookeeper.connection.timeout.ms, ssl.cipher.suites, ssl.protocol, ssl.enabled.protocols,cruise.control.metrics.topic.num.partitions, cruise.control.metrics.topic.replication.factor, cruise.control.metrics.topic.retention.ms,cruise.control.metrics.topic.auto.create.retries, cruise.control.metrics.topic.auto.create.timeout.ms,cruise.control.metrics.topic.min.insync.replicas,controller.quorum.election.backoff.max.ms, controller.quorum.election.timeout.ms, controller.quorum.fetch.timeout.ms).",
               "x-kubernetes-preserve-unknown-fields": true
             },
             "image": {
@@ -7242,6 +7265,13 @@
                         },
                         "additionalProperties": false
                       },
+                      "connectTimeoutSeconds": {
+                        "description": "The connect timeout in seconds when connecting to authorization server. If not set, the effective connect timeout is 60 seconds.",
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
                       "customClaimCheck": {
                         "description": "JsonPath filter query to be applied to the JWT token or to the response of the introspection endpoint for additional token validation. Not set by default.",
                         "type": [
@@ -7291,6 +7321,20 @@
                           "null"
                         ]
                       },
+                      "groupsClaim": {
+                        "description": "JsonPath query used to extract groups for the user during authentication. Extracted groups can be used by a custom authorizer. By default no groups are extracted.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "groupsClaimDelimiter": {
+                        "description": "A delimiter used to parse groups when they are extracted as a single String value rather than a JSON array. Default value is ',' (comma).",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
                       "introspectionEndpointUri": {
                         "description": "URI of the token introspection endpoint which can be used to validate opaque non-JWT tokens.",
                         "type": [
@@ -7329,12 +7373,58 @@
                         ],
                         "minimum": 1
                       },
+                      "listenerConfig": {
+                        "description": "Configuration to be used for a specific listener. All values are prefixed with listener.name._<listener_name>_.",
+                        "x-kubernetes-preserve-unknown-fields": true
+                      },
                       "maxSecondsWithoutReauthentication": {
                         "description": "Maximum number of seconds the authenticated session remains valid without re-authentication. This enables Apache Kafka re-authentication feature, and causes sessions to expire when the access token expires. If the access token expires before max time or if max time is reached, the client has to re-authenticate, otherwise the server will drop the connection. Not set by default - the authenticated session does not expire when the access token expires. This option only applies to SASL_OAUTHBEARER authentication mechanism (when `enableOauthBearer` is `true`).",
                         "type": [
                           "integer",
                           "null"
                         ]
+                      },
+                      "readTimeoutSeconds": {
+                        "description": "The read timeout in seconds when connecting to authorization server. If not set, the effective read timeout is 60 seconds.",
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "sasl": {
+                        "description": "Enable or disable SASL on this listener.",
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "secrets": {
+                        "description": "Secrets to be mounted to /opt/kafka/custom-authn-secrets/custom-listener-_<listener_name>-<port>_/_<secret_name>_.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "key",
+                            "secretName"
+                          ],
+                          "properties": {
+                            "key": {
+                              "description": "The key under which the secret value is stored in the Kubernetes Secret.",
+                              "type": "string"
+                            },
+                            "secretName": {
+                              "description": "The name of the Kubernetes Secret containing the secret value.",
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false
+                        }
                       },
                       "tlsTrustedCertificates": {
                         "description": "Trusted certificates for TLS connection to the OAuth server.",
@@ -7372,12 +7462,13 @@
                         ]
                       },
                       "type": {
-                        "description": "Authentication type. `oauth` type uses SASL OAUTHBEARER Authentication. `scram-sha-512` type uses SASL SCRAM-SHA-512 Authentication. `tls` type uses TLS Client Authentication. `tls` type is supported only on TLS listeners.",
+                        "description": "Authentication type. `oauth` type uses SASL OAUTHBEARER Authentication. `scram-sha-512` type uses SASL SCRAM-SHA-512 Authentication. `tls` type uses TLS Client Authentication. `tls` type is supported only on TLS listeners.`custom` type allows for any authentication type to be used.",
                         "type": "string",
                         "enum": [
                           "tls",
                           "scram-sha-512",
-                          "oauth"
+                          "oauth",
+                          "custom"
                         ]
                       },
                       "userInfoEndpointUri": {
@@ -7570,6 +7661,13 @@
                           "null"
                         ]
                       },
+                      "createBootstrapService": {
+                        "description": "Whether to create the bootstrap service or not. The bootstrap service is created by default (if not specified differently). This field can be used with the `loadBalancer` type listener.",
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
                       "externalTrafficPolicy": {
                         "description": "Specifies whether the service routes external traffic to node-local or cluster-wide endpoints. `Cluster` may cause a second hop to another node and obscures the client source IP. `Local` avoids a second hop for LoadBalancer and Nodeport type services and preserves the client source IP (when supported by the infrastructure). If unspecified, Kubernetes will use `Cluster` as the default.This field can be used only with `loadbalancer` or `nodeport` type listener.",
                         "type": [
@@ -7624,7 +7722,7 @@
                         ]
                       },
                       "loadBalancerSourceRanges": {
-                        "description": "A list of CIDR ranges (for example `10.0.0.0/8` or `130.211.204.1/32`) from which clients can connect to load balancer type listeners. If supported by the platform, traffic through the loadbalancer is restricted to the specified CIDR ranges. This field is applicable only for loadbalancer type services and is ignored if the cloud provider does not support the feature. For more information, see https://v1-17.docs.kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/. This field can be used only with `loadbalancer` type listener.",
+                        "description": "A list of CIDR ranges (for example `10.0.0.0/8` or `130.211.204.1/32`) from which clients can connect to load balancer type listeners. If supported by the platform, traffic through the loadbalancer is restricted to the specified CIDR ranges. This field is applicable only for loadbalancer type services and is ignored if the cloud provider does not support the feature. This field can be used only with `loadbalancer` type listener.",
                         "type": [
                           "array",
                           "null"
@@ -10212,7 +10310,7 @@
                       "minimum": 0
                     },
                     "tmpDirSizeLimit": {
-                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `1Mi`.",
+                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `5Mi`.",
                       "type": [
                         "string",
                         "null"
@@ -10369,7 +10467,35 @@
                       "minimum": 0
                     },
                     "metadata": {
-                      "description": "Metadata to apply to the `PodDistruptionBugetTemplate` resource.",
+                      "description": "Metadata to apply to the `PodDisruptionBudgetTemplate` resource.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "annotations": {
+                          "description": "Annotations added to the resource template. Can be applied to different resources such as `StatefulSets`, `Deployments`, `Pods`, and `Services`.",
+                          "x-kubernetes-preserve-unknown-fields": true
+                        },
+                        "labels": {
+                          "description": "Labels added to the resource template. Can be applied to different resources such as `StatefulSets`, `Deployments`, `Pods`, and `Services`.",
+                          "x-kubernetes-preserve-unknown-fields": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "podSet": {
+                  "description": "Template for Kafka `StrimziPodSet` resource.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "metadata": {
+                      "description": "Metadata applied to the resource.",
                       "type": [
                         "object",
                         "null"
@@ -11961,7 +12087,7 @@
                       "minimum": 0
                     },
                     "tmpDirSizeLimit": {
-                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `1Mi`.",
+                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `5Mi`.",
                       "type": [
                         "string",
                         "null"
@@ -13900,7 +14026,7 @@
                       "minimum": 0
                     },
                     "tmpDirSizeLimit": {
-                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `1Mi`.",
+                      "description": "Defines the total amount (for example `1Gi`) of local storage required for temporary EmptyDir volume (`/tmp`). Default value is `5Mi`.",
                       "type": [
                         "string",
                         "null"
@@ -14057,7 +14183,35 @@
                       "minimum": 0
                     },
                     "metadata": {
-                      "description": "Metadata to apply to the `PodDistruptionBugetTemplate` resource.",
+                      "description": "Metadata to apply to the `PodDisruptionBudgetTemplate` resource.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "annotations": {
+                          "description": "Annotations added to the resource template. Can be applied to different resources such as `StatefulSets`, `Deployments`, `Pods`, and `Services`.",
+                          "x-kubernetes-preserve-unknown-fields": true
+                        },
+                        "labels": {
+                          "description": "Labels added to the resource template. Can be applied to different resources such as `StatefulSets`, `Deployments`, `Pods`, and `Services`.",
+                          "x-kubernetes-preserve-unknown-fields": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "podSet": {
+                  "description": "Template for ZooKeeper `StrimziPodSet` resource.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "metadata": {
+                      "description": "Metadata applied to the resource.",
                       "type": [
                         "object",
                         "null"
@@ -14492,8 +14646,15 @@
                   ]
                 }
               },
+              "name": {
+                "description": "The name of the listener.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "type": {
-                "description": "The type of the listener. Can be one of the following three types: `plain`, `tls`, and `external`.",
+                "description": "*The `type` property has been deprecated, and should now be configured using `name`.* The name of the listener.",
                 "type": [
                   "string",
                   "null"

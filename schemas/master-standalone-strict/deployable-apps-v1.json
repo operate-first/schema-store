@@ -1,9 +1,6 @@
 {
   "description": "Deployable is the Schema for the deployables API",
   "type": "object",
-  "required": [
-    "spec"
-  ],
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -372,7 +369,10 @@
           ]
         },
         "resourceStatus": {
-          "x-kubernetes-preserve-unknown-fields": true
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "targetClusters": {
           "type": [
@@ -413,7 +413,10 @@
                 ]
               },
               "resourceStatus": {
-                "x-kubernetes-preserve-unknown-fields": true
+                "type": [
+                  "object",
+                  "null"
+                ]
               }
             },
             "additionalProperties": false
