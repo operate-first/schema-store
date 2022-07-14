@@ -47,8 +47,22 @@
             "null"
           ]
         },
+        "NATTDiscoveryPort": {
+          "description": "NATTDiscoveryPort represents NAT-T Discovery port (default UDP/4900).",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "NATTEnable": {
+          "description": "NATTEnable represents IPsec NAT-T enabled (default true).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "cableDriver": {
-          "description": "CableDriver represents the submariner cable driver implementation. Available options are libreswan (default) strongswan, and wireguard.",
+          "description": "CableDriver represents the submariner cable driver implementation. Available options are libreswan (default) strongswan, wireguard, and vxlan.",
           "type": [
             "string",
             "null"
@@ -152,6 +166,13 @@
           "properties": {
             "channel": {
               "description": "Channel represents the channel of a submariner subscription.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "installPlanApproval": {
+              "description": "InstallPlanApproval determines whether subscription installation plans are applied automatically.",
               "type": [
                 "string",
                 "null"

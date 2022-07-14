@@ -1,6 +1,36 @@
 {
   "oneOf": [
     {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.AuthCodeList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.AuthRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.ConnectorList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.DeviceRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.DeviceTokenList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.OAuth2ClientList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.OfflineSessionsList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.PasswordList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.RefreshTokenList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.coreos.dex.v1.SigningKeyList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/com.coreos.monitoring.v1.Alertmanager"
     },
     {
@@ -101,45 +131,6 @@
     },
     {
       "$ref": "_definitions.json#/definitions/com.coreos.operators.v2.OperatorConditionList"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ClientConfig"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedCluster"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterClaim"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterList"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterSpec"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterStatus"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterVersion"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1alpha1.ManagedClusterSet"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1alpha1.ManagedClusterSetList"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1alpha1.ManagedClusterSetSpec"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1alpha1.ManagedClusterSetStatus"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.multicloud-operators-foundation.pkg.proxyserver.apis.proxy.v1beta1.ClusterStatus"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.multicloud-operators-foundation.pkg.proxyserver.apis.proxy.v1beta1.ClusterStatusList"
     },
     {
       "$ref": "_definitions.json#/definitions/com.github.openshift.api.apps.v1.CustomDeploymentStrategyParams"
@@ -754,6 +745,12 @@
       "$ref": "_definitions.json#/definitions/com.github.operator-framework.operator-lifecycle-manager.pkg.package-server.apis.operators.v1.PackageManifestStatus"
     },
     {
+      "$ref": "_definitions.json#/definitions/com.github.stolostron.multicloud-operators-foundation.pkg.proxyserver.apis.proxy.v1beta1.ClusterStatus"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.github.stolostron.multicloud-operators-foundation.pkg.proxyserver.apis.proxy.v1beta1.ClusterStatusList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.argoproj.v1alpha1.AppProjectList"
     },
     {
@@ -764,6 +761,150 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.argoproj.v1alpha1.ApplicationSetList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1.Challenge"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1.ChallengeList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1.Order"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1.OrderList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1alpha2.Challenge"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1alpha2.ChallengeList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1alpha2.Order"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1alpha2.OrderList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1alpha3.Challenge"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1alpha3.ChallengeList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1alpha3.Order"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1alpha3.OrderList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1beta1.Challenge"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1beta1.ChallengeList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1beta1.Order"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1beta1.OrderList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1.Certificate"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1.CertificateList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1.CertificateRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1.CertificateRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1.ClusterIssuer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1.ClusterIssuerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1.Issuer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1.IssuerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha2.Certificate"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha2.CertificateList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha2.CertificateRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha2.CertificateRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha2.ClusterIssuer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha2.ClusterIssuerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha2.Issuer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha2.IssuerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha3.Certificate"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha3.CertificateList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha3.CertificateRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha3.CertificateRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha3.ClusterIssuer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha3.ClusterIssuerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha3.Issuer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1alpha3.IssuerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1beta1.Certificate"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1beta1.CertificateList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1beta1.CertificateRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1beta1.CertificateRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1beta1.ClusterIssuer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1beta1.ClusterIssuerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1beta1.Issuer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.cert-manager.v1beta1.IssuerList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.cncf.cni.k8s.v1.NetworkAttachmentDefinition"
@@ -791,6 +932,90 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.devfile.workspace.v1alpha1.DevWorkspaceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.operator.v1alpha1.OperatorConfig"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.operator.v1alpha1.OperatorConfigList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1alpha1.ClusterSecretStore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1alpha1.ClusterSecretStoreList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1alpha1.ExternalSecret"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1alpha1.ExternalSecretList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1alpha1.SecretStore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1alpha1.SecretStoreList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1beta1.ClusterExternalSecret"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1beta1.ClusterExternalSecretList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1beta1.ClusterSecretStore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1beta1.ClusterSecretStoreList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1beta1.ExternalSecret"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1beta1.ExternalSecretList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1beta1.SecretStore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.v1beta1.SecretStoreList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.auth.v1alpha1.DexClient"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.auth.v1alpha1.DexClientList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.auth.v1alpha1.DexServer"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.auth.v1alpha1.DexServerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.identityconfig.v1alpha1.AuthRealm"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.identityconfig.v1alpha1.AuthRealmList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.identityconfig.v1alpha1.ClusterOAuth"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.identityconfig.v1alpha1.ClusterOAuthList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.identityconfig.v1alpha1.IDPConfig"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.identityconfig.v1alpha1.IDPConfigList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.identityconfig.v1alpha1.Strategy"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.identitatem.identityconfig.v1alpha1.StrategyList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.k8s.api.admissionregistration.v1.MutatingWebhook"
@@ -2590,6 +2815,9 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ManagedFieldsEntry"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ManagedFieldsEntry_v2"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.MicroTime"
     },
     {
@@ -2603,6 +2831,9 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.OwnerReference_v2"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.OwnerReference_v3"
     },
     {
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
@@ -2962,6 +3193,39 @@
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.agent.v1.WorkManagerList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ClientConfig"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ManagedCluster"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ManagedClusterClaim"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ManagedClusterList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ManagedClusterSpec"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ManagedClusterStatus"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ManagedClusterVersion"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1beta1.ManagedClusterSet"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1beta1.ManagedClusterSetList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1beta1.ManagedClusterSetSpec"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1beta1.ManagedClusterSetStatus"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.apps.v1.Channel"
     },
     {
@@ -2992,10 +3256,10 @@
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.apps.v1.SubscriptionList"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.open-cluster-management.apps.v1alpha1.GitOpsCluster"
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.apps.v1beta1.GitOpsCluster"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.open-cluster-management.apps.v1alpha1.GitOpsClusterList"
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.apps.v1beta1.GitOpsClusterList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1.ManagedCluster"
@@ -3034,10 +3298,34 @@
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1alpha1.PlacementList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.BackupSchedule"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.BackupScheduleList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.ClusterCurator"
     },
     {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.ClusterCuratorList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.ManagedClusterSet"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.ManagedClusterSetBinding"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.ManagedClusterSetBindingList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.ManagedClusterSetList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.Restore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.cluster.v1beta1.RestoreList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.console.v1.UserPreference"
@@ -3056,6 +3344,12 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.discovery.v1alpha1.DiscoveryConfigList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.imageregistry.v1alpha1.ManagedClusterImageRegistry"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.imageregistry.v1alpha1.ManagedClusterImageRegistryList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.internal.v1beta1.ManagedClusterInfo"
@@ -3086,6 +3380,9 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.operator.v1.ClusterManagerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.operator.v1.Klusterlet"
     },
     {
       "$ref": "_definitions.json#/definitions/io.open-cluster-management.operator.v1.KlusterletList"
@@ -3758,6 +4055,36 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.submariner.v1.GatewayList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.Backup"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.BackupList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.BackupStorageLocation"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.BackupStorageLocationList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.DeleteBackupRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.DeleteBackupRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.Restore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.RestoreList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.Schedule"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.ScheduleList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.wgpolicyk8s.v1alpha2.PolicyReport"

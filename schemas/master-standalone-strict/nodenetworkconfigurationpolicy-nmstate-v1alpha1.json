@@ -115,6 +115,14 @@
             "additionalProperties": false
           }
         },
+        "lastUnavailableNodeCountUpdate": {
+          "description": "LastUnavailableNodeCountUpdate is time of the last UnavailableNodeCount update",
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
         "unavailableNodeCount": {
           "description": "UnavailableNodeCount represents the total number of potentially unavailable nodes that are processing a NodeNetworkConfigurationPolicy",
           "type": [

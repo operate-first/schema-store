@@ -149,6 +149,16 @@
       "version": "v1beta1"
     },
     {
+      "group": "clusterview.open-cluster-management.io",
+      "kind": "WatchEvent",
+      "version": "v1"
+    },
+    {
+      "group": "clusterview.open-cluster-management.io",
+      "kind": "WatchEvent",
+      "version": "v1alpha1"
+    },
+    {
       "group": "coordination.k8s.io",
       "kind": "WatchEvent",
       "version": "v1"

@@ -22,7 +22,7 @@
         "null"
       ],
       "items": {
-        "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.multicloud-operators-foundation.pkg.proxyserver.apis.proxy.v1beta1.ClusterStatus"
+        "$ref": "_definitions.json#/definitions/com.github.stolostron.multicloud-operators-foundation.pkg.proxyserver.apis.proxy.v1beta1.ClusterStatus"
       }
     },
     "kind": {

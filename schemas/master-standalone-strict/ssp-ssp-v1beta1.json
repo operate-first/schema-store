@@ -1713,14 +1713,6 @@
             "additionalProperties": false
           }
         },
-        "observedGeneration": {
-          "description": "ObservedGeneration is the latest generation observed by the operator.",
-          "type": [
-            "integer",
-            "null"
-          ],
-          "format": "int64"
-        },
         "observedVersion": {
           "description": "The observed version of the resource",
           "type": [

@@ -260,7 +260,6 @@
                       "additionalProperties": false
                     },
                     "environment": {
-                      "description": "name of the Azure environment (default AzurePublicCloud)",
                       "type": [
                         "string",
                         "null"
@@ -273,42 +272,15 @@
                       ]
                     },
                     "hostedZoneName": {
-                      "description": "name of the DNS zone that should be used",
                       "type": [
                         "string",
                         "null"
                       ]
                     },
-                    "managedIdentity": {
-                      "description": "managed identity configuration, can not be used at the same time as clientID, clientSecretSecretRef or tenantID",
-                      "type": [
-                        "object",
-                        "null"
-                      ],
-                      "properties": {
-                        "clientID": {
-                          "description": "client ID of the managed identity, can not be used at the same time as resourceID",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "resourceID": {
-                          "description": "resource ID of the managed identity, can not be used at the same time as clientID",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        }
-                      },
-                      "additionalProperties": false
-                    },
                     "resourceGroupName": {
-                      "description": "resource group the DNS zone is located in",
                       "type": "string"
                     },
                     "subscriptionID": {
-                      "description": "ID of the Azure subscription",
                       "type": "string"
                     },
                     "tenantID": {

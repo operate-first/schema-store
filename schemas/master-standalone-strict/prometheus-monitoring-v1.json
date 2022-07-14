@@ -2945,6 +2945,19 @@
             "null"
           ]
         },
+        "enableFeatures": {
+          "description": "Enable access to Prometheus disabled features. By default, no features are enabled. Enabling disabled features is entirely outside the scope of what the maintainers will support and by doing so, you accept that this behaviour may break at any time without notice. For more information see https://prometheus.io/docs/prometheus/latest/disabled_features/",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
         "enforcedNamespaceLabel": {
           "description": "EnforcedNamespaceLabel enforces adding a namespace label of origin for each alert and metric that is user created. The label value will always be the namespace of the object that is being created.",
           "type": [
@@ -5006,7 +5019,7 @@
                 "additionalProperties": false
               },
               "bearerToken": {
-                "description": "bearer token for remote read.",
+                "description": "Bearer token for remote read.",
                 "type": [
                   "string",
                   "null"
@@ -5377,7 +5390,7 @@
                 "additionalProperties": false
               },
               "bearerToken": {
-                "description": "File to read bearer token for remote write.",
+                "description": "Bearer token for remote write.",
                 "type": [
                   "string",
                   "null"
@@ -5389,6 +5402,43 @@
                   "string",
                   "null"
                 ]
+              },
+              "headers": {
+                "description": "Custom HTTP headers to be sent along with each remote write request. Be aware that headers that are set by Prometheus itself can't be overwritten. Only valid in Prometheus versions 2.25.0 and newer.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "metadataConfig": {
+                "description": "MetadataConfig configures the sending of series metadata to remote storage.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "send": {
+                    "description": "Whether metric metadata is sent to remote storage or not.",
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "sendInterval": {
+                    "description": "How frequently metric metadata is sent to remote storage.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
               },
               "name": {
                 "description": "The name of the remote write queue, must be unique if specified. The name is used in metrics and logging in order to differentiate queues. Only valid in Prometheus versions 2.15.0 and newer.",

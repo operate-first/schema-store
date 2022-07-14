@@ -1,0 +1,739 @@
+{
+  "description": "DexServer is the Schema for the dexservers API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "auth.identitatem.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "DexServer"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "DexServerSpec defines the desired state of DexServer",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "connectors": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "ConnectorSpec defines the OIDC connector config details",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "github": {
+                "description": "GitHubConfigSpec describes the configuration specific to the GitHub connector",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "clientID": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "clientSecretRef": {
+                    "description": "SecretReference represents a Secret Reference. It has enough information to retrieve secret in any namespace",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name is unique within a namespace to reference a secret resource.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace defines the space within which the secret name must be unique.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "hostName": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "loadAllGroups": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "org": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "orgs": {
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "description": "Org holds org-team filters (GitHub), in which teams are optional.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "name"
+                      ],
+                      "properties": {
+                        "name": {
+                          "description": "Organization name in github (not slug, full name). Only users in this github organization can authenticate.",
+                          "type": "string"
+                        },
+                        "teams": {
+                          "description": "Names of teams in a github organization. A user will be able to authenticate if they are members of at least one of these teams. Users in the organization can authenticate if this field is omitted from the config file.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "redirectURI": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "rootCA": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "teamNameField": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "useLoginAsID": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "id": {
+                "description": "Unique Id for the connector",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "ldap": {
+                "description": "LDAPConfigSpec describes the configuration specific to the LDAP connector",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "bindDN": {
+                    "description": "The DN for an application service account. The connector uses the bindDN and bindPW as credentials to search for users and groups. Not required if the LDAP server provides access for anonymous auth.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "bindPWRef": {
+                    "description": "Secret reference to the password for an application service account. The connector uses the bindDN and bindPW as credentials to search for users and groups. Not required if the LDAP server provides access for anonymous auth.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name is unique within a namespace to reference a secret resource.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace defines the space within which the secret name must be unique.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "groupSearch": {
+                    "description": "Group search configuration.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "baseDN": {
+                        "description": "BaseDN to start the search from. For example \"cn=groups,dc=example,dc=com\"",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "filter": {
+                        "description": "Optional filter to apply when searching the directory. For example \"(objectClass=posixGroup)\"",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "nameAttr": {
+                        "description": "The attribute of the group that represents its name.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "scope": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "userMatchers": {
+                        "description": "Array of the field pairs used to match a user to a group. See the \"UserMatcher\" struct for the exact field names \n Each pair adds an additional requirement to the filter that an attribute in the group match the user's attribute value. For example that the \"members\" attribute of a group matches the \"uid\" of the user. The exact filter being added is: \n   (userMatchers[n].<groupAttr>=userMatchers[n].<userAttr value>)",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "description": "LDAP UserMatcher holds information about user and group matching",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "groupAttr",
+                            "userAttr"
+                          ],
+                          "properties": {
+                            "groupAttr": {
+                              "type": "string"
+                            },
+                            "userAttr": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "host": {
+                    "description": "The host and optional port of the LDAP server. If port isn't supplied, it will be guessed based on the TLS configuration. 389 or 636.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "insecureNoSSL": {
+                    "description": "Required if LDAP host does not use TLS",
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "insecureSkipVerify": {
+                    "description": "Connect to the insecure port then issue a StartTLS command to negotiate a secure connection. If unsupplied secure connections will use the LDAPS protocol.",
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "rootCAData": {
+                    "description": "A raw certificate file can also be provided inline as a base64 encoded PEM file.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "byte"
+                  },
+                  "rootCARef": {
+                    "description": "Reference to the secret containing a trusted Root CA file - file name and format: \"ca.crt\" Note: If the server uses self-signed certificates, include files with names \"tls.crt\" and \"tls.key\" (representing client certificate and key) in the same secret",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name is unique within a namespace to reference a secret resource.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace defines the space within which the secret name must be unique.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "startTLS": {
+                    "description": "Connect to the insecure port and then issue a StartTLS command to negotiate a secure connection. If unspecified, connections will use the ldaps:// protocol",
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "userSearch": {
+                    "description": "User entry search configuration.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "baseDN": {
+                        "description": "BaseDN to start the search from. For example \"cn=users,dc=example,dc=com\"",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "emailAttr": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "filter": {
+                        "description": "Optional filter to apply when searching the directory. For example \"(objectClass=person)\"",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "idAttr": {
+                        "description": "A mapping of attributes on the user entry to claims.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "nameAttr": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "scope": {
+                        "description": "Can either be: * \"sub\" - search the whole sub tree * \"one\" - only search one level",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "username": {
+                        "description": "Attribute to match against the inputted username. This will be translated and combined with the other filter as \"(<attr>=<username>)\".",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "usernamePrompt": {
+                    "description": "The attribute to display in the provided password prompt. If unset, will display \"Username\"",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "microsoft": {
+                "description": "MicrosoftConfigSpec describes the configuration specific to the Microsoft connector",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "clientID": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "clientSecretRef": {
+                    "description": "SecretReference represents a Secret Reference. It has enough information to retrieve secret in any namespace",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name is unique within a namespace to reference a secret resource.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace defines the space within which the secret name must be unique.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "groups": {
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "onlySecurityGroups": {
+                    "description": "When the groups claim is present in a request to dex and tenant is configured, dex will query Microsoft API to obtain a list of groups the user is a member of. onlySecurityGroups configuration option restricts the list to include only security groups. By default all groups (security, Office 365, mailing lists) are included.",
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "redirectURI": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "tenant": {
+                    "description": "groups claim in dex is only supported when tenant is specified in Microsoft connector config.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "oidc": {
+                "description": "OIDCConfigSpec describes the configuration specific to the OpenID connector",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "claimMapping": {
+                    "description": "ClaimMappingSpec claims mappings",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "email": {
+                        "description": "email is the list of claims whose values should be used as the email address. Optional. If unspecified, no email is set for the identity If there is list of email, we are supporting only first entry from list.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "description": "name is the list of claims whose values should be used as the display name. Optional. If unspecified, no display name is set for the identity If there is list of name, we are supporting only first entry from list.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "preferredUsername": {
+                        "description": "preferredUsername is the list of claims whose values should be used as the preferred username. If unspecified, the preferred username is determined from the value of the sub claim If there is list of preferred username, we are supporting only first entry from list.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "clientID": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "clientSecretRef": {
+                    "description": "SecretReference represents a Secret Reference. It has enough information to retrieve secret in any namespace",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name is unique within a namespace to reference a secret resource.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "namespace": {
+                        "description": "Namespace defines the space within which the secret name must be unique.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "issuer": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "redirectURI": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "type": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "github",
+                  "ldap",
+                  "microsoft",
+                  "oidc"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "ingressCertificateRef": {
+          "description": "Optional bring-your-own-certificate. Otherwise, the default certificate is used for dex server Ingress.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "issuer": {
+          "description": "INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run \"make\" to regenerate code after modifying this file TODO: Issuer references the dex instance web URI. Should this be returned as status?",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "DexServerStatus defines the observed state of DexServer",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "description": "Conditions contains the different condition statuses for this DexServer.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "lastTransitionTime",
+              "message",
+              "reason",
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastTransitionTime": {
+                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                "type": "string",
+                "format": "date-time"
+              },
+              "message": {
+                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                "type": "string",
+                "maxLength": 32768
+              },
+              "observedGeneration": {
+                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64",
+                "minimum": 0
+              },
+              "reason": {
+                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                "type": "string",
+                "maxLength": 1024,
+                "minLength": 1,
+                "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
+              },
+              "status": {
+                "description": "status of the condition, one of True, False, Unknown.",
+                "type": "string",
+                "enum": [
+                  "True",
+                  "False",
+                  "Unknown"
+                ]
+              },
+              "type": {
+                "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                "type": "string",
+                "maxLength": 316,
+                "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "relatedObjects": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "kind": {
+                "description": "the Kind of the referenced resource",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "description": "The name of the referenced object",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "namespace": {
+                "description": "The namespace of the referenced object",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "state": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "auth.identitatem.io",
+      "kind": "DexServer",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

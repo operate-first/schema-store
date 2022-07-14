@@ -1945,6 +1945,13 @@
                 "null"
               ],
               "properties": {
+                "lookbackDelta": {
+                  "description": "The maximum lookback duration for retrieving metrics during expression evaluations.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "replicas": {
                   "description": "Number of Query replicas.",
                   "type": [
@@ -2548,6 +2555,13 @@
                 },
                 "blockDuration": {
                   "description": "Block duration for TSDB block",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "evalInterval": {
+                  "description": "Evaluation interval",
                   "type": [
                     "string",
                     "null"

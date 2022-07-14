@@ -552,6 +552,19 @@
                       ]
                     }
                   },
+                  "authenticationFlowBindingOverrides": {
+                    "description": "Authentication Flow Binding Overrides.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
                   "authorizationServicesEnabled": {
                     "description": "True if fine-grained authorization support is enabled for this client.",
                     "type": [
@@ -1604,12 +1617,138 @@
                 "additionalProperties": false
               }
             },
+            "defaultDefaultClientScopes": {
+              "description": "Default client scopes to add to all new clients",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
             "defaultLocale": {
               "description": "Default Locale",
               "type": [
                 "string",
                 "null"
               ]
+            },
+            "defaultRole": {
+              "description": "Default role",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "attributes": {
+                  "description": "Role Attributes",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "clientRole": {
+                  "description": "Client Role",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "composite": {
+                  "description": "Composite",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "composites": {
+                  "description": "Composites",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "client": {
+                      "description": "Map client => []role",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "realm": {
+                      "description": "Realm roles",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "containerId": {
+                  "description": "Container Id",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "description": {
+                  "description": "Description",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "id": {
+                  "description": "Id",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "name": {
+                  "description": "Name",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
             },
             "displayName": {
               "description": "Realm display name.",
@@ -1850,6 +1989,65 @@
                 "null"
               ],
               "format": "int32"
+            },
+            "otpPolicyAlgorithm": {
+              "description": "OTP Policy Algorithm",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "otpPolicyDigits": {
+              "description": "OTP Policy Digits",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "otpPolicyInitialCounter": {
+              "description": "OTP Policy Initial Counter",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "otpPolicyLookAheadWindow": {
+              "description": "OTP Policy Look Ahead Window",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "otpPolicyPeriod": {
+              "description": "OTP Policy Period",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "otpPolicyType": {
+              "description": "OTP Policy Type",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "otpSupportedApplications": {
+              "description": "OTP Supported Applications",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             },
             "passwordPolicy": {
               "description": "Realm Password Policy",
@@ -2313,6 +2511,13 @@
                   "null"
                 ],
                 "properties": {
+                  "changedSyncPeriod": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  },
                   "config": {
                     "description": "User federation provider config.",
                     "type": [
