@@ -1,0 +1,68 @@
+name: Update schemas in repository
+on:  # yamllint disable-line rule:truthy
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  update-store:
+    strategy:
+      matrix:
+        include:
+          - environment: infra
+            cluster_url: https://api.moc-infra.massopen.cloud:6443
+            cluster_secret: INFRA_SA_TOKEN
+          - environment: smaug
+            cluster_url: https://api.smaug.na.operate-first.cloud:6443
+            cluster_secret: SMAUG_SA_TOKEN
+          - environment: morty
+            cluster_url: https://api.morty.emea.operate-first.cloud:6443
+            cluster_secret: MORTY_SA_TOKEN
+          - environment: rick
+            cluster_url: https://api.rick.emea.operate-first.cloud:6443
+            cluster_secret: RICK_SA_TOKEN
+          - environment: balrog
+            cluster_url: https://api.balrog.aws.operate-first.cloud:6443
+            cluster_secret: BALROG_SA_TOKEN
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get schemas from cluster
+        uses: ./.github/actions/build-schemas
+        with:
+          OPENSHIFT_SERVER: ${{ matrix.cluster_url }}
+          OPENSHIFT_TOKEN: ${{ secrets[matrix.cluster_secret] }}
+        continue-on-error: true
+
+  prepare-pr:
+    runs-on: ubuntu-22.04
+    needs: [update-store]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Move to workspace folder
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE
+
+      - name: Download all workflow artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Move skip_kinds.txt to root folder
+        shell: bash
+        run: |
+          cp -r schemas-artifacts/* .
+          rm -rf schemas-artifacts
+
+      - name: Setup PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: "chore: Generate schemas"
+          branch: generate-schemas
+          delete-branch: true
+          title: Generate schemas
+          body: |
+            This PR is automatically generated. It updates schemas in the repository.
+            More information on how the schemas are updated can be found in the [README](https://github.com/operate-first/schema-store/blob/main/README.md#acquiring-schemas).

@@ -1,0 +1,25 @@
+name: Build Schemas
+description: Gets new schemas from cluster
+runs:
+  using: composite
+  steps:
+    - name: Authenticate and set context
+      uses: redhat-actions/oc-login@v1
+      with:
+        openshift_server_url: ${{ inputs.OPENSHIFT_SERVER }}
+        openshift_token: ${{ inputs.OPENSHIFT_TOKEN }}
+        insecure_skip_tls_verify: true
+    - name: Update schemas
+      shell: bash
+      run: |
+        pip install openapi2jsonschema
+        cd $GITHUB_WORKSPACE
+        python build_schema.py -u $(oc whoami --show-server) -t $(oc whoami -t) -s STRICT
+    - name: Upload artifacts from generating schemas
+      uses: actions/upload-artifact@v3
+      with:
+        name: schemas-artifacts
+        path: |
+          schemas/
+          skip_kinds.txt
+        retention-days: 1
