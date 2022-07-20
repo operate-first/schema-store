@@ -1,5 +1,5 @@
 {
-  "description": "Infrastructure holds cluster-wide information about Infrastructure.  The canonical name is `cluster`",
+  "description": "Infrastructure holds cluster-wide information about Infrastructure.  The canonical name is `cluster` \n Compatibility level 1: Stable within a major release for a minimum of 12 months or 3 minor releases (whichever is longer).",
   "type": "object",
   "required": [
     "spec"
@@ -222,14 +222,15 @@
           ]
         },
         "controlPlaneTopology": {
-          "description": "controlPlaneTopology expresses the expectations for operands that normally run on control nodes. The default is 'HighlyAvailable', which represents the behavior operators have in a \"normal\" cluster. The 'SingleReplica' mode will be used in single-node deployments and the operators should not configure the operand for highly-available operation",
+          "description": "controlPlaneTopology expresses the expectations for operands that normally run on control nodes. The default is 'HighlyAvailable', which represents the behavior operators have in a \"normal\" cluster. The 'SingleReplica' mode will be used in single-node deployments and the operators should not configure the operand for highly-available operation The 'External' mode indicates that the control plane is hosted externally to the cluster and that its components are not visible within the cluster.",
           "type": [
             "string",
             "null"
           ],
           "enum": [
             "HighlyAvailable",
-            "SingleReplica"
+            "SingleReplica",
+            "External"
           ]
         },
         "etcdDiscoveryDomain": {
@@ -247,7 +248,7 @@
           ]
         },
         "infrastructureTopology": {
-          "description": "infrastructureTopology expresses the expectations for infrastructure services that do not run on control plane nodes, usually indicated by a node selector for a `role` value other than `master`. The default is 'HighlyAvailable', which represents the behavior operators have in a \"normal\" cluster. The 'SingleReplica' mode will be used in single-node deployments and the operators should not configure the operand for highly-available operation",
+          "description": "infrastructureTopology expresses the expectations for infrastructure services that do not run on control plane nodes, usually indicated by a node selector for a `role` value other than `master`. The default is 'HighlyAvailable', which represents the behavior operators have in a \"normal\" cluster. The 'SingleReplica' mode will be used in single-node deployments and the operators should not configure the operand for highly-available operation NOTE: External topology mode is not applicable for this field.",
           "type": [
             "string",
             "null"
@@ -379,6 +380,13 @@
                 "null"
               ],
               "properties": {
+                "armEndpoint": {
+                  "description": "armEndpoint specifies a URL to use for resource management in non-soverign clouds such as Azure Stack.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "cloudName": {
                   "description": "cloudName is the name of the Azure cloud environment which can be used to configure the Azure SDK with the appropriate Azure API endpoints. If empty, the value is equal to `AzurePublicCloud`.",
                   "type": [
@@ -390,7 +398,8 @@
                     "AzurePublicCloud",
                     "AzureUSGovernmentCloud",
                     "AzureChinaCloud",
-                    "AzureGermanCloud"
+                    "AzureGermanCloud",
+                    "AzureStackCloud"
                   ]
                 },
                 "networkResourceGroupName": {
@@ -496,6 +505,13 @@
                 "null"
               ],
               "properties": {
+                "cisInstanceCRN": {
+                  "description": "CISInstanceCRN is the CRN of the Cloud Internet Services instance managing the DNS zone for the cluster's base domain",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "location": {
                   "description": "Location is where the cluster has been deployed",
                   "type": [

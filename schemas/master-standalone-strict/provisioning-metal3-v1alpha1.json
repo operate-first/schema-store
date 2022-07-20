@@ -33,6 +33,55 @@
         "null"
       ],
       "properties": {
+        "bootIsoSource": {
+          "description": "BootIsoSource provides a way to set the location where the iso image to boot the nodes will be served from. By default the boot iso image is cached locally and served from the Provisioning service (Ironic) nodes using an auxiliary httpd server. If the boot iso image is already served by an httpd server, setting this option to http allows to directly provide the image from there; in this case, the network (either internal or external) where the httpd server that hosts the boot iso is needs to be accessible by the metal3 pod.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "local",
+            "http"
+          ]
+        },
+        "preProvisioningOSDownloadURLs": {
+          "description": "PreprovisioningOSDownloadURLs is set of CoreOS Live URLs that would be necessary to provision a worker either using virtual media or PXE.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "initramfsURL": {
+              "description": "InitramfsURL Image URL to be used for PXE deployments",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "isoURL": {
+              "description": "IsoURL Image URL to be used for Live ISO deployments",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "kernelURL": {
+              "description": "KernelURL is an Image URL to be used for PXE deployments",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "rootfsURL": {
+              "description": "RootfsURL Image URL to be used for PXE deployments",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
         "provisioningDHCPExternal": {
           "description": "ProvisioningDHCPExternal indicates whether the DHCP server for IP addresses in the provisioning DHCP range is present within the metal3 cluster or external to it. This field is being deprecated in favor of provisioningNetwork.",
           "type": [
@@ -61,6 +110,19 @@
             "null"
           ]
         },
+        "provisioningMacAddresses": {
+          "description": "ProvisioningMacAddresses is a list of mac addresses of network interfaces on a baremetal server to the provisioning network. Use this instead of ProvisioningInterface to allow interfaces of different names. If not provided it will be populated by the BMH.Spec.BootMacAddress of each master.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
         "provisioningNetwork": {
           "description": "ProvisioningNetwork provides a way to indicate the state of the underlying network configuration for the provisioning network. This field can have one of the following values - `Managed`- when the provisioning network is completely managed by the Baremetal IPI solution. `Unmanaged`- when the provsioning network is present and used but the user is responsible for managing DHCP. Virtual media provisioning is recommended but PXE is still available if required. `Disabled`- when the provisioning network is fully disabled. User can bring up the baremetal cluster using virtual media or assisted installation. If using metal3 for power management, BMCs must be accessible from the machine networks. User should provide two IPs on the external network that would be used for provisioning services.",
           "type": [
@@ -74,7 +136,7 @@
           ]
         },
         "provisioningNetworkCIDR": {
-          "description": "ProvisioningNetworkCIDR is the network on which the baremetal nodes are provisioned. The provisioningIP and the IPs in the dhcpRange all come from within this network.",
+          "description": "ProvisioningNetworkCIDR is the network on which the baremetal nodes are provisioned. The provisioningIP and the IPs in the dhcpRange all come from within this network. When using IPv6 and in a network managed by the Baremetal IPI solution this cannot be a network larger than a /64.",
           "type": [
             "string",
             "null"
@@ -84,6 +146,13 @@
           "description": "ProvisioningOSDownloadURL is the location from which the OS Image used to boot baremetal host machines can be downloaded by the metal3 cluster.",
           "type": [
             "string",
+            "null"
+          ]
+        },
+        "virtualMediaViaExternalNetwork": {
+          "description": "VirtualMediaViaExternalNetwork flag when set to \"true\" allows for workers to boot via Virtual Media and contact metal3 over the External Network. When the flag is set to \"false\" (which is the default), virtual media deployments can still happen based on the configuration specified in the ProvisioningNetwork i.e when in Disabled mode, over the External Network and over Provisioning Network when in Managed mode. PXE deployments will always use the Provisioning Network and will not be affected by this flag.",
+          "type": [
+            "boolean",
             "null"
           ]
         },

@@ -155,6 +155,23 @@
           },
           "additionalProperties": false
         },
+        "customDeploy": {
+          "description": "A custom deploy procedure.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "method"
+          ],
+          "properties": {
+            "method": {
+              "description": "Custom deploy method name. This name is specific to the deploy ramdisk used. If you don't have a custom deploy ramdisk, you shouldn't use CustomDeploy.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
         "description": {
           "description": "Description is a human-entered text used to help identify the host",
           "type": [
@@ -168,6 +185,49 @@
             "boolean",
             "null"
           ]
+        },
+        "firmware": {
+          "description": "BIOS configuration for bare metal server",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "simultaneousMultithreadingEnabled": {
+              "description": "Allows a single physical processor core to appear as several logical processors. This supports following options: true, false.",
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "sriovEnabled": {
+              "description": "SR-IOV support enables a hypervisor to create virtual instances of a PCI-express device, potentially increasing performance. This supports following options: true, false.",
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "enum": [
+                true,
+                false
+              ]
+            },
+            "virtualizationEnabled": {
+              "description": "Supports the virtualization of platform hardware. This supports following options: true, false.",
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          "additionalProperties": false
         },
         "hardwareProfile": {
           "description": "What is the name of the hardware profile for this host? It should only be necessary to set this when inspection cannot automatically determine the profile.",
@@ -286,7 +346,7 @@
           ],
           "properties": {
             "hardwareRAIDVolumes": {
-              "description": "The list of logical disks for hardware RAID, if rootDeviceHints isn't used, first volume is root volume.",
+              "description": "The list of logical disks for hardware RAID, if rootDeviceHints isn't used, first volume is root volume. You can set the value of this field to `[]` to clear all the hardware RAID configurations.",
               "type": [
                 "array",
                 "null"
@@ -351,7 +411,7 @@
               }
             },
             "softwareRAIDVolumes": {
-              "description": "The list of logical disks for software RAID, if rootDeviceHints isn't used, first volume is root volume. If HardwareRAIDVolumes is set this item will be invalid. The number of created Software RAID devices must be 1 or 2. If there is only one Software RAID device, it has to be a RAID-1. If there are two, the first one has to be a RAID-1, while the RAID level for the second one can be 0, 1, or 1+0. As the first RAID device will be the deployment device, enforcing a RAID-1 reduces the risk of ending up with a non-booting node in case of a disk failure.",
+              "description": "The list of logical disks for software RAID, if rootDeviceHints isn't used, first volume is root volume. If HardwareRAIDVolumes is set this item will be invalid. The number of created Software RAID devices must be 1 or 2. If there is only one Software RAID device, it has to be a RAID-1. If there are two, the first one has to be a RAID-1, while the RAID level for the second one can be 0, 1, or 1+0. As the first RAID device will be the deployment device, enforcing a RAID-1 reduces the risk of ending up with a non-booting node in case of a disk failure. Software RAID will always be deleted.",
               "type": [
                 "array",
                 "null"
@@ -954,7 +1014,7 @@
                     ]
                   },
                   "rotational": {
-                    "description": "Whether this disk represents rotational storage",
+                    "description": "Whether this disk represents rotational storage. This field is not recommended for usage, please prefer using 'Type' field instead, this field will be deprecated eventually.",
                     "type": [
                       "boolean",
                       "null"
@@ -974,6 +1034,18 @@
                       "null"
                     ],
                     "format": "int64"
+                  },
+                  "type": {
+                    "description": "Device type, one of: HDD, SSD, NVME.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "HDD",
+                      "SSD",
+                      "NVME"
+                    ]
                   },
                   "vendor": {
                     "description": "The name of the vendor of the device",
@@ -1164,6 +1236,66 @@
                 "legacy"
               ]
             },
+            "customDeploy": {
+              "description": "Custom deploy procedure applied to the host.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "method"
+              ],
+              "properties": {
+                "method": {
+                  "description": "Custom deploy method name. This name is specific to the deploy ramdisk used. If you don't have a custom deploy ramdisk, you shouldn't use CustomDeploy.",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "firmware": {
+              "description": "The Bios set by the user",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "simultaneousMultithreadingEnabled": {
+                  "description": "Allows a single physical processor core to appear as several logical processors. This supports following options: true, false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ],
+                  "enum": [
+                    true,
+                    false
+                  ]
+                },
+                "sriovEnabled": {
+                  "description": "SR-IOV support enables a hypervisor to create virtual instances of a PCI-express device, potentially increasing performance. This supports following options: true, false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ],
+                  "enum": [
+                    true,
+                    false
+                  ]
+                },
+                "virtualizationEnabled": {
+                  "description": "Supports the virtualization of platform hardware. This supports following options: true, false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ],
+                  "enum": [
+                    true,
+                    false
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
             "image": {
               "description": "Image holds the details of the last image successfully provisioned to the host.",
               "type": [
@@ -1222,7 +1354,7 @@
               ],
               "properties": {
                 "hardwareRAIDVolumes": {
-                  "description": "The list of logical disks for hardware RAID, if rootDeviceHints isn't used, first volume is root volume.",
+                  "description": "The list of logical disks for hardware RAID, if rootDeviceHints isn't used, first volume is root volume. You can set the value of this field to `[]` to clear all the hardware RAID configurations.",
                   "type": [
                     "array",
                     "null"
@@ -1287,7 +1419,7 @@
                   }
                 },
                 "softwareRAIDVolumes": {
-                  "description": "The list of logical disks for software RAID, if rootDeviceHints isn't used, first volume is root volume. If HardwareRAIDVolumes is set this item will be invalid. The number of created Software RAID devices must be 1 or 2. If there is only one Software RAID device, it has to be a RAID-1. If there are two, the first one has to be a RAID-1, while the RAID level for the second one can be 0, 1, or 1+0. As the first RAID device will be the deployment device, enforcing a RAID-1 reduces the risk of ending up with a non-booting node in case of a disk failure.",
+                  "description": "The list of logical disks for software RAID, if rootDeviceHints isn't used, first volume is root volume. If HardwareRAIDVolumes is set this item will be invalid. The number of created Software RAID devices must be 1 or 2. If there is only one Software RAID device, it has to be a RAID-1. If there are two, the first one has to be a RAID-1, while the RAID level for the second one can be 0, 1, or 1+0. As the first RAID device will be the deployment device, enforcing a RAID-1 reduces the risk of ending up with a non-booting node in case of a disk failure. Software RAID will always be deleted.",
                   "type": [
                     "array",
                     "null"

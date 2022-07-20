@@ -177,6 +177,13 @@
                 "null"
               ]
             },
+            "proxyUrl": {
+              "description": "Optional ProxyURL.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "scheme": {
               "description": "HTTP scheme to use for scraping. Defaults to `http`.",
               "type": [
