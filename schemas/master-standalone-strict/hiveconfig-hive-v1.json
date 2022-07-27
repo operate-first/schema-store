@@ -149,6 +149,17 @@
               },
               "additionalProperties": false
             },
+            "dnsRecordType": {
+              "description": "DNSRecordType defines what type of DNS record should be created in Private Hosted Zone for the customer cluster's API endpoint (which is the VPC Endpoint's regional DNS name).",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "Alias",
+                "ARecord"
+              ]
+            },
             "endpointVPCInventory": {
               "description": "EndpointVPCInventory is a list of VPCs and the corresponding subnets in various AWS regions. The controller uses this list to choose a VPC for creating AWS VPC Endpoints. Since the VPC Endpoints must be in the same region as the ClusterDeployment, we must have VPCs in that region to be able to setup Private Link.",
               "type": [
@@ -625,6 +636,20 @@
                   "resourceGroupName"
                 ],
                 "properties": {
+                  "cloudName": {
+                    "description": "CloudName is the name of the Azure cloud environment which can be used to configure the Azure SDK with the appropriate Azure API endpoints. If empty, the value is equal to \"AzurePublicCloud\".",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "",
+                      "AzurePublicCloud",
+                      "AzureUSGovernmentCloud",
+                      "AzureChinaCloud",
+                      "AzureGermanCloud"
+                    ]
+                  },
                   "credentialsSecretRef": {
                     "description": "CredentialsSecretRef references a secret in the TargetNamespace that will be used to authenticate with Azure DNS. It wil need permission to manage entries in each of the managed domains listed in the parent ManageDNSConfig object. Secret should have a key named 'osServicePrincipal.json'",
                     "type": "object",

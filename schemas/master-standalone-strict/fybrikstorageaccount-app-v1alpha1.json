@@ -1,6 +1,9 @@
 {
   "description": "FybrikStorageAccount defines a storage account used for copying data. Only S3 based storage is supported. It contains endpoint, region and a reference to the credentials a Owner of the asset is responsible to store the credentials",
   "type": "object",
+  "required": [
+    "spec"
+  ],
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -34,24 +37,22 @@
       ],
       "required": [
         "endpoint",
-        "regions",
+        "id",
+        "region",
         "secretRef"
       ],
       "properties": {
         "endpoint": {
-          "description": "Endpoint",
+          "description": "Endpoint for accessing the data",
           "type": "string"
         },
-        "regions": {
-          "description": "Regions",
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
+        "id": {
+          "description": "Identification of a storage account",
+          "type": "string"
+        },
+        "region": {
+          "description": "Storage region",
+          "type": "string"
         },
         "secretRef": {
           "description": "A name of k8s secret deployed in the control plane. This secret includes secretKey and accessKey credentials for S3 bucket",

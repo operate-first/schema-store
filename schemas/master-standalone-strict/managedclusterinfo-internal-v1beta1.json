@@ -227,6 +227,31 @@
                     "null"
                   ]
                 },
+                "managedClusterClientConfig": {
+                  "description": "Controller will sync this field to managedcluster's ManagedClusterClientConfigs",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "url"
+                  ],
+                  "properties": {
+                    "caBundle": {
+                      "description": "CABundle is the ca bundle to connect to apiserver of the managed cluster. System certs are used if it is not set.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "byte"
+                    },
+                    "url": {
+                      "description": "URL is the URL of apiserver endpoint of the managed cluster.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "upgradeFailed": {
                   "description": "UpgradeFailed indicates whether upgrade of the manage cluster is failed. This is true if the status of Failing condition is True and the version is different with desiredVersion in clusterVersion",
                   "type": [

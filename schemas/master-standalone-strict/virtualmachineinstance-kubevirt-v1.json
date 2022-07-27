@@ -1237,6 +1237,23 @@
                     "null"
                   ]
                 },
+                "numa": {
+                  "description": "NUMA allows specifying settings for the guest NUMA topology",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "guestMappingPassthrough": {
+                      "description": "GuestMappingPassthrough will create an efficient guest topology based on host CPUs exclusively assigned to a pod. The created topology ensures that memory and CPUs on the virtual numa nodes never cross boundaries of host numa nodes.",
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "sockets": {
                   "description": "Sockets specifies the number of sockets inside the vmi. Must be a value greater or equal 1.",
                   "type": [
@@ -1292,6 +1309,13 @@
                   "description": "Whether or not to enable virtio multi-queue for block devices. Defaults to false.",
                   "type": [
                     "boolean",
+                    "null"
+                  ]
+                },
+                "clientPassthrough": {
+                  "description": "To configure and access client devices such as redirecting USB",
+                  "type": [
+                    "object",
                     "null"
                   ]
                 },
@@ -2327,6 +2351,68 @@
                   },
                   "additionalProperties": false
                 },
+                "kernelBoot": {
+                  "description": "Settings to set the kernel for booting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "container": {
+                      "description": "Container defines the container that containes kernel artifacts",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "image"
+                      ],
+                      "properties": {
+                        "image": {
+                          "description": "Image that container initrd / kernel files.",
+                          "type": "string"
+                        },
+                        "imagePullPolicy": {
+                          "description": "Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "imagePullSecret": {
+                          "description": "ImagePullSecret is the name of the Docker registry secret required to pull the image. The secret must already exist.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "initrdPath": {
+                          "description": "the fully-qualified path to the ramdisk image in the host OS",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "kernelPath": {
+                          "description": "The fully-qualified path to the kernel image in the host OS",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "kernelArgs": {
+                      "description": "Arguments to be passed to the kernel at boot time",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "serial": {
                   "description": "The system-serial-number in SMBIOS",
                   "type": [
@@ -2357,13 +2443,13 @@
                 "object",
                 "null"
               ],
-              "required": [
-                "type"
-              ],
               "properties": {
                 "type": {
                   "description": "QEMU machine type is the actual chipset of the VirtualMachineInstance.",
-                  "type": "string"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false
@@ -2463,6 +2549,29 @@
             "null"
           ],
           "properties": {
+            "exec": {
+              "description": "One and only one of the following should be specified. Exec specifies the action to take, it will be executed on the guest through the qemu-guest-agent. If the guest agent is not available, this probe will fail.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "command": {
+                  "description": "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
             "failureThreshold": {
               "description": "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.",
               "type": [
@@ -2470,6 +2579,13 @@
                 "null"
               ],
               "format": "int32"
+            },
+            "guestAgentPing": {
+              "description": "GuestAgentPing contacts the qemu-guest-agent for availability checks.",
+              "type": [
+                "object",
+                "null"
+              ]
             },
             "httpGet": {
               "description": "HTTPGet specifies the http request to perform.",
@@ -2587,7 +2703,7 @@
               "additionalProperties": false
             },
             "timeoutSeconds": {
-              "description": "Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
+              "description": "Number of seconds after which the probe times out. For exec probes the timeout fails the probe but does not terminate the command running on the guest. This means a blocking command can result in an increasing load on the guest. A small buffer will be added to the resulting workload exec probe to compensate for delays caused by the qemu guest exec mechanism. Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
               "type": [
                 "integer",
                 "null"
@@ -2696,6 +2812,29 @@
             "null"
           ],
           "properties": {
+            "exec": {
+              "description": "One and only one of the following should be specified. Exec specifies the action to take, it will be executed on the guest through the qemu-guest-agent. If the guest agent is not available, this probe will fail.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "command": {
+                  "description": "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
             "failureThreshold": {
               "description": "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.",
               "type": [
@@ -2703,6 +2842,13 @@
                 "null"
               ],
               "format": "int32"
+            },
+            "guestAgentPing": {
+              "description": "GuestAgentPing contacts the qemu-guest-agent for availability checks.",
+              "type": [
+                "object",
+                "null"
+              ]
             },
             "httpGet": {
               "description": "HTTPGet specifies the http request to perform.",
@@ -2820,7 +2966,7 @@
               "additionalProperties": false
             },
             "timeoutSeconds": {
-              "description": "Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
+              "description": "Number of seconds after which the probe times out. For exec probes the timeout fails the probe but does not terminate the command running on the guest. This means a blocking command can result in an increasing load on the guest. A small buffer will be added to the resulting workload exec probe to compensate for delays caused by the qemu guest exec mechanism. Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
               "type": [
                 "integer",
                 "null"
@@ -3260,6 +3406,13 @@
                 },
                 "additionalProperties": false
               },
+              "downwardMetrics": {
+                "description": "DownwardMetrics adds a very small disk to VMIs which contains a limited view of host and guest metrics. The disk content is compatible with vhostmd (https://github.com/vhostmd/vhostmd) and vm-dump-metrics.",
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
               "emptyDisk": {
                 "description": "EmptyDisk represents a temporary disk which shares the vmis lifecycle. More info: https://kubevirt.gitbooks.io/user-guide/disks-and-volumes.html",
                 "type": [
@@ -3544,6 +3697,13 @@
             "null"
           ]
         },
+        "fsFreezeStatus": {
+          "description": "FSFreezeStatus is the state of the fs of the guest it can be either frozen or thawed",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "guestOSInfo": {
           "description": "Guest OS Information",
           "type": [
@@ -3745,6 +3905,13 @@
               "description": "The time the migration action began",
               "format": "date-time"
             },
+            "targetAttachmentPodUID": {
+              "description": "The UID of the target attachment pod for hotplug volumes",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "targetDirectMigrationNodePorts": {
               "description": "The list of ports opened for live migration on the destination node",
               "type": [
@@ -3803,6 +3970,39 @@
             "null"
           ]
         },
+        "phaseTransitionTimestamps": {
+          "description": "PhaseTransitionTimestamp is the timestamp of when the last phase change occurred",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "VirtualMachineInstancePhaseTransitionTimestamp gives a timestamp in relation to when a phase is set on a vmi",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "phase": {
+                "description": "Phase is the status of the VirtualMachineInstance in kubernetes world. It is not the VirtualMachineInstance status, but partially correlates to it.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "phaseTransitionTimestamp": {
+                "description": "PhaseTransitionTimestamp is the timestamp of when the phase change occurred",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              }
+            },
+            "additionalProperties": false
+          },
+          "x-kubernetes-list-type": "atomic"
+        },
         "qosClass": {
           "description": "The Quality of Service (QOS) classification assigned to the virtual machine instance based on resource requirements See PodQOSClass type for available QOS classes More info: https://git.k8s.io/community/contributors/design-proposals/node/resource-qos.md",
           "type": [
@@ -3812,6 +4012,29 @@
         },
         "reason": {
           "description": "A brief CamelCase message indicating details about why the VMI is in this state. e.g. 'NodeUnresponsive'",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "topologyHints": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "tscFrequency": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int64"
+            }
+          },
+          "additionalProperties": false
+        },
+        "virtualMachineRevisionName": {
+          "description": "VirtualMachineRevisionName is used to get the vm revision of the vmi when doing an online vm snapshot",
           "type": [
             "string",
             "null"
@@ -3869,6 +4092,55 @@
                 "description": "Name is the name of the volume",
                 "type": "string"
               },
+              "persistentVolumeClaimInfo": {
+                "description": "PersistentVolumeClaimInfo is information about the PVC that handler requires during start flow",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "accessModes": {
+                    "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "x-kubernetes-list-type": "atomic"
+                  },
+                  "capacity": {
+                    "description": "Capacity represents the capacity set on the corresponding PVC spec",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                      "x-kubernetes-int-or-string": true
+                    }
+                  },
+                  "preallocated": {
+                    "description": "Preallocated indicates if the PVC's storage is preallocated or not",
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "volumeMode": {
+                    "description": "VolumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
               "phase": {
                 "description": "Phase is the phase",
                 "type": [
@@ -3882,6 +4154,14 @@
                   "string",
                   "null"
                 ]
+              },
+              "size": {
+                "description": "Represents the size of the volume",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64"
               },
               "target": {
                 "description": "Target is the target name used when adding the volume to the VM, eg: vda",

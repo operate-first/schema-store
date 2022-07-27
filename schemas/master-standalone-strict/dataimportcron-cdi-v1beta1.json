@@ -1,0 +1,211 @@
+{
+  "description": "DataImportCron defines a cron job for recurring polling/importing disk images as PVCs into a golden image namespace",
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "cdi.kubevirt.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "DataImportCron"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "DataImportCronSpec defines specification for DataImportCron",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "managedDataSource",
+        "schedule",
+        "source"
+      ],
+      "properties": {
+        "garbageCollect": {
+          "description": "GarbageCollect specifies whether old PVCs should be cleaned up after a new PVC is imported. Options are currently \"Never\" and \"Outdated\", defaults to \"Never\".",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "managedDataSource": {
+          "description": "ManagedDataSource specifies the name of the corresponding DataSource this cron will manage. DataSource has to be in the same namespace.",
+          "type": "string"
+        },
+        "schedule": {
+          "description": "Schedule specifies in cron format when and how often to look for new imports",
+          "type": "string"
+        },
+        "source": {
+          "description": "Source specifies where to poll disk images from",
+          "type": "object",
+          "required": [
+            "registry"
+          ],
+          "properties": {
+            "registry": {
+              "description": "DataVolumeSourceRegistry provides the parameters to create a Data Volume from an registry source",
+              "type": "object",
+              "required": [
+                "url"
+              ],
+              "properties": {
+                "certConfigMap": {
+                  "description": "CertConfigMap provides a reference to the Registry certs",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "secretRef": {
+                  "description": "SecretRef provides the secret reference needed to access the Registry source",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "url": {
+                  "description": "URL is the url of the Docker registry source",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "DataImportCronStatus provides the most recently observed status of the DataImportCron",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "DataImportCronCondition represents the state of a data import cron condition",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastHeartbeatTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": "string"
+              },
+              "type": {
+                "description": "DataImportCronConditionType is the string representation of known condition types",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "lastExecutionTimestamp": {
+          "description": "LastExecutionTimestamp is the time of the last polling",
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "lastImportTimestamp": {
+          "description": "LastImportTimestamp is the time of the last import",
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "lastImportedPVC": {
+          "description": "LastImportedPVC is the last imported PVC",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "name",
+            "namespace"
+          ],
+          "properties": {
+            "name": {
+              "description": "The name of the source PVC",
+              "type": "string"
+            },
+            "namespace": {
+              "description": "The namespace of the source PVC",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "cdi.kubevirt.io",
+      "kind": "DataImportCron",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

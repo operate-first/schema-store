@@ -32,10 +32,6 @@
         "object",
         "null"
       ],
-      "required": [
-        "profile",
-        "recommend"
-      ],
       "properties": {
         "managementState": {
           "description": "managementState indicates whether the registry instance represented by this config instance is under operator management or not.  Valid values are Force, Managed, Unmanaged, and Removed.",
@@ -47,7 +43,10 @@
         },
         "profile": {
           "description": "Tuned profiles.",
-          "type": "array",
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "description": "A Tuned profile.",
             "type": [
@@ -73,7 +72,10 @@
         },
         "recommend": {
           "description": "Selection logic for all Tuned profiles.",
-          "type": "array",
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "description": "Selection logic for a single Tuned profile.",
             "type": [

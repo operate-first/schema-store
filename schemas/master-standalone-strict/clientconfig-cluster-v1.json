@@ -14,7 +14,7 @@
       "format": "byte"
     },
     "url": {
-      "description": "URL is the url of apiserver endpoint of the managed cluster.",
+      "description": "URL is the URL of apiserver endpoint of the managed cluster.",
       "type": [
         "string",
         "null"

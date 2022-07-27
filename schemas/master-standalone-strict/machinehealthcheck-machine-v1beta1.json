@@ -39,10 +39,6 @@
       "properties": {
         "maxUnhealthy": {
           "description": "Any farther remediation is only allowed if at most \"MaxUnhealthy\" machines selected by \"selector\" are not healthy. Expects either a postive integer value or a percentage value. Percentage values must be positive whole numbers and are capped at 100%. Both 0 and 0% are valid and will block all remediation.",
-          "type": [
-            "string",
-            "null"
-          ],
           "pattern": "^((100|[0-9]{1,2})%|[0-9]+)$",
           "x-kubernetes-int-or-string": true
         },

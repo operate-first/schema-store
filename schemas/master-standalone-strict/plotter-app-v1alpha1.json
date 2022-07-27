@@ -1,6 +1,9 @@
 {
   "description": "Plotter is the Schema for the plotters API",
   "type": "object",
+  "required": [
+    "spec"
+  ],
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -35,9 +38,14 @@
       "required": [
         "assets",
         "flows",
+        "modulesNamespace",
         "templates"
       ],
       "properties": {
+        "appInfo": {
+          "description": "Application context to be transferred to the modules",
+          "x-kubernetes-preserve-unknown-fields": true
+        },
         "appSelector": {
           "description": "Selector enables to connect the resource to the application Application labels should match the labels in the selector. For some flows the selector may not be used.",
           "type": [
@@ -144,22 +152,29 @@
                 "description": "DataStore contains the details for accesing the data that are sent by catalog connectors Credentials for accesing the data are stored in Vault, in the location represented by Vault property.",
                 "type": "object",
                 "required": [
-                  "connection",
-                  "format",
-                  "vault"
+                  "connection"
                 ],
                 "properties": {
                   "connection": {
                     "description": "Connection has the relevant details for accesing the data (url, table, ssl, etc.)",
+                    "required": [
+                      "name"
+                    ],
                     "x-kubernetes-preserve-unknown-fields": true
                   },
                   "format": {
                     "description": "Format represents data format (e.g. parquet) as received from catalog connectors",
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "vault": {
                     "description": "Holds details for retrieving credentials by the modules from Vault store. It is a map so that different credentials can be stored for the different DataFlow operations.",
-                    "type": "object",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
                     "additionalProperties": {
                       "description": "Holds details for retrieving credentials from Vault store.",
                       "type": [
@@ -221,7 +236,13 @@
               },
               "flowType": {
                 "description": "Type of the flow (e.g. read)",
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "read",
+                  "write",
+                  "delete",
+                  "copy"
+                ]
               },
               "name": {
                 "description": "Name of the flow",
@@ -244,7 +265,13 @@
                   "properties": {
                     "flowType": {
                       "description": "Type of the flow (e.g. read)",
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "read",
+                        "write",
+                        "delete",
+                        "copy"
+                      ]
                     },
                     "name": {
                       "description": "Name of the SubFlow",
@@ -292,123 +319,31 @@
                                     "null"
                                   ],
                                   "items": {
+                                    "required": [
+                                      "name"
+                                    ],
                                     "x-kubernetes-preserve-unknown-fields": true
                                   }
                                 },
                                 "api": {
-                                  "description": "Service holds information for accessing a module instance",
+                                  "description": "ResourceDetails includes asset connection details",
                                   "type": [
                                     "object",
                                     "null"
                                   ],
                                   "required": [
-                                    "endpoint",
-                                    "format"
+                                    "connection"
                                   ],
                                   "properties": {
-                                    "endpoint": {
-                                      "description": "EndpointSpec is used both by the module creator and by the status of the fybrikapplication",
-                                      "type": "object",
+                                    "connection": {
+                                      "description": "Connection information",
                                       "required": [
-                                        "port",
-                                        "scheme"
+                                        "name"
                                       ],
-                                      "properties": {
-                                        "hostname": {
-                                          "description": "Hostname is the hostname to connect to for connecting to a module exposed service. By default this equals to \"fybrik-crd.fybrik-system\" of the module. <br/> Module developers can overide the default behavior by providing a template that may use the \".Release.Name\", \".Release.Namespace\" and \".Values.labels\" variables.",
-                                          "type": [
-                                            "string",
-                                            "null"
-                                          ]
-                                        },
-                                        "port": {
-                                          "type": "integer",
-                                          "format": "int32"
-                                        },
-                                        "scheme": {
-                                          "description": "For example: http, https, grpc, grpc+tls, jdbc:oracle:thin:@ etc",
-                                          "type": "string"
-                                        }
-                                      },
-                                      "additionalProperties": false
+                                      "x-kubernetes-preserve-unknown-fields": true
                                     },
-                                    "format": {
-                                      "description": "Format represents data format (e.g. parquet) as received from catalog connectors",
-                                      "type": "string"
-                                    }
-                                  },
-                                  "additionalProperties": false
-                                },
-                                "sink": {
-                                  "description": "StepSink holds information to where the target data will be written: it could be assetID of an asset specified in fybrikapplication or of an asset created by fybrik control-plane",
-                                  "type": [
-                                    "object",
-                                    "null"
-                                  ],
-                                  "required": [
-                                    "assetId"
-                                  ],
-                                  "properties": {
-                                    "assetId": {
-                                      "description": "AssetID identifies the target asset of this step",
-                                      "type": "string"
-                                    }
-                                  },
-                                  "additionalProperties": false
-                                },
-                                "source": {
-                                  "description": "StepSource is the source of this step: it could be assetID or an enpoint of another step",
-                                  "type": [
-                                    "object",
-                                    "null"
-                                  ],
-                                  "properties": {
-                                    "api": {
-                                      "description": "Service holds information for accessing a module instance",
-                                      "type": [
-                                        "object",
-                                        "null"
-                                      ],
-                                      "required": [
-                                        "endpoint",
-                                        "format"
-                                      ],
-                                      "properties": {
-                                        "endpoint": {
-                                          "description": "EndpointSpec is used both by the module creator and by the status of the fybrikapplication",
-                                          "type": "object",
-                                          "required": [
-                                            "port",
-                                            "scheme"
-                                          ],
-                                          "properties": {
-                                            "hostname": {
-                                              "description": "Hostname is the hostname to connect to for connecting to a module exposed service. By default this equals to \"fybrik-crd.fybrik-system\" of the module. <br/> Module developers can overide the default behavior by providing a template that may use the \".Release.Name\", \".Release.Namespace\" and \".Values.labels\" variables.",
-                                              "type": [
-                                                "string",
-                                                "null"
-                                              ]
-                                            },
-                                            "port": {
-                                              "type": "integer",
-                                              "format": "int32"
-                                            },
-                                            "scheme": {
-                                              "description": "For example: http, https, grpc, grpc+tls, jdbc:oracle:thin:@ etc",
-                                              "type": "string"
-                                            }
-                                          },
-                                          "additionalProperties": false
-                                        },
-                                        "format": {
-                                          "description": "Format represents data format (e.g. parquet) as received from catalog connectors",
-                                          "type": "string"
-                                        }
-                                      },
-                                      "additionalProperties": false
-                                    },
-                                    "assetId": {
-                                      "description": "AssetID identifies the source asset of this step",
+                                    "dataFormat": {
+                                      "description": "Data format",
                                       "type": [
                                         "string",
                                         "null"
@@ -416,6 +351,56 @@
                                     }
                                   },
                                   "additionalProperties": false
+                                },
+                                "args": {
+                                  "type": [
+                                    "array",
+                                    "null"
+                                  ],
+                                  "items": {
+                                    "description": "StepArgument describes a step: it could be assetID or an endpoint of another step",
+                                    "type": [
+                                      "object",
+                                      "null"
+                                    ],
+                                    "properties": {
+                                      "api": {
+                                        "description": "API holds information for accessing a module instance",
+                                        "type": [
+                                          "object",
+                                          "null"
+                                        ],
+                                        "required": [
+                                          "connection"
+                                        ],
+                                        "properties": {
+                                          "connection": {
+                                            "description": "Connection information",
+                                            "required": [
+                                              "name"
+                                            ],
+                                            "x-kubernetes-preserve-unknown-fields": true
+                                          },
+                                          "dataFormat": {
+                                            "description": "Data format",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          }
+                                        },
+                                        "additionalProperties": false
+                                      },
+                                      "assetId": {
+                                        "description": "AssetID identifies the source asset of this step",
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "additionalProperties": false
+                                  }
                                 }
                               },
                               "additionalProperties": false
@@ -453,6 +438,10 @@
             "additionalProperties": false
           }
         },
+        "modulesNamespace": {
+          "description": "ModulesNamespace is the namespace where modules should be allocated",
+          "type": "string"
+        },
         "templates": {
           "description": "Templates is a map holding the templates used in this plotter steps The key is the template name",
           "type": "object",
@@ -476,11 +465,16 @@
                     "null"
                   ],
                   "required": [
+                    "capability",
                     "chart",
                     "name",
                     "type"
                   ],
                   "properties": {
+                    "capability": {
+                      "description": "Module capability",
+                      "type": "string"
+                    },
                     "chart": {
                       "description": "Chart contains the information needed to use helm to install the capability",
                       "type": "object",
@@ -615,15 +609,15 @@
                 "type": "string"
               },
               "status": {
-                "description": "BlueprintStatus defines the observed state of Blueprint This includes readiness, error message, and indicators forthe Kubernetes resources owned by the Blueprint for cleanup and status monitoring",
+                "description": "BlueprintStatus defines the observed state of Blueprint This includes readiness, error message, and indicators for the Kubernetes resources owned by the Blueprint for cleanup and status monitoring",
                 "type": "object",
-                "required": [
-                  "modules"
-                ],
                 "properties": {
                   "modules": {
-                    "description": "ModulesState is a map which holds the status of each module its key is the instance name which is the unique name for the deployed instance related to this workload",
-                    "type": "object",
+                    "description": "ModulesState is a map which holds the status of each module its key is the moduleInstanceName which is the unique name for the deployed instance related to this workload",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
                     "additionalProperties": {
                       "description": "ObservedState represents a part of the generated Blueprint/Plotter resource status that allows update of FybrikApplication status",
                       "type": [
@@ -715,7 +709,6 @@
               "null"
             ],
             "required": [
-              "status",
               "type"
             ],
             "properties": {
@@ -726,9 +719,25 @@
                   "null"
                 ]
               },
+              "observedGeneration": {
+                "description": "ObservedGeneration is the version of the resource for which the condition has been evaluated",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64"
+              },
               "status": {
-                "description": "Status of the condition: true or false",
-                "type": "string"
+                "description": "Status of the condition, one of (`True`, `False`, `Unknown`).",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "True",
+                  "False",
+                  "Unknown"
+                ]
               },
               "type": {
                 "description": "Type of the condition",

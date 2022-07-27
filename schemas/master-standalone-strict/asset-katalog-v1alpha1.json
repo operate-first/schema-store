@@ -1,4 +1,5 @@
 {
+  "description": "Asset defines an asset in the catalog",
   "type": "object",
   "required": [
     "spec"
@@ -34,12 +35,12 @@
         "null"
       ],
       "required": [
-        "secretRef",
-        "assetMetadata",
-        "assetDetails"
+        "details",
+        "metadata",
+        "secretRef"
       ],
       "properties": {
-        "assetDetails": {
+        "details": {
           "description": "Asset details",
           "type": "object",
           "required": [
@@ -48,155 +49,13 @@
           "properties": {
             "connection": {
               "description": "Connection information",
-              "type": "object",
               "required": [
-                "type"
+                "name"
               ],
-              "properties": {
-                "db2": {
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "properties": {
-                    "database": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "port": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "ssl": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "table": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "url": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    }
-                  },
-                  "additionalProperties": false
-                },
-                "kafka": {
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "properties": {
-                    "bootstrap_servers": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "key_deserializer": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "sasl_mechanism": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "schema_registry": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "security_protocol": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "ssl_truststore": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "ssl_truststore_password": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "topic_name": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "value_deserializer": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    }
-                  },
-                  "additionalProperties": false
-                },
-                "s3": {
-                  "description": "Connection information for S3 compatible object store",
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "required": [
-                    "bucket",
-                    "endpoint",
-                    "objectKey"
-                  ],
-                  "properties": {
-                    "bucket": {
-                      "type": "string"
-                    },
-                    "endpoint": {
-                      "type": "string"
-                    },
-                    "objectKey": {
-                      "type": "string"
-                    },
-                    "region": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    }
-                  },
-                  "additionalProperties": false
-                },
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "s3",
-                    "db2",
-                    "kafka"
-                  ]
-                }
-              },
-              "additionalProperties": false
+              "x-kubernetes-preserve-unknown-fields": true
             },
             "dataFormat": {
+              "description": "Data format",
               "type": [
                 "string",
                 "null"
@@ -205,76 +64,54 @@
           },
           "additionalProperties": false
         },
-        "assetMetadata": {
+        "metadata": {
+          "description": "Asset metadata",
           "type": "object",
           "properties": {
-            "componentsMetadata": {
-              "description": "metadata for each component in asset (e.g., column)",
+            "columns": {
+              "description": "Columns associated with the asset",
               "type": [
-                "object",
+                "array",
                 "null"
               ],
-              "additionalProperties": {
+              "items": {
+                "description": "ResourceColumn represents a column in a tabular resource",
                 "type": [
                   "object",
                   "null"
                 ],
+                "required": [
+                  "name"
+                ],
                 "properties": {
-                  "componentType": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "namedMetadata": {
-                    "description": "Named terms, that exist in Catalog toxonomy and the values for these terms for columns we will have \"SchemaDetails\" key, that will include technical schema details for this column TODO: Consider create special field for schema outside of metadata",
-                    "type": [
-                      "object",
-                      "null"
-                    ],
-                    "additionalProperties": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    }
+                  "name": {
+                    "description": "Name of the column",
+                    "type": "string"
                   },
                   "tags": {
-                    "description": "Tags - can be any free text added to a component (no taxonomy)",
-                    "type": [
-                      "array",
-                      "null"
-                    ],
-                    "items": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    }
+                    "description": "Tags associated with the column",
+                    "x-kubernetes-preserve-unknown-fields": true
                   }
                 },
                 "additionalProperties": false
               }
             },
             "geography": {
+              "description": "Geography of the resource",
               "type": [
                 "string",
                 "null"
               ]
             },
-            "namedMetadata": {
+            "name": {
+              "description": "Name of the resource",
               "type": [
-                "object",
+                "string",
                 "null"
-              ],
-              "additionalProperties": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              }
+              ]
             },
             "owner": {
+              "description": "Owner of the resource",
               "type": [
                 "string",
                 "null"
@@ -282,16 +119,7 @@
             },
             "tags": {
               "description": "Tags associated with the asset",
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              }
+              "x-kubernetes-preserve-unknown-fields": true
             }
           },
           "additionalProperties": false
@@ -304,8 +132,15 @@
           ],
           "properties": {
             "name": {
-              "description": "Name of the Secret resource (must exist in the same namespace)",
+              "description": "Name of the Secret resource",
               "type": "string"
+            },
+            "namespace": {
+              "description": "Namespace of the Secret resource. If it is empty then the asset namespace is used.",
+              "type": [
+                "string",
+                "null"
+              ]
             }
           },
           "additionalProperties": false

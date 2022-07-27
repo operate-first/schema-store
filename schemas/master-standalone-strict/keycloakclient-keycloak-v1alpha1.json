@@ -77,6 +77,19 @@
                 ]
               }
             },
+            "authenticationFlowBindingOverrides": {
+              "description": "Authentication Flow Binding Overrides.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
             "authorizationServicesEnabled": {
               "description": "True if fine-grained authorization support is enabled for this client.",
               "type": [
@@ -1594,6 +1607,38 @@
             }
           },
           "additionalProperties": false
+        },
+        "serviceAccountClientRoles": {
+          "description": "Service account client roles for this client.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "serviceAccountRealmRoles": {
+          "description": "Service account realm roles for this client.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
         }
       },
       "additionalProperties": false

@@ -31,7 +31,6 @@
         "null"
       ],
       "required": [
-        "clusterRef",
         "pullSecretRef"
       ],
       "properties": {
@@ -63,7 +62,10 @@
         },
         "clusterRef": {
           "description": "ClusterRef is the reference to the single ClusterDeployment that will be installed from this InfraEnv. Future versions will allow for multiple ClusterDeployments and this reference will be removed.",
-          "type": "object",
+          "type": [
+            "object",
+            "null"
+          ],
           "properties": {
             "name": {
               "description": "Name is unique within a namespace to reference a cluster resource.",
@@ -186,7 +188,7 @@
           "additionalProperties": false
         },
         "pullSecretRef": {
-          "description": "This field is currently not used. The Pull Secret from ClusterDeployment will be used for the ISO creation. PullSecretRef is the reference to the secret to use when pulling images.",
+          "description": "PullSecretRef is the reference to the secret to use when pulling images.",
           "type": "object",
           "properties": {
             "name": {
@@ -339,6 +341,23 @@
             "null"
           ],
           "format": "date-time"
+        },
+        "debugInfo": {
+          "description": "InfraEnvDebugInfo includes information for debugging the installation process.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "eventsURL": {
+              "description": "EventsURL specifies an HTTP/S URL that contains InfraEnv events",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
         },
         "isoDownloadURL": {
           "description": "ISODownloadURL specifies an HTTP/S URL that contains a discovery ISO containing the configuration from this InfraEnv.",

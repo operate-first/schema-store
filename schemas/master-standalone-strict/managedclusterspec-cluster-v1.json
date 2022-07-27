@@ -6,14 +6,14 @@
   ],
   "properties": {
     "hubAcceptsClient": {
-      "description": "hubAcceptsClient represents that hub accepts the join of Klusterlet agent on the managed cluster to the hub. The default value is false, and can only be set true when the user on hub has an RBAC rule to UPDATE on the virtual subresource of managedclusters/accept. When the value is set true, a namespace whose name is same as the name of ManagedCluster is created on hub representing the managed cluster, also role/rolebinding is created on the namespace to grant the permision of access from agent on managed cluster. When the value is set false, the namespace representing the managed cluster is deleted.",
+      "description": "hubAcceptsClient represents that hub accepts the joining of Klusterlet agent on the managed cluster with the hub. The default value is false, and can only be set true when the user on hub has an RBAC rule to UPDATE on the virtual subresource of managedclusters/accept. When the value is set true, a namespace whose name is the same as the name of ManagedCluster is created on the hub. This namespace represents the managed cluster, also role/rolebinding is created on the namespace to grant the permision of access from the agent on the managed cluster. When the value is set to false, the namespace representing the managed cluster is deleted.",
       "type": [
         "boolean",
         "null"
       ]
     },
     "leaseDurationSeconds": {
-      "description": "LeaseDurationSeconds is used to coordinate the lease update time of Klusterlet agents on the managed cluster. If its value is zero, the Klusterlet agent will update its lease every 60s by default",
+      "description": "LeaseDurationSeconds is used to coordinate the lease update time of Klusterlet agents on the managed cluster. If its value is zero, the Klusterlet agent will update its lease every 60 seconds by default",
       "type": [
         "integer",
         "null"
@@ -21,13 +21,13 @@
       "format": "int32"
     },
     "managedClusterClientConfigs": {
-      "description": "ManagedClusterClientConfigs represents a list of the apiserver address of the managed cluster. If it is empty, managed cluster has no accessible address to be visited from hub.",
+      "description": "ManagedClusterClientConfigs represents a list of the apiserver address of the managed cluster. If it is empty, the managed cluster has no accessible address for the hub to connect with it.",
       "type": [
         "array",
         "null"
       ],
       "items": {
-        "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ClientConfig"
+        "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ClientConfig"
       }
     }
   },

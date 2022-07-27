@@ -33,7 +33,6 @@
         "null"
       ],
       "required": [
-        "clusterLabels",
         "clusterName",
         "clusterNamespace",
         "fullnameOverride",
@@ -41,7 +40,7 @@
       ],
       "properties": {
         "clusterLabels": {
-          "type": "object",
+          "description": "DEPRECATED in release 2.4 and will be removed in the future since not used anymore.",
           "additionalProperties": {
             "type": [
               "string",
@@ -92,6 +91,30 @@
                 "string",
                 "null"
               ]
+            },
+            "nodeSelector": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "proxyConfig": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             }
           },
           "additionalProperties": false

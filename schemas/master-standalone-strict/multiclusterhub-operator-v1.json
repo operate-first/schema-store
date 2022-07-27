@@ -61,6 +61,20 @@
             "null"
           ]
         },
+        "enableClusterBackup": {
+          "description": "Enable cluster backup",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "enableClusterProxyAddon": {
+          "description": "Enable cluster proxy addon",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "hive": {
           "description": "(Deprecated) Overrides for the default HiveConfig spec",
           "type": [

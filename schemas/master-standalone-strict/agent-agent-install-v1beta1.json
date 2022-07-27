@@ -34,7 +34,6 @@
       ],
       "required": [
         "approved",
-        "clusterDeploymentName",
         "role"
       ],
       "properties": {
@@ -43,7 +42,10 @@
         },
         "clusterDeploymentName": {
           "description": "ClusterReference represents a Cluster Reference. It has enough information to retrieve cluster in any namespace",
-          "type": "object",
+          "type": [
+            "object",
+            "null"
+          ],
           "properties": {
             "name": {
               "description": "Name is unique within a namespace to reference a cluster resource.",

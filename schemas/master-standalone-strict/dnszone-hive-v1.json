@@ -133,6 +133,20 @@
             "resourceGroupName"
           ],
           "properties": {
+            "cloudName": {
+              "description": "CloudName is the name of the Azure cloud environment which can be used to configure the Azure SDK with the appropriate Azure API endpoints. If empty, the value is equal to \"AzurePublicCloud\".",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "",
+                "AzurePublicCloud",
+                "AzureUSGovernmentCloud",
+                "AzureChinaCloud",
+                "AzureGermanCloud"
+              ]
+            },
             "credentialsSecretRef": {
               "description": "CredentialsSecretRef references a secret that will be used to authenticate with Azure CloudDNS. It will need permission to create and manage CloudDNS Hosted Zones. Secret should have a key named 'osServicePrincipal.json'. The credentials must specify the project to use.",
               "type": "object",
@@ -183,6 +197,13 @@
         },
         "linkToParentDomain": {
           "description": "LinkToParentDomain specifies whether DNS records should be automatically created to link this DNSZone with a parent domain.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "preserveOnDelete": {
+          "description": "PreserveOnDelete allows the user to disconnect a DNSZone from Hive without deprovisioning it. This can also be used to abandon ongoing DNSZone deprovision. Typically set automatically due to PreserveOnDelete being set on a ClusterDeployment.",
           "type": [
             "boolean",
             "null"

@@ -1061,6 +1061,13 @@
           },
           "additionalProperties": false
         },
+        "priorityClass": {
+          "description": "PriorityClass of the CDI control plane",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "uninstallStrategy": {
           "description": "CDIUninstallStrategy defines the state to leave CDI on uninstall",
           "type": [

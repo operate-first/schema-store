@@ -62,7 +62,6 @@
           ],
           "required": [
             "adminKubeconfigSecretRef",
-            "adminPasswordSecretRef",
             "clusterID",
             "infraID"
           ],
@@ -83,7 +82,10 @@
             },
             "adminPasswordSecretRef": {
               "description": "AdminPasswordSecretRef references the secret containing the admin username/password which can be used to login to this cluster.",
-              "type": "object",
+              "type": [
+                "object",
+                "null"
+              ],
               "properties": {
                 "name": {
                   "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",

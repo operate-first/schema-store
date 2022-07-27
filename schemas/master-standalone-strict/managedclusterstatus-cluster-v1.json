@@ -32,7 +32,7 @@
         "null"
       ],
       "items": {
-        "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterClaim"
+        "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ManagedClusterClaim"
       }
     },
     "conditions": {
@@ -47,7 +47,7 @@
     },
     "version": {
       "description": "Version represents the kubernetes version of the managed cluster.",
-      "$ref": "_definitions.json#/definitions/com.github.open-cluster-management.api.cluster.v1.ManagedClusterVersion"
+      "$ref": "_definitions.json#/definitions/io.open-cluster-management.api.cluster.v1.ManagedClusterVersion"
     }
   },
   "additionalProperties": false,

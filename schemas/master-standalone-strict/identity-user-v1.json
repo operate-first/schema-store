@@ -59,7 +59,7 @@
     },
     "user": {
       "description": "User is a reference to the user this identity is associated with Both Name and UID must be set",
-      "$ref": "_definitions.json#/definitions/io.k8s.api.core.v1.ObjectReference"
+      "$ref": "_definitions.json#/definitions/io.k8s.api.core.v1.ObjectReference_v2"
     }
   },
   "x-kubernetes-group-version-kind": [
