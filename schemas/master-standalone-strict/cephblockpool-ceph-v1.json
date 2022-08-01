@@ -105,7 +105,6 @@
                 "null"
               ]
             },
-            "peers": {},
             "snapshotSchedules": {
               "type": [
                 "array",
@@ -118,12 +117,6 @@
                 ],
                 "properties": {
                   "interval": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "path": {
                     "type": [
                       "string",
                       "null"
@@ -161,12 +154,6 @@
             "size"
           ],
           "properties": {
-            "hybridStorage": {
-              "required": [
-                "primaryDeviceClass",
-                "secondaryDeviceClass"
-              ]
-            },
             "replicasPerFailureDomain": {
               "type": [
                 "integer",
