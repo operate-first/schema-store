@@ -103,9 +103,6 @@
             "boolean",
             "null"
           ]
-        },
-        "statusCheck": {
-          "x-kubernetes-preserve-unknown-fields": true
         }
       },
       "additionalProperties": false
