@@ -216,11 +216,12 @@
         "null"
       ],
       "properties": {
-        "content": {
+        "contentCache": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "format": "byte"
         },
         "contentTimestamp": {
           "type": [

@@ -639,7 +639,7 @@
           "additionalProperties": false
         },
         "template": {
-          "description": "Template for Kafka Bridge resources. The template allows users to specify how is the `Deployment` and `Pods` generated.",
+          "description": "Template for Kafka Bridge resources. The template allows users to specify how a `Deployment` and `Pod` is generated.",
           "type": [
             "object",
             "null"

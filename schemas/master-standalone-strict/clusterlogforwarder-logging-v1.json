@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
     },
     "spec": {
-      "description": "ClusterLogForwarderSpec defines the desired state of ClusterLogForwarder",
+      "description": "ClusterLogForwarderSpec defines how logs should be forwarded to remote targets.",
       "type": [
         "object",
         "null"
@@ -57,7 +57,7 @@
                 ],
                 "properties": {
                   "namespaces": {
-                    "description": "Namespaces is a list of namespaces from which to collect application logs. If the list is empty, logs are collected from all namespaces.",
+                    "description": "Namespaces from which to collect application logs. Only messages from these namespaces are collected. If absent or empty, logs are collected from all namespaces.",
                     "type": [
                       "array",
                       "null"
@@ -70,7 +70,7 @@
                     }
                   },
                   "selector": {
-                    "description": "Selector selects logs from all pods with matching labels. For testing purpose, MatchLabels is only supported.",
+                    "description": "Selector for logs from pods with matching labels. Only messages from pods with these labels are collected. If absent or empty, logs are collected regardless of labels.",
                     "type": [
                       "object",
                       "null"
@@ -173,6 +173,13 @@
                 "null"
               ],
               "properties": {
+                "enableStructuredContainerLogs": {
+                  "description": "EnableStructuredContainerLogs enables multi-container structured logs to allow forwarding logs from containers within a pod to separate indices.  Annotating the pod with key 'containerType.logging.openshift.io/<container-name>' and value '<structure-type-name>' will forward those container logs to an alternate index from that defined by the other 'structured' keys here",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
                 "structuredTypeKey": {
                   "description": "StructuredTypeKey specifies the metadata key to be used as name of elasticsearch index It takes precedence over StructuredTypeName",
                   "type": [
@@ -211,7 +218,7 @@
             ],
             "properties": {
               "cloudwatch": {
-                "description": "Cloudwatch provides configuration for the output type `cloudwatch` \n Note: the cloudwatch output recognizes the following additional keys in the Secret: \n \t`aws_secret_access_key`: AWS secret access key. \t`aws_access_key_id`:AWS secret access key ID.",
+                "description": "Cloudwatch provides configuration for the output type `cloudwatch` \n Note: the cloudwatch output recognizes the following keys in the Secret: \n `aws_secret_access_key`: AWS secret access key. `aws_access_key_id`: AWS secret access key ID. \n Or for sts-enabled clusters `credentials` or `role_arn` key specifying a properly formatted role arn",
                 "type": [
                   "object",
                   "null"
@@ -230,7 +237,7 @@
                     ]
                   },
                   "groupPrefix": {
-                    "description": "GroupPrefix Add this prefix to all group names.  Useful to avoid group name clashes if an AWS account is used for multiple clusters and  used verbatim (e.g. \"\" means no prefix)  The default prefix is cluster-name/log-type",
+                    "description": "GroupPrefix Add this prefix to all group names. Useful to avoid group name clashes if an AWS account is used for multiple clusters and used verbatim (e.g. \"\" means no prefix) The default prefix is cluster-name/log-type",
                     "type": [
                       "string",
                       "null"
@@ -251,6 +258,13 @@
                   "null"
                 ],
                 "properties": {
+                  "enableStructuredContainerLogs": {
+                    "description": "EnableStructuredContainerLogs enables multi-container structured logs to allow forwarding logs from containers within a pod to separate indices.  Annotating the pod with key 'containerType.logging.openshift.io/<container-name>' and value '<structure-type-name>' will forward those container logs to an alternate index from that defined by the other 'structured' keys here",
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
                   "structuredTypeKey": {
                     "description": "StructuredTypeKey specifies the metadata key to be used as name of elasticsearch index It takes precedence over StructuredTypeName",
                     "type": [
@@ -269,7 +283,7 @@
                 "additionalProperties": false
               },
               "fluentdForward": {
-                "description": "FluentdForward does not provide additional fields, but note that the fluentforward output allows this additional keys in the Secret: \n   `shared_key`: (string) Key to enable fluent-forward shared-key authentication.",
+                "description": "FluentdForward does not provide additional fields, but note that the fluentforward output allows this additional keys in the Secret: \n `shared_key`: (string) Key to enable fluent-forward shared-key authentication.",
                 "type": [
                   "object",
                   "null"
@@ -340,7 +354,7 @@
                 "type": "string"
               },
               "secret": {
-                "description": "Secret for authentication. Name of a secret in the same namespace as the cluster logging operator. \n All sensitive authentication information is provided via a kubernetes Secret object. A Secret is a key:value map, common keys are described here. Some output types support additional specialized keys, documented with the output-specific configuration field. All secret keys are optional, enable the security features you want by setting the relevant keys. \n Transport Layer Security (TLS) \n Using a TLS URL ('https://...' or 'tls://...') without any secret enables basic TLS: client authenticates server using system default certificate authority. \n Additional TLS features are enabled by including a Secret and setting the following optional fields: \n   `tls.crt`: (string) File name containing a client certificate.     Enables mutual authentication. Requires `tls.key`.   `tls.key`: (string) File name containing the private key to unlock the client certificate.     Requires `tls.crt`   `passphrase`: (string) Passphrase to decode an encoded TLS private key.     Requires tls.key.   `ca-bundle.crt`: (string) File name of a custom CA for server authentication. \n   `tls.insecure`: If this key is present (with any value) accept server certificates that are self-signed or have an incorrect hostname.     This is INSECURE, the connection is susceptible to man-in-the-middle attacks.     This is ONLY for development and testing when valid certificates are not available. \n Username and Password \n   `username`: (string) Authentication user name. Requires `password`.   `password`: (string) Authentication password. Requires `username`. \n Simple Authentication Security Layer (SASL) \n   `sasl.enable`: (boolean) Explicitly enable or disable SASL.     If missing, SASL is automatically enabled when any of the other `sasl.` keys are set.   `sasl.mechanisms`: (array) List of allowed SASL mechanism names.     If missing or empty, the system defaults are used.   `sasl.allow-insecure`: (boolean) Allow mechanisms that send clear-text passwords.     Default false.",
+                "description": "Secret for authentication. \n Names a secret in the same namespace as the ClusterLogForwarder. \n Sensitive authentication information is stored in a separate Secret object. A Secret is like a ConfigMap, where the keys are strings and the values are base64-encoded binary data, for example TLS certificates. \n Common keys are described here. Some output types support additional keys, documented with the output-specific configuration field. All secret keys are optional, enable the security features you want by setting the relevant keys. \n Transport Layer Security (TLS) \n Using a TLS URL ('https://...' or 'tls://...') without any secret enables basic TLS: client authenticates server using system default certificate authority. \n Additional TLS features are enabled by referencing a Secret with the following optional fields in its spec.data. All data fields are base64 encoded. \n `tls.crt`: A client certificate, for mutual authentication. Requires `tls.key`. `tls.key`: Private key to unlock the client certificate. Requires `tls.crt` `passphrase`: Passphrase to decode an encoded TLS private key. Requires tls.key. `ca-bundle.crt`: Custom CA to validate certificates. \n Username and Password \n `username`: Authentication user name. Requires `password`. `password`: Authentication password. Requires `username`. \n Simple Authentication Security Layer (SASL) \n `sasl.enable`: (boolean) Explicitly enable or disable SASL. If missing, SASL is automatically enabled if any `sasl.*` keys are set. `sasl.mechanisms`: (array of string) List of allowed SASL mechanism names. If missing or empty, the system defaults are used. `sasl.allow-insecure`: (boolean) Allow mechanisms that send clear-text passwords. Default false.",
                 "type": [
                   "object",
                   "null"
@@ -378,7 +392,7 @@
                     ]
                   },
                   "facility": {
-                    "description": "Facility to set on outgoing syslog records. \n Facility values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1. The value can be a decimal integer. Facility keywords are not standardized, this API recognizes at least the following case-insensitive keywords (defined by https://en.wikipedia.org/wiki/Syslog#Facility_Levels): \n     kernel user mail daemon auth syslog lpr news     uucp cron authpriv ftp ntp security console solaris-cron     local0 local1 local2 local3 local4 local5 local6 local7",
+                    "description": "Facility to set on outgoing syslog records. \n Facility values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1. The value can be a decimal integer. Facility keywords are not standardized, this API recognizes at least the following case-insensitive keywords (defined by https://en.wikipedia.org/wiki/Syslog#Facility_Levels): \n kernel user mail daemon auth syslog lpr news uucp cron authpriv ftp ntp security console solaris-cron local0 local1 local2 local3 local4 local5 local6 local7",
                     "type": [
                       "string",
                       "null"
@@ -406,7 +420,7 @@
                     ]
                   },
                   "rfc": {
-                    "description": "Rfc specifies the rfc to be used for sending syslog \n Rfc values can be one of:  - RFC3164 (https://tools.ietf.org/html/rfc3164)  - RFC5424 (https://tools.ietf.org/html/rfc5424) \n If unspecified, RFC5424 will be assumed.",
+                    "description": "Rfc specifies the rfc to be used for sending syslog \n Rfc values can be one of: - RFC3164 (https://tools.ietf.org/html/rfc3164) - RFC5424 (https://tools.ietf.org/html/rfc5424) \n If unspecified, RFC5424 will be assumed.",
                     "type": [
                       "string",
                       "null"
@@ -417,7 +431,7 @@
                     ]
                   },
                   "severity": {
-                    "description": "Severity to set on outgoing syslog records. \n Severity values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1 The value can be a decimal integer or one of these case-insensitive keywords: \n     Emergency Alert Critical Error Warning Notice Informational Debug",
+                    "description": "Severity to set on outgoing syslog records. \n Severity values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1 The value can be a decimal integer or one of these case-insensitive keywords: \n Emergency Alert Critical Error Warning Notice Informational Debug",
                     "type": [
                       "string",
                       "null"
@@ -440,6 +454,23 @@
                 },
                 "additionalProperties": false
               },
+              "tls": {
+                "description": "TLS contains settings for controlling options on TLS client connections.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "insecureSkipVerify": {
+                    "description": "If InsecureSkipVerify is true, then the TLS client will be configured to ignore errors with certificates. \n This option is *not* recommended for production configurations.",
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
               "type": {
                 "description": "Type of output plugin.",
                 "type": "string",
@@ -453,7 +484,7 @@
                 ]
               },
               "url": {
-                "description": "URL to send log records to. \n An absolute URL, with a scheme. Valid schemes depend on `type`. Special schemes `tcp`, `tls`, `udp` and `udps` are used for types that have no scheme of their own. For example, to send syslog records using secure UDP: \n     { type: syslog, url: udps://syslog.example.com:1234 } \n Basic TLS is enabled if the URL scheme requires it (for example 'https' or 'tls'). The 'username@password' part of `url` is ignored. Any additional authentication material is in the `secret`. See the `secret` field for more details.",
+                "description": "URL to send log records to. \n An absolute URL, with a scheme. Valid schemes depend on `type`. Special schemes `tcp`, `tls`, `udp` and `udps` are used for types that have no scheme of their own. For example, to send syslog records using secure UDP: \n { type: syslog, url: udps://syslog.example.com:1234 } \n Basic TLS is enabled if the URL scheme requires it (for example 'https' or 'tls'). The 'username@password' part of `url` is ignored. Any additional authentication material is in the `secret`. See the `secret` field for more details.",
                 "type": [
                   "string",
                   "null"
@@ -498,7 +529,7 @@
                 }
               },
               "labels": {
-                "description": "Labels lists labels applied to this pipeline",
+                "description": "Labels applied to log records passing through this pipeline. These labels appear in the `openshift.labels` map in the log record.",
                 "type": [
                   "object",
                   "null"
