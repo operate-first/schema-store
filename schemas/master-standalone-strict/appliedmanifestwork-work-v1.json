@@ -69,9 +69,14 @@
               "object",
               "null"
             ],
+            "required": [
+              "name",
+              "resource",
+              "version"
+            ],
             "properties": {
               "group": {
-                "description": "Group is the API Group of the Kubernetes resource.",
+                "description": "Group is the API Group of the Kubernetes resource, empty string indicates it is in core group.",
                 "type": [
                   "string",
                   "null"
@@ -79,10 +84,7 @@
               },
               "name": {
                 "description": "Name is the name of the Kubernetes resource.",
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string"
               },
               "namespace": {
                 "description": "Name is the namespace of the Kubernetes resource, empty string indicates it is a cluster scoped resource.",
@@ -93,10 +95,7 @@
               },
               "resource": {
                 "description": "Resource is the resource name of the Kubernetes resource.",
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string"
               },
               "uid": {
                 "description": "UID is set on successful deletion of the Kubernetes resource by controller. The resource might be still visible on the managed cluster after this field is set. It is not directly settable by a client.",
@@ -107,10 +106,7 @@
               },
               "version": {
                 "description": "Version is the version of the Kubernetes resource.",
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string"
               }
             },
             "additionalProperties": false

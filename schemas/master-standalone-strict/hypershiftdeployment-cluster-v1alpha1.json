@@ -1,0 +1,2479 @@
+{
+  "description": "HypershiftDeployment is the Schema for the hypershiftDeployments API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "cluster.open-cluster-management.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "HypershiftDeployment"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "HypershiftDeploymentSpec defines the desired state of HypershiftDeployment",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "infrastructure"
+      ],
+      "properties": {
+        "credentials": {
+          "description": "Credentials are ARN's that are used for standing up the resources in the cluster.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "aws": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "controlPlaneOperatorARN",
+                "kubeCloudControllerARN",
+                "nodePoolManagementARN"
+              ],
+              "properties": {
+                "controlPlaneOperatorARN": {
+                  "type": "string"
+                },
+                "kubeCloudControllerARN": {
+                  "type": "string"
+                },
+                "nodePoolManagementARN": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "hostedClusterReference": {
+          "description": "Reference to a HostedCluster on the HyperShift deployment namespace that will be applied to the ManagementCluster by ACM, if omitted, it will be generated required if InfraSpec.Configure is false",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "hostedClusterSpec": {
+          "description": "HostedCluster that will be applied to the ManagementCluster by ACM, if omitted, it will be generated",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "networking",
+            "platform",
+            "pullSecret",
+            "release",
+            "services",
+            "sshKey"
+          ],
+          "properties": {
+            "additionalTrustBundle": {
+              "description": "AdditionalTrustBundle is a reference to a ConfigMap containing a PEM-encoded X.509 certificate bundle that will be added to the hosted controlplane and nodes",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "auditWebhook": {
+              "description": "AuditWebhook contains metadata for configuring an audit webhook endpoint for a cluster to process cluster audit events. It references a secret that contains the webhook information for the audit webhook endpoint. It is a secret because if the endpoint has mTLS the kubeconfig will contain client keys. The kubeconfig needs to be stored in the secret with a secret key name that corresponds to the constant AuditWebhookKubeconfigKey. \n This field is currently only supported on the IBMCloud platform.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "autoscaling": {
+              "description": "Autoscaling specifies auto-scaling behavior that applies to all NodePools associated with the control plane.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "maxNodeProvisionTime": {
+                  "description": "MaxNodeProvisionTime is the maximum time to wait for node provisioning before considering the provisioning to be unsuccessful, expressed as a Go duration string. The default is 15 minutes.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^([0-9]+(\\.[0-9]+)?(ns|us|\u00b5s|ms|s|m|h))+$"
+                },
+                "maxNodesTotal": {
+                  "description": "MaxNodesTotal is the maximum allowable number of nodes across all NodePools for a HostedCluster. The autoscaler will not grow the cluster beyond this number.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32",
+                  "minimum": 0
+                },
+                "maxPodGracePeriod": {
+                  "description": "MaxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling down a NodePool. The default is 600 seconds.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32",
+                  "minimum": 0
+                },
+                "podPriorityThreshold": {
+                  "description": "PodPriorityThreshold enables users to schedule \"best-effort\" pods, which shouldn't trigger autoscaler actions, but only run when there are spare resources available. The default is -10. \n See the following for more details: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-does-cluster-autoscaler-work-with-pod-priority-and-preemption",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                }
+              },
+              "additionalProperties": false
+            },
+            "clusterID": {
+              "description": "ClusterID uniquely identifies this cluster. This is expected to be an RFC4122 UUID value (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx in hexadecimal values). As with a Kubernetes metadata.uid, this ID uniquely identifies this cluster in space and time. This value identifies the cluster in metrics pushed to telemetry and metrics produced by the control plane operators. If a value is not specified, an ID is generated. After initial creation, the value is immutable.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+            },
+            "configuration": {
+              "description": "Configuration specifies configuration for individual OCP components in the cluster, represented as embedded resources that correspond to the openshift configuration API.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "configMapRefs": {
+                  "description": "ConfigMapRefs holds references to any configmaps referenced by configuration entries. Entries can reference the configmaps using local object references.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "items": {
+                  "description": "Items embeds the serialized configuration resources.",
+                  "x-kubernetes-preserve-unknown-fields": true
+                },
+                "secretRefs": {
+                  "description": "SecretRefs holds references to any secrets referenced by configuration entries. Entries can reference the secrets using local object references.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "controllerAvailabilityPolicy": {
+              "description": "ControllerAvailabilityPolicy specifies the availability policy applied to critical control plane components. The default value is SingleReplica.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "dns": {
+              "description": "DNS specifies DNS configuration for the cluster.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "baseDomain"
+              ],
+              "properties": {
+                "baseDomain": {
+                  "description": "BaseDomain is the base domain of the cluster.",
+                  "type": "string"
+                },
+                "privateZoneID": {
+                  "description": "PrivateZoneID is the Hosted Zone ID where all the DNS records that are only available internally to the cluster exist.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "publicZoneID": {
+                  "description": "PublicZoneID is the Hosted Zone ID where all the DNS records that are publicly accessible to the internet exist.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "etcd": {
+              "description": "Etcd specifies configuration for the control plane etcd cluster. The default ManagementType is Managed. Once set, the ManagementType cannot be changed.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "managementType"
+              ],
+              "properties": {
+                "managed": {
+                  "description": "Managed specifies the behavior of an etcd cluster managed by HyperShift.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "storage"
+                  ],
+                  "properties": {
+                    "storage": {
+                      "description": "Storage specifies how etcd data is persisted.",
+                      "type": "object",
+                      "required": [
+                        "type"
+                      ],
+                      "properties": {
+                        "persistentVolume": {
+                          "description": "PersistentVolume is the configuration for PersistentVolume etcd storage. With this implementation, a PersistentVolume will be allocated for every etcd member (either 1 or 3 depending on the HostedCluster control plane availability configuration).",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "size": {
+                              "description": "Size is the minimum size of the data volume for each etcd member.",
+                              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                              "x-kubernetes-int-or-string": true
+                            },
+                            "storageClassName": {
+                              "description": "StorageClassName is the StorageClass of the data volume for each etcd member. \n See https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "type": {
+                          "description": "Type is the kind of persistent storage implementation to use for etcd.",
+                          "type": "string",
+                          "enum": [
+                            "PersistentVolume"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "managementType": {
+                  "description": "ManagementType defines how the etcd cluster is managed.",
+                  "type": "string",
+                  "enum": [
+                    "Managed",
+                    "Unmanaged"
+                  ]
+                },
+                "unmanaged": {
+                  "description": "Unmanaged specifies configuration which enables the control plane to integrate with an eternally managed etcd cluster.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "endpoint",
+                    "tls"
+                  ],
+                  "properties": {
+                    "endpoint": {
+                      "description": "Endpoint is the full etcd cluster client endpoint URL. For example: \n     https://etcd-client:2379 \n If the URL uses an HTTPS scheme, the TLS field is required.",
+                      "type": "string",
+                      "pattern": "^https://"
+                    },
+                    "tls": {
+                      "description": "TLS specifies TLS configuration for HTTPS etcd client endpoints.",
+                      "type": "object",
+                      "required": [
+                        "clientSecret"
+                      ],
+                      "properties": {
+                        "clientSecret": {
+                          "description": "ClientSecret refers to a secret for client mTLS authentication with the etcd cluster. It may have the following key/value pairs: \n     etcd-client-ca.crt: Certificate Authority value     etcd-client.crt: Client certificate value     etcd-client.key: Client certificate key value",
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "fips": {
+              "description": "FIPS indicates whether this cluster's nodes will be running in FIPS mode. If set to true, the control plane's ignition server will be configured to expect that nodes joining the cluster will be FIPS-enabled.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "imageContentSources": {
+              "description": "ImageContentSources specifies image mirrors that can be used by cluster nodes to pull content.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "ImageContentSource specifies image mirrors that can be used by cluster nodes to pull content. For cluster workloads, if a container image registry host of the pullspec matches Source then one of the Mirrors are substituted as hosts in the pullspec and tried in order to fetch the image.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "source"
+                ],
+                "properties": {
+                  "mirrors": {
+                    "description": "Mirrors are one or more repositories that may also contain the same images.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "source": {
+                    "description": "Source is the repository that users refer to, e.g. in image pull specifications.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "infraID": {
+              "description": "InfraID is a globally unique identifier for the cluster. This identifier will be used to associate various cloud resources with the HostedCluster and its associated NodePools.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "infrastructureAvailabilityPolicy": {
+              "description": "InfrastructureAvailabilityPolicy specifies the availability policy applied to infrastructure services which run on cluster nodes. The default value is HighlyAvailable.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "issuerURL": {
+              "description": "IssuerURL is an OIDC issuer URL which is used as the issuer in all ServiceAccount tokens generated by the control plane API server. The default value is kubernetes.default.svc, which only works for in-cluster validation.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "networking": {
+              "description": "Networking specifies network configuration for the cluster.",
+              "type": "object",
+              "required": [
+                "machineCIDR",
+                "networkType",
+                "podCIDR",
+                "serviceCIDR"
+              ],
+              "properties": {
+                "apiServer": {
+                  "description": "APIServer contains advanced network settings for the API server that affect how the APIServer is exposed inside a cluster node.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "advertiseAddress": {
+                      "description": "AdvertiseAddress is the address that nodes will use to talk to the API server. This is an address associated with the loopback adapter of each node. If not specified, 172.20.0.1 is used.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "port": {
+                      "description": "Port is the port at which the APIServer is exposed inside a node. Other pods using host networking cannot listen on this port. If not specified, 6443 is used.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "machineCIDR": {
+                  "description": "MachineCIDR is... \n TODO(dan): document it",
+                  "type": "string"
+                },
+                "networkType": {
+                  "description": "NetworkType specifies the SDN provider used for cluster networking.",
+                  "type": "string",
+                  "enum": [
+                    "OpenShiftSDN",
+                    "Calico",
+                    "OVNKubernetes",
+                    "Other"
+                  ]
+                },
+                "podCIDR": {
+                  "description": "PodCIDR is... \n TODO(dan): document it",
+                  "type": "string"
+                },
+                "serviceCIDR": {
+                  "description": "ServiceCIDR is... \n TODO(dan): document it",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "olmCatalogPlacement": {
+              "description": "OLMCatalogPlacement specifies the placement of OLM catalog components. By default, this is set to management and OLM catalog components are deployed onto the management cluster. If set to guest, the OLM catalog components will be deployed onto the guest cluster.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "management",
+                "guest"
+              ]
+            },
+            "pausedUntil": {
+              "description": "PausedUntil is a field that can be used to pause reconciliation on a resource. Either a date can be provided in RFC3339 format or a boolean. If a date is provided: reconciliation is paused on the resource until that date. If the boolean true is provided: reconciliation is paused on the resource until the field is removed.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "platform": {
+              "description": "Platform specifies the underlying infrastructure provider for the cluster and is used to configure platform specific behavior.",
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "agent": {
+                  "description": "Agent specifies configuration for agent-based installations.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "agentNamespace"
+                  ],
+                  "properties": {
+                    "agentNamespace": {
+                      "description": "AgentNamespace is the namespace where to search for Agents for this cluster",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "aws": {
+                  "description": "AWS specifies configuration for clusters running on Amazon Web Services.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "controlPlaneOperatorCreds",
+                    "kubeCloudControllerCreds",
+                    "nodePoolManagementCreds",
+                    "region"
+                  ],
+                  "properties": {
+                    "cloudProviderConfig": {
+                      "description": "CloudProviderConfig specifies AWS networking configuration for the control plane. \n TODO(dan): should this be named AWSNetworkConfig?",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "vpc"
+                      ],
+                      "properties": {
+                        "subnet": {
+                          "description": "Subnet is the subnet to use for control plane cloud resources.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "arn": {
+                              "description": "ARN of resource",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "filters": {
+                              "description": "Filters is a set of key/value pairs used to identify a resource They are applied according to the rules defined by the AWS API: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Filtering.html",
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "description": "Filter is a filter used to identify an AWS resource",
+                                "type": [
+                                  "object",
+                                  "null"
+                                ],
+                                "required": [
+                                  "name",
+                                  "values"
+                                ],
+                                "properties": {
+                                  "name": {
+                                    "description": "Name of the filter. Filter names are case-sensitive.",
+                                    "type": "string"
+                                  },
+                                  "values": {
+                                    "description": "Values includes one or more filter values. Filter values are case-sensitive.",
+                                    "type": "array",
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "additionalProperties": false
+                              }
+                            },
+                            "id": {
+                              "description": "ID of resource",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "vpc": {
+                          "description": "VPC is the VPC to use for control plane cloud resources.",
+                          "type": "string"
+                        },
+                        "zone": {
+                          "description": "Zone is the availability zone where control plane cloud resources are created.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "controlPlaneOperatorCreds": {
+                      "description": "ControlPlaneOperatorCreds is a reference to a secret containing cloud credentials with permissions matching the control-plane-operator policy. The secret should have exactly one key, `credentials`, whose value is an AWS credentials file. \n TODO(dan): document the \"control plane operator policy\"",
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "endpointAccess": {
+                      "description": "EndpointAccess specifies the publishing scope of cluster endpoints. The default is Public.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "Public",
+                        "PublicAndPrivate",
+                        "Private"
+                      ]
+                    },
+                    "kubeCloudControllerCreds": {
+                      "description": "KubeCloudControllerCreds is a reference to a secret containing cloud credentials with permissions matching the cloud controller policy. The secret should have exactly one key, `credentials`, whose value is an AWS credentials file. \n TODO(dan): document the \"cloud controller policy\"",
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "nodePoolManagementCreds": {
+                      "description": "NodePoolManagementCreds is a reference to a secret containing cloud credentials with permissions matching the node pool management policy. The secret should have exactly one key, `credentials`, whose value is an AWS credentials file. \n TODO(dan): document the \"node pool management policy\"",
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "region": {
+                      "description": "Region is the AWS region in which the cluster resides. This configures the OCP control plane cloud integrations, and is used by NodePool to resolve the correct boot AMI for a given release.",
+                      "type": "string"
+                    },
+                    "resourceTags": {
+                      "description": "ResourceTags is a list of additional tags to apply to AWS resources created for the cluster. See https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html for information on tagging AWS resources. AWS supports a maximum of 50 tags per resource. OpenShift reserves 25 tags for its use, leaving 25 tags available for the user.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "maxItems": 25,
+                      "items": {
+                        "description": "AWSResourceTag is a tag to apply to AWS resources created for the cluster.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "key",
+                          "value"
+                        ],
+                        "properties": {
+                          "key": {
+                            "description": "Key is the key of the tag.",
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[0-9A-Za-z_.:/=+-@]+$"
+                          },
+                          "value": {
+                            "description": "Value is the value of the tag. \n Some AWS service do not support empty values. Since tags are added to resources in many services, the length of the tag value must meet the requirements of all services.",
+                            "type": "string",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "pattern": "^[0-9A-Za-z_.:/=+-@]+$"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "roles": {
+                      "description": "Roles must contain exactly 4 entries representing the locators for roles supporting the following OCP services: \n - openshift-ingress-operator/cloud-credentials - openshift-image-registry/installer-cloud-credentials - openshift-cluster-csi-drivers/ebs-cloud-credentials - cloud-network-config-controller/cloud-credentials \n Each role has unique permission requirements whose documentation is TBD. \n TODO(dan): revisit this field; it's really 3 required fields with specific content requirements",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "arn",
+                          "name",
+                          "namespace"
+                        ],
+                        "properties": {
+                          "arn": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "namespace": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "serviceEndpoints": {
+                      "description": "ServiceEndpoints specifies optional custom endpoints which will override the default service endpoint of specific AWS Services. \n There must be only one ServiceEndpoint for a given service name.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "AWSServiceEndpoint stores the configuration for services to override existing defaults of AWS Services.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "name",
+                          "url"
+                        ],
+                        "properties": {
+                          "name": {
+                            "description": "Name is the name of the AWS service. This must be provided and cannot be empty.",
+                            "type": "string"
+                          },
+                          "url": {
+                            "description": "URL is fully qualified URI with scheme https, that overrides the default generated endpoint for a client. This must be provided and cannot be empty.",
+                            "type": "string",
+                            "pattern": "^https://"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "azure": {
+                  "description": "Azure defines azure specific settings",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "credentials",
+                    "location",
+                    "machineIdentityID",
+                    "resourceGroup",
+                    "securityGroupName",
+                    "subnetName",
+                    "subscriptionID",
+                    "vnetID",
+                    "vnetName"
+                  ],
+                  "properties": {
+                    "credentials": {
+                      "description": "LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.",
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "machineIdentityID": {
+                      "type": "string"
+                    },
+                    "resourceGroup": {
+                      "type": "string"
+                    },
+                    "securityGroupName": {
+                      "type": "string"
+                    },
+                    "subnetName": {
+                      "type": "string"
+                    },
+                    "subscriptionID": {
+                      "type": "string"
+                    },
+                    "vnetID": {
+                      "type": "string"
+                    },
+                    "vnetName": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "ibmcloud": {
+                  "description": "IBMCloud defines IBMCloud specific settings for components",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "providerType": {
+                      "description": "ProviderType is a specific supported infrastructure provider within IBM Cloud.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "powervs": {
+                  "description": "PowerVS specifies configuration for clusters running on IBMCloud Power VS Service. This field is immutable. Once set, It can't be changed.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "controlPlaneOperatorCreds",
+                    "kubeCloudControllerCreds",
+                    "nodePoolManagementCreds",
+                    "region",
+                    "resourceGroup",
+                    "serviceInstanceID",
+                    "subnet",
+                    "vpc",
+                    "zone"
+                  ],
+                  "properties": {
+                    "controlPlaneOperatorCreds": {
+                      "description": "ControlPlaneOperatorCreds is a reference to a secret containing cloud credentials with permissions matching the control-plane-operator policy. The secret should have exactly one key, `credentials`, whose value is an AWS credentials file. This field is immutable. Once set, It can't be changed. \n TODO(dan): document the \"control plane operator policy\"",
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "kubeCloudControllerCreds": {
+                      "description": "KubeCloudControllerCreds is a reference to a secret containing cloud credentials with permissions matching the cloud controller policy. The secret should have exactly one key, `credentials`, whose value is an AWS credentials file. This field is immutable. Once set, It can't be changed. \n TODO(dan): document the \"cloud controller policy\"",
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "nodePoolManagementCreds": {
+                      "description": "NodePoolManagementCreds is a reference to a secret containing cloud credentials with permissions matching the node pool management policy. The secret should have exactly one key, `credentials`, whose value is an AWS credentials file. This field is immutable. Once set, It can't be changed. \n TODO(dan): document the \"node pool management policy\"",
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "region": {
+                      "description": "Region is the IBMCloud region in which the cluster resides. This configures the OCP control plane cloud integrations, and is used by NodePool to resolve the correct boot image for a given release. This field is immutable. Once set, It can't be changed.",
+                      "type": "string"
+                    },
+                    "resourceGroup": {
+                      "description": "ResourceGroup is the IBMCloud Resource Group in which the cluster resides. This field is immutable. Once set, It can't be changed.",
+                      "type": "string"
+                    },
+                    "serviceInstanceID": {
+                      "description": "ServiceInstance is the reference to the Power VS service on which the server instance(VM) will be created. Power VS service is a container for all Power VS instances at a specific geographic region. serviceInstance can be created via IBM Cloud catalog or CLI. ServiceInstanceID is the unique identifier that can be obtained from IBM Cloud UI or IBM Cloud cli. \n More detail about Power VS service instance. https://cloud.ibm.com/docs/power-iaas?topic=power-iaas-creating-power-virtual-server \n This field is immutable. Once set, It can't be changed.",
+                      "type": "string"
+                    },
+                    "subnet": {
+                      "description": "Subnet is the subnet to use for control plane cloud resources. This field is immutable. Once set, It can't be changed.",
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "description": "ID of resource",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "name": {
+                          "description": "Name of resource",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "vpc": {
+                      "description": "VPC specifies IBM Cloud PowerVS Load Balancing configuration for the control plane. This field is immutable. Once set, It can't be changed.",
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "region"
+                      ],
+                      "properties": {
+                        "name": {
+                          "description": "Name for VPC to used for all the service load balancer. This field is immutable. Once set, It can't be changed.",
+                          "type": "string"
+                        },
+                        "region": {
+                          "description": "Region is the IBMCloud region in which VPC gets created, this VPC used for all the ingress traffic into the OCP cluster. This field is immutable. Once set, It can't be changed.",
+                          "type": "string"
+                        },
+                        "subnet": {
+                          "description": "Subnet is the subnet to use for load balancer. This field is immutable. Once set, It can't be changed.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "zone": {
+                          "description": "Zone is the availability zone where load balancer cloud resources are created. This field is immutable. Once set, It can't be changed.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "zone": {
+                      "description": "Zone is the availability zone where control plane cloud resources are created. This field is immutable. Once set, It can't be changed.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "type": {
+                  "description": "Type is the type of infrastructure provider for the cluster.",
+                  "type": "string",
+                  "enum": [
+                    "AWS",
+                    "None",
+                    "IBMCloud",
+                    "Agent",
+                    "KubeVirt",
+                    "Azure",
+                    "PowerVS"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "pullSecret": {
+              "description": "PullSecret references a pull secret to be injected into the container runtime of all cluster nodes. The secret must have a key named \".dockerconfigjson\" whose value is the pull secret JSON.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "release": {
+              "description": "Release specifies the desired OCP release payload for the hosted cluster. \n Updating this field will trigger a rollout of the control plane. The behavior of the rollout will be driven by the ControllerAvailabilityPolicy and InfrastructureAvailabilityPolicy.",
+              "type": "object",
+              "required": [
+                "image"
+              ],
+              "properties": {
+                "image": {
+                  "description": "Image is the image pullspec of an OCP release payload image.",
+                  "type": "string",
+                  "pattern": "^(\\w+\\S+)$"
+                }
+              },
+              "additionalProperties": false
+            },
+            "secretEncryption": {
+              "description": "SecretEncryption specifies a Kubernetes secret encryption strategy for the control plane.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "aescbc": {
+                  "description": "AESCBC defines metadata about the AESCBC secret encryption strategy",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "activeKey"
+                  ],
+                  "properties": {
+                    "activeKey": {
+                      "description": "ActiveKey defines the active key used to encrypt new secrets",
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "backupKey": {
+                      "description": "BackupKey defines the old key during the rotation process so previously created secrets can continue to be decrypted until they are all re-encrypted with the active key.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "kms": {
+                  "description": "KMS defines metadata about the kms secret encryption strategy",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "provider"
+                  ],
+                  "properties": {
+                    "aws": {
+                      "description": "AWS defines metadata about the configuration of the AWS KMS Secret Encryption provider",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "activeKey",
+                        "auth",
+                        "region"
+                      ],
+                      "properties": {
+                        "activeKey": {
+                          "description": "ActiveKey defines the active key used to encrypt new secrets",
+                          "type": "object",
+                          "required": [
+                            "arn"
+                          ],
+                          "properties": {
+                            "arn": {
+                              "description": "ARN is the Amazon Resource Name for the encryption key",
+                              "type": "string",
+                              "pattern": "^arn:"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "auth": {
+                          "description": "Auth defines metadata about the management of credentials used to interact with AWS KMS",
+                          "type": "object",
+                          "required": [
+                            "credentials"
+                          ],
+                          "properties": {
+                            "credentials": {
+                              "description": "Credentials contains the name of the secret that holds the aws credentials that can be used to make the necessary KMS calls. It should at key AWSCredentialsFileSecretKey contain the aws credentials file that can be used to configure AWS SDKs",
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "backupKey": {
+                          "description": "BackupKey defines the old key during the rotation process so previously created secrets can continue to be decrypted until they are all re-encrypted with the active key.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "arn"
+                          ],
+                          "properties": {
+                            "arn": {
+                              "description": "ARN is the Amazon Resource Name for the encryption key",
+                              "type": "string",
+                              "pattern": "^arn:"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "region": {
+                          "description": "Region contains the AWS region",
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "ibmcloud": {
+                      "description": "IBMCloud defines metadata for the IBM Cloud KMS encryption strategy",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "auth",
+                        "keyList",
+                        "region"
+                      ],
+                      "properties": {
+                        "auth": {
+                          "description": "Auth defines metadata for how authentication is done with IBM Cloud KMS",
+                          "type": "object",
+                          "required": [
+                            "type"
+                          ],
+                          "properties": {
+                            "managed": {
+                              "description": "Managed defines metadata around the service to service authentication strategy for the IBM Cloud KMS system (all provider managed).",
+                              "type": [
+                                "object",
+                                "null"
+                              ]
+                            },
+                            "type": {
+                              "description": "Type defines the IBM Cloud KMS authentication strategy",
+                              "type": "string",
+                              "enum": [
+                                "Managed",
+                                "Unmanaged"
+                              ]
+                            },
+                            "unmanaged": {
+                              "description": "Unmanaged defines the auth metadata the customer provides to interact with IBM Cloud KMS",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "required": [
+                                "credentials"
+                              ],
+                              "properties": {
+                                "credentials": {
+                                  "description": "Credentials should reference a secret with a key field of IBMCloudIAMAPIKeySecretKey that contains a apikey to call IBM Cloud KMS APIs",
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "keyList": {
+                          "description": "KeyList defines the list of keys used for data encryption",
+                          "type": "array",
+                          "items": {
+                            "description": "IBMCloudKMSKeyEntry defines metadata for an IBM Cloud KMS encryption key",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "correlationID",
+                              "crkID",
+                              "instanceID",
+                              "keyVersion",
+                              "url"
+                            ],
+                            "properties": {
+                              "correlationID": {
+                                "description": "CorrelationID is an identifier used to track all api call usage from hypershift",
+                                "type": "string"
+                              },
+                              "crkID": {
+                                "description": "CRKID is the customer rook key id",
+                                "type": "string"
+                              },
+                              "instanceID": {
+                                "description": "InstanceID is the id for the key protect instance",
+                                "type": "string"
+                              },
+                              "keyVersion": {
+                                "description": "KeyVersion is a unique number associated with the key. The number increments whenever a new key is enabled for data encryption.",
+                                "type": "integer"
+                              },
+                              "url": {
+                                "description": "URL is the url to call key protect apis over",
+                                "type": "string",
+                                "pattern": "^https://"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "region": {
+                          "description": "Region is the IBM Cloud region",
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "provider": {
+                      "description": "Provider defines the KMS provider",
+                      "type": "string",
+                      "enum": [
+                        "IBMCloud",
+                        "AWS"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "type": {
+                  "description": "Type defines the type of kube secret encryption being used",
+                  "type": "string",
+                  "enum": [
+                    "kms",
+                    "aescbc"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "serviceAccountSigningKey": {
+              "description": "ServiceAccountSigningKey is a reference to a secret containing the private key used by the service account token issuer. The secret is expected to contain a single key named \"key\". If not specified, a service account signing key will be generated automatically for the cluster. When specifying a service account signing key, a IssuerURL must also be specified.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "services": {
+              "description": "Services specifies how individual control plane services are published from the hosting cluster of the control plane. \n If a given service is not present in this list, it will be exposed publicly by default.",
+              "type": "array",
+              "items": {
+                "description": "ServicePublishingStrategyMapping specifies how individual control plane services are published from the hosting cluster of a control plane.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "service",
+                  "servicePublishingStrategy"
+                ],
+                "properties": {
+                  "service": {
+                    "description": "Service identifies the type of service being published.",
+                    "type": "string",
+                    "enum": [
+                      "APIServer",
+                      "OAuthServer",
+                      "OIDC",
+                      "Konnectivity",
+                      "Ignition",
+                      "OVNSbDb"
+                    ]
+                  },
+                  "servicePublishingStrategy": {
+                    "description": "ServicePublishingStrategy specifies how to publish Service.",
+                    "type": "object",
+                    "required": [
+                      "type"
+                    ],
+                    "properties": {
+                      "loadBalancer": {
+                        "description": "LoadBalancer configures exposing a service using a LoadBalancer.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "hostname": {
+                            "description": "Hostname is the name of the DNS record that will be created pointing to the LoadBalancer.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "nodePort": {
+                        "description": "NodePort configures exposing a service using a NodePort.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "address"
+                        ],
+                        "properties": {
+                          "address": {
+                            "description": "Address is the host/ip that the NodePort service is exposed over.",
+                            "type": "string"
+                          },
+                          "port": {
+                            "description": "Port is the port of the NodePort service. If <=0, the port is dynamically assigned when the service is created.",
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "format": "int32"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "route": {
+                        "description": "Route configures exposing a service using a Route.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "hostname": {
+                            "description": "Hostname is the name of the DNS record that will be created pointing to the Route.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "type": {
+                        "description": "Type is the publishing strategy used for the service.",
+                        "type": "string",
+                        "enum": [
+                          "LoadBalancer",
+                          "NodePort",
+                          "Route",
+                          "None",
+                          "S3"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "sshKey": {
+              "description": "SSHKey references an SSH key to be injected into all cluster node sshd servers. The secret must have a single key \"id_rsa.pub\" whose value is the public part of an SSH key.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "hostingCluster": {
+          "description": "HostingCluster only applies to ManifestWork, and specifies which managedCluster's namespace the manifestwork will be applied to. If not specified, the controller will flag an error condition. The HostingCluster would be the management cluster of the hostedcluster and nodepool generated by the hypershiftDeployment",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hostingNamespace": {
+          "description": "HostingNamespace specify the where the children resouces(hostedcluster, nodepool) to sit in if not provided, the default is \"clusters\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "infra-id": {
+          "description": "Infrastructure ID, this is used to tag resources in the Cloud Provider, it will be generated if not provided",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "infrastructure": {
+          "description": "Infrastructure instructions and pointers so either ClusterDeployment generates what is needed or skips it when the user provides the infrastructure values",
+          "type": "object",
+          "required": [
+            "configure"
+          ],
+          "properties": {
+            "cloudProvider": {
+              "description": "CloudProvider secret, contains the Cloud credenetial, Pull Secret and Base Domain",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "configure": {
+              "description": "Configure the infrastructure using the provided CloudProvider, or user provided",
+              "type": "boolean"
+            },
+            "platform": {
+              "description": "Region is the AWS region in which the cluster resides. This configures the OCP control plane cloud integrations, and is used by NodePool to resolve the correct boot AMI for a given release.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "aws": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "region"
+                  ],
+                  "properties": {
+                    "region": {
+                      "description": "Region is the AWS region in which the cluster resides. This configures the OCP control plane cloud integrations, and is used by NodePool to resolve the correct boot AMI for a given release.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "azure": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "location"
+                  ],
+                  "properties": {
+                    "location": {
+                      "description": "Region is the Azure region(location) in which the cluster resides. This configures the OCP control plane cloud integrations, and is used by NodePool to resolve the correct boot image for a given release.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "nodePoolReferences": {
+          "description": "Reference to an array of NodePool resources on the HyperShift deployment namespace that will be applied to the ManagementCluster by ACM, required if InfraSpec.Configure is false",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "name": {
+                "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "nodePools": {
+          "description": "NodePools is an array of NodePool resources that will be applied to the ManagementCluster by ACM, if omitted, a default NodePool will be generated",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "name",
+              "spec"
+            ],
+            "properties": {
+              "name": {
+                "description": "Name is the name to give this NodePool",
+                "type": "string"
+              },
+              "spec": {
+                "description": "Spec stores the NodePoolSpec you wan to use. If omitted, it will be generated",
+                "type": "object",
+                "required": [
+                  "clusterName",
+                  "management",
+                  "platform",
+                  "release"
+                ],
+                "properties": {
+                  "autoScaling": {
+                    "description": "Autoscaling specifies auto-scaling behavior for the NodePool.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "max",
+                      "min"
+                    ],
+                    "properties": {
+                      "max": {
+                        "description": "Max is the maximum number of nodes allowed in the pool. Must be >= 1.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1
+                      },
+                      "min": {
+                        "description": "Min is the minimum number of nodes to maintain in the pool. Must be >= 1.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "clusterName": {
+                    "description": "ClusterName is the name of the HostedCluster this NodePool belongs to. \n TODO(dan): Should this be a LocalObjectReference?",
+                    "type": "string"
+                  },
+                  "config": {
+                    "description": "Config is a list of references to ConfigMaps containing serialized MachineConfig resources to be injected into the ignition configurations of nodes in the NodePool. The MachineConfig API schema is defined here: \n https://github.com/openshift/machine-config-operator/blob/master/pkg/apis/machineconfiguration.openshift.io/v1/types.go#L172 \n Each ConfigMap must have a single key named \"config\" whose value is the JSON or YAML of a serialized MachineConfig.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "description": "LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "name": {
+                          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "management": {
+                    "description": "Management specifies behavior for managing nodes in the pool, such as upgrade strategies and auto-repair behaviors.",
+                    "type": "object",
+                    "required": [
+                      "upgradeType"
+                    ],
+                    "properties": {
+                      "autoRepair": {
+                        "description": "AutoRepair specifies whether health checks should be enabled for machines in the NodePool. The default is false.",
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "inPlace": {
+                        "description": "InPlace is the configuration for in-place upgrades.",
+                        "type": [
+                          "object",
+                          "null"
+                        ]
+                      },
+                      "replace": {
+                        "description": "Replace is the configuration for rolling upgrades.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "rollingUpdate": {
+                            "description": "RollingUpdate specifies a rolling update strategy which upgrades nodes by creating new nodes and deleting the old ones.",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "maxSurge": {
+                                "description": "MaxSurge is the maximum number of nodes that can be provisioned above the desired number of nodes. \n Value can be an absolute number (ex: 5) or a percentage of desired nodes (ex: 10%). \n Absolute number is calculated from percentage by rounding up. \n This can not be 0 if MaxUnavailable is 0. \n Defaults to 1. \n Example: when this is set to 30%, new nodes can be provisioned immediately when the rolling update starts, such that the total number of old and new nodes do not exceed 130% of desired nodes. Once old nodes have been deleted, new nodes can be provisioned, ensuring that total number of nodes running at any time during the update is at most 130% of desired nodes.",
+                                "x-kubernetes-int-or-string": true
+                              },
+                              "maxUnavailable": {
+                                "description": "MaxUnavailable is the maximum number of nodes that can be unavailable during the update. \n Value can be an absolute number (ex: 5) or a percentage of desired nodes (ex: 10%). \n Absolute number is calculated from percentage by rounding down. \n This can not be 0 if MaxSurge is 0. \n Defaults to 0. \n Example: when this is set to 30%, old nodes can be deleted down to 70% of desired nodes immediately when the rolling update starts. Once new nodes are ready, more old nodes be deleted, followed by provisioning new nodes, ensuring that the total number of nodes available at all times during the update is at least 70% of desired nodes.",
+                                "x-kubernetes-int-or-string": true
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "strategy": {
+                            "description": "Strategy is the node replacement strategy for nodes in the pool.",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "RollingUpdate",
+                              "OnDelete"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "upgradeType": {
+                        "description": "UpgradeType specifies the type of strategy for handling upgrades.",
+                        "type": "string",
+                        "enum": [
+                          "Replace",
+                          "InPlace"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "nodeCount": {
+                    "description": "Deprecated: Use Replicas instead. NodeCount will be dropped in the next api release.",
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  },
+                  "nodeDrainTimeout": {
+                    "description": "NodeDrainTimeout is the total amount of time that the controller will spend on draining a node. The default value is 0, meaning that the node can be drained without any time limitations. NOTE: NodeDrainTimeout is different from `kubectl drain --timeout` TODO (alberto): Today changing this field will trigger a recreate rolling update, which kind of defeats the purpose of the change. In future we plan to propagate this field in-place. https://github.com/kubernetes-sigs/cluster-api/issues/5880",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "platform": {
+                    "description": "Platform specifies the underlying infrastructure provider for the NodePool and is used to configure platform specific behavior.",
+                    "type": "object",
+                    "required": [
+                      "type"
+                    ],
+                    "properties": {
+                      "agent": {
+                        "description": "Agent specifies the configuration used when using Agent platform.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "agentLabelSelector": {
+                            "description": "AgentLabelSelector contains labels that must be set on an Agent in order to be selected for a Machine.",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "matchExpressions": {
+                                "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "key",
+                                    "operator"
+                                  ],
+                                  "properties": {
+                                    "key": {
+                                      "description": "key is the label key that the selector applies to.",
+                                      "type": "string"
+                                    },
+                                    "operator": {
+                                      "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                      "type": "string"
+                                    },
+                                    "values": {
+                                      "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "matchLabels": {
+                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                "type": [
+                                  "object",
+                                  "null"
+                                ],
+                                "additionalProperties": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "aws": {
+                        "description": "AWS specifies the configuration used when operating on AWS.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "instanceType"
+                        ],
+                        "properties": {
+                          "ami": {
+                            "description": "AMI is the image id to use for node instances. If unspecified, the default is chosen based on the NodePool release payload image.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "instanceProfile": {
+                            "description": "InstanceProfile is the AWS EC2 instance profile, which is a container for an IAM role that the EC2 instance uses.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "instanceType": {
+                            "description": "InstanceType is an ec2 instance type for node instances (e.g. m5.large).",
+                            "type": "string"
+                          },
+                          "resourceTags": {
+                            "description": "ResourceTags is an optional list of additional tags to apply to AWS node instances. \n These will be merged with HostedCluster scoped tags, and HostedCluster tags take precedence in case of conflicts. \n See https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html for information on tagging AWS resources. AWS supports a maximum of 50 tags per resource. OpenShift reserves 25 tags for its use, leaving 25 tags available for the user.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "maxItems": 25,
+                            "items": {
+                              "description": "AWSResourceTag is a tag to apply to AWS resources created for the cluster.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "required": [
+                                "key",
+                                "value"
+                              ],
+                              "properties": {
+                                "key": {
+                                  "description": "Key is the key of the tag.",
+                                  "type": "string",
+                                  "maxLength": 128,
+                                  "minLength": 1,
+                                  "pattern": "^[0-9A-Za-z_.:/=+-@]+$"
+                                },
+                                "value": {
+                                  "description": "Value is the value of the tag. \n Some AWS service do not support empty values. Since tags are added to resources in many services, the length of the tag value must meet the requirements of all services.",
+                                  "type": "string",
+                                  "maxLength": 256,
+                                  "minLength": 1,
+                                  "pattern": "^[0-9A-Za-z_.:/=+-@]+$"
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "rootVolume": {
+                            "description": "RootVolume specifies configuration for the root volume of node instances.",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "size",
+                              "type"
+                            ],
+                            "properties": {
+                              "iops": {
+                                "description": "IOPS is the number of IOPS requested for the disk. This is only valid for type io1.",
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "format": "int64"
+                              },
+                              "size": {
+                                "description": "Size specifies size (in Gi) of the storage device. \n Must be greater than the image snapshot size or 8 (whichever is greater).",
+                                "type": "integer",
+                                "format": "int64",
+                                "minimum": 8
+                              },
+                              "type": {
+                                "description": "Type is the type of the volume.",
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "securityGroups": {
+                            "description": "SecurityGroups is an optional set of security groups to associate with node instances.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "description": "AWSResourceReference is a reference to a specific AWS resource by ID, ARN, or filters. Only one of ID, ARN or Filters may be specified. Specifying more than one will result in a validation error.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "properties": {
+                                "arn": {
+                                  "description": "ARN of resource",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "filters": {
+                                  "description": "Filters is a set of key/value pairs used to identify a resource They are applied according to the rules defined by the AWS API: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Filtering.html",
+                                  "type": [
+                                    "array",
+                                    "null"
+                                  ],
+                                  "items": {
+                                    "description": "Filter is a filter used to identify an AWS resource",
+                                    "type": [
+                                      "object",
+                                      "null"
+                                    ],
+                                    "required": [
+                                      "name",
+                                      "values"
+                                    ],
+                                    "properties": {
+                                      "name": {
+                                        "description": "Name of the filter. Filter names are case-sensitive.",
+                                        "type": "string"
+                                      },
+                                      "values": {
+                                        "description": "Values includes one or more filter values. Filter values are case-sensitive.",
+                                        "type": "array",
+                                        "items": {
+                                          "type": [
+                                            "string",
+                                            "null"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "id": {
+                                  "description": "ID of resource",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "subnet": {
+                            "description": "Subnet is the subnet to use for node instances.",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "arn": {
+                                "description": "ARN of resource",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "filters": {
+                                "description": "Filters is a set of key/value pairs used to identify a resource They are applied according to the rules defined by the AWS API: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Filtering.html",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "description": "Filter is a filter used to identify an AWS resource",
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "name",
+                                    "values"
+                                  ],
+                                  "properties": {
+                                    "name": {
+                                      "description": "Name of the filter. Filter names are case-sensitive.",
+                                      "type": "string"
+                                    },
+                                    "values": {
+                                      "description": "Values includes one or more filter values. Filter values are case-sensitive.",
+                                      "type": "array",
+                                      "items": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "id": {
+                                "description": "ID of resource",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "azure": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "vmsize"
+                        ],
+                        "properties": {
+                          "availabilityZone": {
+                            "description": "AvailabilityZone of the nodepool. Must not be specified for clusters in a location that does not support AvailabilityZone.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "diskSizeGB": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "format": "int32",
+                            "minimum": 16
+                          },
+                          "imageID": {
+                            "description": "ImageID is the id of the image to boot from. If unset, the default image at the location below will be used: subscription/$subscriptionID/resourceGroups/$resourceGroupName/providers/Microsoft.Compute/images/rhcos.x86_64.vhd",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "vmsize": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "ibmcloud": {
+                        "description": "IBMCloud defines IBMCloud specific settings for components",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "providerType": {
+                            "description": "ProviderType is a specific supported infrastructure provider within IBM Cloud.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "kubevirt": {
+                        "description": "Kubevirt specifies the configuration used when operating on KubeVirt platform.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "rootVolume"
+                        ],
+                        "properties": {
+                          "compute": {
+                            "description": "Compute contains values representing the virtual hardware requested for the VM",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "cores": {
+                                "description": "Cores represents how many cores the guest VM should have",
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "format": "int32"
+                              },
+                              "memory": {
+                                "description": "Memory represents how much guest memory the VM should have",
+                                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                                "x-kubernetes-int-or-string": true
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "rootVolume": {
+                            "description": "RootVolume represents values associated with the VM volume that will host rhcos",
+                            "type": "object",
+                            "properties": {
+                              "diskImage": {
+                                "description": "Image represents what rhcos image to use for the node pool",
+                                "type": [
+                                  "object",
+                                  "null"
+                                ],
+                                "properties": {
+                                  "containerDiskImage": {
+                                    "description": "ContainerDiskImage is a string representing the container image that holds the root disk",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              "persistent": {
+                                "description": "Persistent volume type means the VM's storage is backed by a PVC VMs that use persistent volumes can survive disruption events like restart and eviction This is the default type used when no storage type is defined.",
+                                "type": [
+                                  "object",
+                                  "null"
+                                ],
+                                "properties": {
+                                  "size": {
+                                    "description": "Size is the size of the persistent storage volume",
+                                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                                    "x-kubernetes-int-or-string": true
+                                  },
+                                  "storageClass": {
+                                    "description": "StorageClass is the storageClass used for the underlying PVC that hosts the volume",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              "type": {
+                                "description": "Type represents the type of storage to associate with the kubevirt VMs.",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "enum": [
+                                  "Persistent"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "powervs": {
+                        "description": "PowerVS specifies the configuration used when using IBMCloud PowerVS platform.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "image": {
+                            "description": "Image used for deploying the nodes. If unspecified, the default is chosen based on the NodePool release payload image.",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "id": {
+                                "description": "ID of resource",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "name": {
+                                "description": "Name of resource",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "imageDeletePolicy": {
+                            "description": "ImageDeletePolicy is policy for the image deletion. \n delete: delete the image from the infrastructure. retain: delete the image from the openshift but retain in the infrastructure. \n The default is delete",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "delete",
+                              "retain"
+                            ]
+                          },
+                          "memoryGiB": {
+                            "description": "MemoryGiB is the size of a virtual machine's memory, in GiB. maximum value for the MemoryGiB depends on the selected SystemType. when SystemType is set to e880 maximum MemoryGiB value is 7463 GiB. when SystemType is set to e980 maximum MemoryGiB value is 15307 GiB. when SystemType is set to s922 maximum MemoryGiB value is 942 GiB. The minimum memory is 32 GiB. \n When omitted, this means the user has no opinion and the platform is left to choose a reasonable default. The current default is 32.",
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "format": "int32"
+                          },
+                          "processorType": {
+                            "description": "ProcessorType is the VM instance processor type. It must be set to one of the following values: Dedicated, Capped or Shared. \n Dedicated: resources are allocated for a specific client, The hypervisor makes a 1:1 binding of a partition\u2019s processor to a physical processor core. Shared: Shared among other clients. Capped: Shared, but resources do not expand beyond those that are requested, the amount of CPU time is Capped to the value specified for the entitlement. \n if the processorType is selected as Dedicated, then Processors value cannot be fractional. When omitted, this means that the user has no opinion and the platform is left to choose a reasonable default. The current default is Shared.",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "dedicated",
+                              "shared",
+                              "capped"
+                            ]
+                          },
+                          "processors": {
+                            "description": "Processors is the number of virtual processors in a virtual machine. when the processorType is selected as Dedicated the processors value cannot be fractional. maximum value for the Processors depends on the selected SystemType. when SystemType is set to e880 or e980 maximum Processors value is 143. when SystemType is set to s922 maximum Processors value is 15. minimum value for Processors depends on the selected ProcessorType. when ProcessorType is set as Shared or Capped, The minimum processors is 0.5. when ProcessorType is set as Dedicated, The minimum processors is 1. When omitted, this means that the user has no opinion and the platform is left to choose a reasonable default. The default is set based on the selected ProcessorType. when ProcessorType selected as Dedicated, the default is set to 1. when ProcessorType selected as Shared or Capped, the default is set to 0.5.",
+                            "x-kubernetes-int-or-string": true
+                          },
+                          "storageType": {
+                            "description": "StorageType for the image and nodes, this will be ignored if Image is specified. The storage tiers in PowerVS are based on I/O operations per second (IOPS). It means that the performance of your storage volumes is limited to the maximum number of IOPS based on volume size and storage tier. Although, the exact numbers might change over time, the Tier 3 storage is currently set to 3 IOPS/GB, and the Tier 1 storage is currently set to 10 IOPS/GB. \n The default is tier1",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "tier1",
+                              "tier3"
+                            ]
+                          },
+                          "systemType": {
+                            "description": "SystemType is the System type used to host the instance. systemType determines the number of cores and memory that is available. Few of the supported SystemTypes are s922,e880,e980. e880 systemType available only in Dallas Datacenters. e980 systemType available in Datacenters except Dallas and Washington. When omitted, this means that the user has no opinion and the platform is left to choose a reasonable default. The current default is s922 which is generally available.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "type": {
+                        "description": "Type specifies the platform name.",
+                        "type": "string",
+                        "enum": [
+                          "AWS",
+                          "None",
+                          "IBMCloud",
+                          "Agent",
+                          "KubeVirt",
+                          "Azure",
+                          "PowerVS"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "release": {
+                    "description": "Release specifies the OCP release used for the NodePool. This informs the ignition configuration for machines, as well as other platform specific machine properties (e.g. an AMI on the AWS platform).",
+                    "type": "object",
+                    "required": [
+                      "image"
+                    ],
+                    "properties": {
+                      "image": {
+                        "description": "Image is the image pullspec of an OCP release payload image.",
+                        "type": "string",
+                        "pattern": "^(\\w+\\S+)$"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "replicas": {
+                    "description": "Replicas is the desired number of nodes the pool should maintain. If unset, the default value is 0.",
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "override": {
+          "description": "InfrastructureOverride allows support for special cases   OverrideDestroy = \"ORPHAN\"   InfraConfigureOnly = \"INFRA-ONLY\"   DeleteHostingNamespace = \"DELETE-HOSTING-NAMESPACE\"",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "ORPHAN",
+            "INFRA-ONLY",
+            "DELETE-HOSTING-NAMESPACE"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "HypershiftDeploymentStatus defines the observed state of HypershiftDeployment",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "description": "Track the conditions for each step in the desired curation that is being executed as a job",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "lastTransitionTime",
+              "message",
+              "reason",
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastTransitionTime": {
+                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                "type": "string",
+                "format": "date-time"
+              },
+              "message": {
+                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                "type": "string",
+                "maxLength": 32768
+              },
+              "observedGeneration": {
+                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64",
+                "minimum": 0
+              },
+              "reason": {
+                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                "type": "string",
+                "maxLength": 1024,
+                "minLength": 1,
+                "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
+              },
+              "status": {
+                "description": "status of the condition, one of True, False, Unknown.",
+                "type": "string",
+                "enum": [
+                  "True",
+                  "False",
+                  "Unknown"
+                ]
+              },
+              "type": {
+                "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                "type": "string",
+                "maxLength": 316,
+                "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "phase": {
+          "description": "Show which phase of curation is currently being processed",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "cluster.open-cluster-management.io",
+      "kind": "HypershiftDeployment",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

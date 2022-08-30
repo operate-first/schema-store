@@ -34,11 +34,12 @@
       ],
       "properties": {
         "clusterRole": {
-          "description": "Cluster Role referenced by the  cluster role bindings, if not specified defaults to cluster-admin",
+          "description": "Name of the cluster role referenced by the cluster role bindings, defaults to \"cluster-admin\" if none specified",
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "minLength": 1
         },
         "ignoreClusterRoleBindings": {
           "description": "A list of regex values signifying which cluster role binding names to ignore. By default, all cluster role bindings that have a name which starts with system: will be ignored. It is recommended to set this to a stricter value.",
@@ -71,10 +72,11 @@
           "type": [
             "integer",
             "null"
-          ]
+          ],
+          "minimum": 1
         },
         "namespaceSelector": {
-          "description": "Selecting a list of namespaces where the policy applies",
+          "description": "Selecting a list of namespaces where the policy applies. This field is obsolete and does not do anything.",
           "type": [
             "object",
             "null"
@@ -89,7 +91,8 @@
                 "type": [
                   "string",
                   "null"
-                ]
+                ],
+                "minLength": 1
               }
             },
             "include": {
@@ -101,24 +104,41 @@
                 "type": [
                   "string",
                   "null"
-                ]
+                ],
+                "minLength": 1
               }
             }
           },
           "additionalProperties": false
         },
         "remediationAction": {
-          "description": "enforce, inform",
+          "description": "Only Inform is currently supported. Setting this to Enforce will have the same effect as Inform.",
           "type": [
             "string",
             "null"
+          ],
+          "enum": [
+            "Inform",
+            "inform",
+            "Enforce",
+            "enforce"
           ]
         },
         "severity": {
-          "description": "low, medium, or high",
+          "description": "low, medium, high, or critical",
           "type": [
             "string",
             "null"
+          ],
+          "enum": [
+            "low",
+            "Low",
+            "medium",
+            "Medium",
+            "high",
+            "High",
+            "critical",
+            "Critical"
           ]
         }
       },
@@ -132,25 +152,22 @@
       ],
       "properties": {
         "compliancyDetails": {
-          "description": "Compliancy  details",
+          "description": "reason for non-compliancy",
           "type": [
             "object",
             "null"
           ],
           "additionalProperties": {
-            "description": "per policies",
             "type": [
               "object",
               "null"
             ],
             "additionalProperties": {
-              "description": "per namespace",
               "type": [
                 "array",
                 "null"
               ],
               "items": {
-                "description": "list of violation msgs",
                 "type": [
                   "string",
                   "null"
@@ -160,7 +177,7 @@
           }
         },
         "compliant": {
-          "description": "ComplianceState shows the state of enforcement",
+          "description": "Compliant, NonCompliant, UnknownCompliancy",
           "type": [
             "string",
             "null"

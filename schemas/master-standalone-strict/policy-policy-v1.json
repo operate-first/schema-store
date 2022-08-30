@@ -1,6 +1,10 @@
 {
   "description": "Policy is the Schema for the policies API",
   "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -33,22 +37,23 @@
         "null"
       ],
       "required": [
-        "disabled"
+        "disabled",
+        "policy-templates"
       ],
       "properties": {
         "disabled": {
           "type": "boolean"
         },
         "policy-templates": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "description": "PolicyTemplate template for custom security policy",
             "type": [
               "object",
               "null"
+            ],
+            "required": [
+              "objectDefinition"
             ],
             "properties": {
               "objectDefinition": {
@@ -63,6 +68,12 @@
           "type": [
             "string",
             "null"
+          ],
+          "enum": [
+            "Inform",
+            "inform",
+            "Enforce",
+            "enforce"
           ]
         }
       },
@@ -187,6 +198,12 @@
                   "additionalProperties": false
                 }
               },
+              "placement": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "placementBinding": {
                 "type": [
                   "string",
@@ -194,6 +211,12 @@
                 ]
               },
               "placementRule": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "policySet": {
                 "type": [
                   "string",
                   "null"

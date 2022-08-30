@@ -645,6 +645,12 @@
           },
           "additionalProperties": false
         },
+        "appstatusReference": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "lastUpdateTime": {
           "type": [
             "string",
