@@ -1,0 +1,548 @@
+{
+  "description": "ManagedProxyConfiguration is the Schema for the managedproxyconfigurations API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "proxy.open-cluster-management.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ManagedProxyConfiguration"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "ManagedProxyConfigurationSpec is the prescription of ManagedProxyConfiguration",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "authentication",
+        "proxyAgent",
+        "proxyServer"
+      ],
+      "properties": {
+        "authentication": {
+          "description": "`authentication` defines how the credentials for the authentication between proxy servers and proxy agents are signed and mounted.",
+          "type": "object",
+          "properties": {
+            "dump": {
+              "description": "`dump` is where we store the signed certificates from signers.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "secrets": {
+                  "description": "`secrets` is the names of the secrets for saving the signed certificates.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "signingAgentServerSecretName": {
+                      "description": "`signingAgentServerSecretName` is the secret name of the proxy servers to receive tunneling handshakes from proxy agents.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "signingProxyClientSecretName": {
+                      "description": "`signingProxyClientSecretName` is the secret name for requesting/streaming over the proxy server.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "signingProxyServerSecretName": {
+                      "description": "`signingProxyServerSecretName` the secret name of the proxy server's listening certificates for serving proxy requests.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "signer": {
+              "description": "`signer` defines how we sign server and client certificates for the proxy servers and agents.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "selfSigned": {
+                  "description": "`selfSigned` prescribes the detail of how we self-sign the certificates.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "additionalSANs": {
+                      "description": "`additionalSANs` adds a few custom hostnames or IPs to the signing certificates.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "type": {
+                  "description": "`type` is the supported type of signer. Currently only \"SelfSign\" supported.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "SelfSigned",
+                    "Provided",
+                    "CertManager"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "deploy": {
+          "description": "`deploy` is where we override miscellaneous details for deploying either proxy servers or agents.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "ports"
+          ],
+          "properties": {
+            "ports": {
+              "description": "`ports` is the ports for proxying and tunneling.",
+              "type": "object",
+              "properties": {
+                "adminServer": {
+                  "description": "`adminServer` is the port for debugging and operating.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                },
+                "agentServer": {
+                  "description": "`agentServer` is the listening port of proxy server for serving tunneling handshakes.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                },
+                "healthServer": {
+                  "description": "`healthServer` is for probing the healthiness.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                },
+                "proxyServer": {
+                  "description": "`proxyServer` is the listening port of proxy server for serving proxy requests.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "proxyAgent": {
+          "description": "`proxyServer` structurelized the arguments for running proxy agents.",
+          "type": "object",
+          "required": [
+            "image"
+          ],
+          "properties": {
+            "additionalArgs": {
+              "description": "`additionalArgs` defines args used in proxy-agent.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "image": {
+              "description": "`image` is the container image of the proxy agent.",
+              "type": "string"
+            },
+            "imagePullSecrets": {
+              "description": "`imagePullSecrets` defines the imagePullSecrets used by proxy-agent",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "replicas": {
+              "description": "`replicas` is the replicas of the agents.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "proxyServer": {
+          "description": "`proxyServer` structurelized the arguments for running proxy servers.",
+          "type": "object",
+          "required": [
+            "image"
+          ],
+          "properties": {
+            "additionalArgs": {
+              "description": "`additionalArgs` adds arbitrary additional command line args to the proxy-server.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "entrypoint": {
+              "description": "`entrypoint` defines how will the proxy agents connecting the servers.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "hostname": {
+                  "description": "`hostname` points to a fixed hostname for serving agents' handshakes.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "value"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "loadBalancerService": {
+                  "description": "`loadBalancerService` points to a load-balancer typed service in the hub cluster.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "annotations": {
+                      "description": "Annotations is the annoations of the load-balancer service. This is for allowing customizing service using vendor-specific extended annotations such as: - service.beta.kubernetes.io/alibaba-cloud-loadbalancer-address-type: \"intranet\" - service.beta.kubernetes.io/azure-load-balancer-internal: true",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "AnnotationVar list of annotation variables to set in the LB Service.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "key"
+                        ],
+                        "properties": {
+                          "key": {
+                            "description": "Key is the key of annotation",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "Value is the value of annotation",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "name": {
+                      "description": "`name` is the name of the load-balancer service. And the namespace will align to where the proxy-servers are deployed.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "port": {
+                  "description": "`port` is the target port to access proxy servers",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32",
+                  "minimum": 1
+                },
+                "type": {
+                  "description": "`type` is the type of the entrypoint of the proxy servers. Currently supports \"Hostname\", \"LoadBalancerService\"",
+                  "type": "string",
+                  "enum": [
+                    "Hostname",
+                    "LoadBalancerService",
+                    "PortForward"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "image": {
+              "description": "`image` is the container image of the proxy servers.",
+              "type": "string"
+            },
+            "inClusterServiceName": {
+              "description": "`inClusterServiceName` is the name of the in-cluster service for proxying requests inside the hub cluster to the proxy servers.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "namespace": {
+              "description": "`namespace` is the namespace where we will deploy the proxy servers and related resources.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "nodePlacement": {
+              "description": "NodePlacement defines which Nodes the proxy server are scheduled on. The default is an empty list.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "nodeSelector": {
+                  "description": "NodeSelector defines which Nodes the Pods are scheduled on. The default is an empty list.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "tolerations": {
+                  "description": "Tolerations is attached by pods to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>. The default is an empty list.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "effect": {
+                        "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "key": {
+                        "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "operator": {
+                        "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "tolerationSeconds": {
+                        "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "format": "int64"
+                      },
+                      "value": {
+                        "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "replicas": {
+              "description": "`replicas` is the expected replicas of the proxy servers. Note that the replicas will also be reflected in the flag `--server-count` so that agents can discover all the server instances.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "ManagedProxyConfigurationStatus defines the observed state of ManagedProxyConfiguration",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "lastTransitionTime",
+              "message",
+              "reason",
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastTransitionTime": {
+                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                "type": "string",
+                "format": "date-time"
+              },
+              "message": {
+                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                "type": "string",
+                "maxLength": 32768
+              },
+              "observedGeneration": {
+                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64",
+                "minimum": 0
+              },
+              "reason": {
+                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                "type": "string",
+                "maxLength": 1024,
+                "minLength": 1,
+                "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
+              },
+              "status": {
+                "description": "status of the condition, one of True, False, Unknown.",
+                "type": "string",
+                "enum": [
+                  "True",
+                  "False",
+                  "Unknown"
+                ]
+              },
+              "type": {
+                "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                "type": "string",
+                "maxLength": 316,
+                "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "lastObservedGeneration": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "proxy.open-cluster-management.io",
+      "kind": "ManagedProxyConfiguration",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
