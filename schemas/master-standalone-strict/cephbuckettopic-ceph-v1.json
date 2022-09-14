@@ -1,0 +1,183 @@
+{
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ceph.rook.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CephBucketTopic"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "endpoint",
+        "objectStoreName",
+        "objectStoreNamespace"
+      ],
+      "properties": {
+        "endpoint": {
+          "type": "object",
+          "properties": {
+            "amqp": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "exchange",
+                "uri"
+              ],
+              "properties": {
+                "ackLevel": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "none",
+                    "broker",
+                    "routeable"
+                  ]
+                },
+                "disableVerifySSL": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "exchange": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uri": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            "http": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "uri"
+              ],
+              "properties": {
+                "disableVerifySSL": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "uri": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            "kafka": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "uri"
+              ],
+              "properties": {
+                "ackLevel": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "none",
+                    "broker"
+                  ]
+                },
+                "disableVerifySSL": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "uri": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "useSSL": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "objectStoreName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "objectStoreNamespace": {
+          "type": "string",
+          "minLength": 1
+        },
+        "opaqueData": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "persistent": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ceph.rook.io",
+      "kind": "CephBucketTopic",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

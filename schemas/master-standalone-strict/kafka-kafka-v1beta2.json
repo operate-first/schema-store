@@ -2082,6 +2082,12 @@
                               "null"
                             ]
                           },
+                          "minDomains": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
                           "topologyKey": {
                             "type": [
                               "string",
@@ -3786,6 +3792,12 @@
                             "additionalProperties": false
                           },
                           "maxSkew": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
+                          "minDomains": {
                             "type": [
                               "integer",
                               "null"
@@ -6872,6 +6884,12 @@
                               "null"
                             ]
                           },
+                          "minDomains": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
                           "topologyKey": {
                             "type": [
                               "string",
@@ -8453,7 +8471,7 @@
               "additionalProperties": false
             },
             "template": {
-              "description": "Template for Kafka cluster resources. The template allows users to specify how are the `StatefulSet`, `Pods` and `Services` generated.",
+              "description": "Template for Kafka cluster resources. The template allows users to specify how the `StatefulSet`, `Pods`, and `Services` are generated.",
               "type": [
                 "object",
                 "null"
@@ -10493,6 +10511,12 @@
                               "null"
                             ]
                           },
+                          "minDomains": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
                           "topologyKey": {
                             "type": [
                               "string",
@@ -12270,6 +12294,12 @@
                               "null"
                             ]
                           },
+                          "minDomains": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
                           "topologyKey": {
                             "type": [
                               "string",
@@ -12817,7 +12847,7 @@
               "additionalProperties": false
             },
             "template": {
-              "description": "Template for ZooKeeper cluster resources. The template allows users to specify how are the `StatefulSet`, `Pods` and `Services` generated.",
+              "description": "Template for ZooKeeper cluster resources. The template allows users to specify how the `StatefulSet`, `Pods`, and `Services` are generated.",
               "type": [
                 "object",
                 "null"
@@ -14204,6 +14234,12 @@
                             "additionalProperties": false
                           },
                           "maxSkew": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
+                          "minDomains": {
                             "type": [
                               "integer",
                               "null"

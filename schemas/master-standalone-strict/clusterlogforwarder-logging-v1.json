@@ -289,6 +289,47 @@
                   "null"
                 ]
               },
+              "googleCloudLogging": {
+                "description": "GoogleCloudLogging provides configuration for sending logs to Google Cloud Logging",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "billingAccountId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "folderId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "logId": {
+                    "description": "LogID is the log ID to which to publish logs. This identifies log stream.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "organizationId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "projectId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
               "kafka": {
                 "description": "Kafka provides optional extra properties for `type: kafka`",
                 "type": [
@@ -480,7 +521,8 @@
                   "elasticsearch",
                   "kafka",
                   "cloudwatch",
-                  "loki"
+                  "loki",
+                  "googleCloudLogging"
                 ]
               },
               "url": {
