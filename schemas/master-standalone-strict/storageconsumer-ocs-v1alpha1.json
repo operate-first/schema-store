@@ -1,0 +1,137 @@
+{
+  "description": "StorageConsumer is the Schema for the storageconsumers API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ocs.openshift.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "StorageConsumer"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "StorageConsumerSpec defines the desired state of StorageConsumer",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "capacity"
+      ],
+      "properties": {
+        "capacity": {
+          "description": "Capacity is the total quota size allocated to a consumer.",
+          "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+          "x-kubernetes-int-or-string": true
+        },
+        "enable": {
+          "description": "Enable flag ignores a reconcile if set to false",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "StorageConsumerStatus defines the observed state of StorageConsumer",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "cephResources": {
+          "description": "CephResources provide details of created ceph resources required for external storage",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "CephResourcesSpec hold details of created ceph resources required for external storage",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "cephClients": {
+                "description": "CephClients holds the name of CephClients mapped to the created ceph resource",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "kind": {
+                "description": "Kind describes the kind of created ceph resource",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "description": "Name describes the name of created ceph resource",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "description": "Phase describes the phase of created ceph resource",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "grantedCapacity": {
+          "description": "GrantedCapacity holds granted capacity value for the consumer",
+          "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+          "x-kubernetes-int-or-string": true
+        },
+        "state": {
+          "description": "State describes the state of StorageConsumer",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ocs.openshift.io",
+      "kind": "StorageConsumer",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

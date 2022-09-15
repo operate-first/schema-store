@@ -2598,6 +2598,12 @@
                           "null"
                         ]
                       },
+                      "minDomains": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
                       "topologyKey": {
                         "type": [
                           "string",
@@ -4380,6 +4386,12 @@
                           "null"
                         ]
                       },
+                      "minDomains": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
                       "topologyKey": {
                         "type": [
                           "string",
@@ -4515,7 +4527,7 @@
           ],
           "properties": {
             "type": {
-              "description": "Type of the tracing used. Currently the only supported type is `jaeger` for Jaeger tracing.",
+              "description": "Type of the tracing used. Currently the only supported type is `jaeger` for Jaeger tracing. The Jaeger tracing is deprecated.",
               "type": "string",
               "enum": [
                 "jaeger"
