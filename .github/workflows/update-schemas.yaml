@@ -57,6 +57,7 @@ jobs:
           rm -rf schemas-artifacts
 
       - name: Setup PR
+        id: setup-pr
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: "chore: Generate schemas"
@@ -66,3 +67,12 @@ jobs:
           body: |
             This PR is automatically generated. It updates schemas in the repository.
             More information on how the schemas are updated can be found in the [README](https://github.com/operate-first/schema-store/blob/main/README.md#acquiring-schemas).
+
+      - name: Apply lgtm and approved labels so prow can merge PR
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          number: ${{ steps.setup-pr.outputs.pull-request-number }}
+          labels: |
+            lgtm
+            approved
+            ok-to-test
