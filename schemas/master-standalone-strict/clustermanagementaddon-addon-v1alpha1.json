@@ -53,6 +53,14 @@
                 "string",
                 "null"
               ]
+            },
+            "lastObservedGeneration": {
+              "description": "lastObservedGeneration is the observed generation of the custom resource for the configuration of the addon.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int64"
             }
           },
           "additionalProperties": false

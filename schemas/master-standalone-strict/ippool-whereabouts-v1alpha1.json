@@ -52,12 +52,6 @@
             "properties": {
               "id": {
                 "type": "string"
-              },
-              "podref": {
-                "type": [
-                  "string",
-                  "null"
-                ]
               }
             },
             "additionalProperties": false

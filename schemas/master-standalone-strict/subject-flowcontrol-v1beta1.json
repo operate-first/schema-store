@@ -6,22 +6,19 @@
   ],
   "properties": {
     "group": {
-      "description": "`group` matches based on user group name.",
       "$ref": "_definitions.json#/definitions/io.k8s.api.flowcontrol.v1beta1.GroupSubject"
     },
     "kind": {
-      "description": "`kind` indicates which one of the other fields is non-empty. Required",
+      "description": "Required",
       "type": [
         "string",
         "null"
       ]
     },
     "serviceAccount": {
-      "description": "`serviceAccount` matches ServiceAccounts.",
       "$ref": "_definitions.json#/definitions/io.k8s.api.flowcontrol.v1beta1.ServiceAccountSubject"
     },
     "user": {
-      "description": "`user` matches based on username.",
       "$ref": "_definitions.json#/definitions/io.k8s.api.flowcontrol.v1beta1.UserSubject"
     }
   },

@@ -870,20 +870,6 @@
               "null"
             ],
             "properties": {
-              "baseDN": {
-                "description": "BaseDN to start the LDAP user search from. For example \"cn=users,dc=example,dc=com\"",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "filter": {
-                "description": "Optional filter to apply when searching the directory. For example \"(objectClass=person)\"",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
               "groupSearch": {
                 "description": "Optional The groupSearch to apply to find the groups of the user",
                 "type": [
@@ -1101,6 +1087,7 @@
                   ],
                   "required": [
                     "clusterOAuth",
+                    "hypershiftDeployment",
                     "manifestWork",
                     "name"
                   ],
@@ -1180,6 +1167,92 @@
                         "name": {
                           "description": "ClusterOAuth name",
                           "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "hypershiftDeployment": {
+                      "description": "HypershiftDeployment status",
+                      "type": "object",
+                      "required": [
+                        "name"
+                      ],
+                      "properties": {
+                        "conditions": {
+                          "description": "Track the conditions for each step in the desired curation that is being executed as a job",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n // other fields }",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "lastTransitionTime",
+                              "message",
+                              "reason",
+                              "status",
+                              "type"
+                            ],
+                            "properties": {
+                              "lastTransitionTime": {
+                                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "message": {
+                                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                                "type": "string",
+                                "maxLength": 32768
+                              },
+                              "observedGeneration": {
+                                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "format": "int64",
+                                "minimum": 0
+                              },
+                              "reason": {
+                                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                                "type": "string",
+                                "maxLength": 1024,
+                                "minLength": 1,
+                                "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
+                              },
+                              "status": {
+                                "description": "status of the condition, one of True, False, Unknown.",
+                                "type": "string",
+                                "enum": [
+                                  "True",
+                                  "False",
+                                  "Unknown"
+                                ]
+                              },
+                              "type": {
+                                "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                                "type": "string",
+                                "maxLength": 316,
+                                "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "name": {
+                          "description": "HypershiftDeployment name",
+                          "type": "string"
+                        },
+                        "phase": {
+                          "description": "Show which phase of curation is currently being processed",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
                         }
                       },
                       "additionalProperties": false
@@ -1404,6 +1477,85 @@
                                       }
                                     },
                                     "additionalProperties": false
+                                  },
+                                  "statusFeedback": {
+                                    "description": "StatusFeedback represents the values of the feild synced back defined in statusFeedbacks",
+                                    "type": [
+                                      "object",
+                                      "null"
+                                    ],
+                                    "properties": {
+                                      "values": {
+                                        "description": "Values represents the synced value of the interested field.",
+                                        "type": [
+                                          "array",
+                                          "null"
+                                        ],
+                                        "items": {
+                                          "type": [
+                                            "object",
+                                            "null"
+                                          ],
+                                          "required": [
+                                            "fieldValue",
+                                            "name"
+                                          ],
+                                          "properties": {
+                                            "fieldValue": {
+                                              "description": "Value is the value of the status field. The value of the status field can only be integer, string or boolean.",
+                                              "type": "object",
+                                              "required": [
+                                                "type"
+                                              ],
+                                              "properties": {
+                                                "boolean": {
+                                                  "description": "Boolean is bool value when type is boolean.",
+                                                  "type": [
+                                                    "boolean",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "integer": {
+                                                  "description": "Integer is the integer value when type is integer.",
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ],
+                                                  "format": "int64"
+                                                },
+                                                "string": {
+                                                  "description": "String is the string value when when type is string.",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "type": {
+                                                  "description": "Type represents the type of the value, it can be integer, string or boolean.",
+                                                  "type": "string",
+                                                  "enum": [
+                                                    "Integer",
+                                                    "String",
+                                                    "Boolean"
+                                                  ]
+                                                }
+                                              },
+                                              "additionalProperties": false
+                                            },
+                                            "name": {
+                                              "description": "Name represents the alias name for this field. It is the same as what is specified in StatuFeedbackRule in the spec.",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "additionalProperties": false
+                                        },
+                                        "x-kubernetes-list-map-keys": [
+                                          "name"
+                                        ],
+                                        "x-kubernetes-list-type": "map"
+                                      }
+                                    },
+                                    "additionalProperties": false
                                   }
                                 },
                                 "additionalProperties": false
@@ -1503,7 +1655,7 @@
                 ],
                 "properties": {
                   "conditions": {
-                    "description": "Conditions contains the different condition statuses for this Placement.",
+                    "description": "Conditions contains the different condition status for this Placement.",
                     "type": [
                       "array",
                       "null"
