@@ -1,5 +1,5 @@
 {
-  "description": "ClusterManager configures the controllers on the hub that govern registration and work distribution for attached Klusterlets. ClusterManager will only be deployed in open-cluster-management-hub namespace.",
+  "description": "ClusterManager configures the controllers on the hub that govern registration and work distribution for attached Klusterlets. In Default mode, ClusterManager will only be deployed in open-cluster-management-hub namespace. In Hosted mode, ClusterManager will be deployed in the namespace with the same name as cluster manager.",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -33,6 +33,91 @@
         "null"
       ],
       "properties": {
+        "deployOption": {
+          "description": "DeployOption contains the options of deploying a cluster-manager Default mode is used if DeployOption is not set.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "hosted": {
+              "description": "Hosted includes configurations we needs for clustermanager in the Hosted mode.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "registrationWebhookConfiguration": {
+                  "description": "RegistrationWebhookConfiguration represents the customized webhook-server configuration of registration.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "address"
+                  ],
+                  "properties": {
+                    "address": {
+                      "description": "Address represents the address of a webhook-server. It could be in IP format or fqdn format. The Address must be reachable by apiserver of the hub cluster.",
+                      "type": "string",
+                      "pattern": "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
+                    },
+                    "port": {
+                      "description": "Port represents the port of a webhook-server. The default value of Port is 443.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32",
+                      "maximum": 65535
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "workWebhookConfiguration": {
+                  "description": "WorkWebhookConfiguration represents the customized webhook-server configuration of work.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "address"
+                  ],
+                  "properties": {
+                    "address": {
+                      "description": "Address represents the address of a webhook-server. It could be in IP format or fqdn format. The Address must be reachable by apiserver of the hub cluster.",
+                      "type": "string",
+                      "pattern": "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
+                    },
+                    "port": {
+                      "description": "Port represents the port of a webhook-server. The default value of Port is 443.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32",
+                      "maximum": 65535
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "mode": {
+              "description": "Mode can be Default or Hosted. In Default mode, the Hub is installed as a whole and all parts of Hub are deployed in the same cluster. In Hosted mode, only crd and configurations are installed on one cluster(defined as hub-cluster). Controllers run in another cluster (defined as management-cluster) and connect to the hub with the kubeconfig in secret of \"external-hub-kubeconfig\"(a kubeconfig of hub-cluster with cluster-admin permission). Note: Do not modify the Mode field once it's applied.",
+              "type": "string",
+              "enum": [
+                "Default",
+                "Hosted"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
         "nodePlacement": {
           "description": "NodePlacement enables explicit control over the scheduling of the deployed pods.",
           "type": [

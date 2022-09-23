@@ -71,6 +71,27 @@
         "labelSelector": {
           "description": "LabelSelector is a metav1.LabelSelector to filter with when adding individual objects to the backup. If empty or nil, all objects are included. Optional."
         },
+        "metadata": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "labels": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
         "orderedResources": {
           "description": "OrderedResources specifies the backup order of resources of specific Kind. The map key is the Kind name and value is a list of resource names separated by commas. Each resource name has format \"namespace/resourcename\".  For cluster resources, simply use \"resourcename\".",
           "additionalProperties": {

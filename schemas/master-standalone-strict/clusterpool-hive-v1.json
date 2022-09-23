@@ -93,6 +93,24 @@
           ],
           "pattern": "^([0-9]+(\\.[0-9]+)?(ns|us|\u00b5s|ms|s|m|h))+$"
         },
+        "hibernationConfig": {
+          "description": "HibernationConfig configures the hibernation/resume behavior of ClusterDeployments owned by the ClusterPool.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "resumeTimeout": {
+              "description": "ResumeTimeout is the maximum amount of time we will wait for an unclaimed ClusterDeployment to resume from hibernation (e.g. at the behest of runningCount, or in preparation for being claimed). If this time is exceeded, the ClusterDeployment will be considered Broken and we will replace it. The default (unspecified or zero) means no timeout -- we will allow the ClusterDeployment to continue trying to resume \"forever\". This is a Duration value; see https://pkg.go.dev/time#ParseDuration for accepted formats. Note: due to discrepancies in validation vs parsing, we use a Pattern instead of `Format=duration`. See https://bugzilla.redhat.com/show_bug.cgi?id=2050332 https://github.com/kubernetes/apimachinery/issues/131 https://github.com/kubernetes/apiextensions-apiserver/issues/56",
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^([0-9]+(\\.[0-9]+)?(ns|us|\u00b5s|ms|s|m|h))+$"
+            }
+          },
+          "additionalProperties": false
+        },
         "imageSetRef": {
           "description": "ImageSetRef is a reference to a ClusterImageSet. The release image specified in the ClusterImageSet will be used by clusters created for this cluster pool.",
           "type": "object",
@@ -106,6 +124,14 @@
             }
           },
           "additionalProperties": false
+        },
+        "installAttemptsLimit": {
+          "description": "InstallAttemptsLimit is the maximum number of times Hive will attempt to install the cluster.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
         },
         "installConfigSecretTemplateRef": {
           "description": "InstallConfigSecretTemplateRef is a secret with the key install-config.yaml consisting of the content of the install-config.yaml to be used as a template for all clusters in this pool. Cluster specific settings (name, basedomain) will be injected dynamically when the ClusterDeployment install-config Secret is generated.",
@@ -430,6 +456,13 @@
               },
               "additionalProperties": false
             },
+            "none": {
+              "description": "None indicates platform-agnostic install. https://docs.openshift.com/container-platform/4.7/installing/installing_platform_agnostic/installing-platform-agnostic.html",
+              "type": [
+                "object",
+                "null"
+              ]
+            },
             "openstack": {
               "description": "OpenStack is the configuration used when installing on OpenStack",
               "type": [
@@ -643,6 +676,15 @@
           },
           "additionalProperties": false
         },
+        "runningCount": {
+          "description": "RunningCount is the number of clusters we should keep running. The remainder will be kept hibernated until claimed. By default no clusters will be kept running (all will be hibernated).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32",
+          "minimum": 0
+        },
         "size": {
           "description": "Size is the default number of clusters that we should keep provisioned and waiting for use.",
           "type": "integer",
@@ -730,13 +772,21 @@
           }
         },
         "ready": {
-          "description": "Ready is the number of unclaimed clusters that have been installed and are ready to be claimed.",
+          "description": "Ready is the number of unclaimed clusters that are installed and are running and ready to be claimed.",
           "type": "integer",
           "format": "int32"
         },
         "size": {
           "description": "Size is the number of unclaimed clusters that have been created for the pool.",
           "type": "integer",
+          "format": "int32"
+        },
+        "standby": {
+          "description": "Standby is the number of unclaimed clusters that are installed, but not running.",
+          "type": [
+            "integer",
+            "null"
+          ],
           "format": "int32"
         }
       },

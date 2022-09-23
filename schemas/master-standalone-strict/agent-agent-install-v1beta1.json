@@ -77,6 +77,28 @@
             "null"
           ]
         },
+        "ignitionEndpointTokenReference": {
+          "description": "IgnitionEndpointTokenReference references a secret containing an Authorization Bearer token to fetch the ignition from ignition_endpoint_url.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "name",
+            "namespace"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name is the name of the secret containing the ignition endpoint token.",
+              "type": "string"
+            },
+            "namespace": {
+              "description": "Namespace is the namespace of the secret containing the ignition endpoint token.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
         "installation_disk_id": {
           "description": "InstallationDiskID defines the installation destination disk (must be equal to the inventory disk id).",
           "type": [
@@ -184,6 +206,13 @@
                 "null"
               ]
             },
+            "logsURL": {
+              "description": "LogsURL specifies a url for download controller logs tar file.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "state": {
               "description": "Current state of the Agent",
               "type": [
@@ -200,12 +229,6 @@
             }
           },
           "additionalProperties": false
-        },
-        "hostname": {
-          "type": [
-            "string",
-            "null"
-          ]
         },
         "inventory": {
           "type": [
@@ -649,20 +672,43 @@
           ],
           "properties": {
             "currentStage": {
-              "description": "HostStage host stage \n swagger:model host-stage",
+              "description": "current installation stage",
               "type": [
                 "string",
                 "null"
               ]
+            },
+            "installationPercentage": {
+              "description": "Estimate progress (percentage)",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int64"
             },
             "progressInfo": {
+              "description": "Additional information for the current installation stage",
               "type": [
                 "string",
                 "null"
               ]
             },
+            "progressStages": {
+              "description": "All stages (ordered by their appearance) for this agent",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "HostStage host stage \n swagger:model host-stage",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
             "stageStartTime": {
-              "description": "Name in REST API: stage_started_at",
+              "description": "host field: progress: stage_started_at",
               "type": [
                 "string",
                 "null"
@@ -670,7 +716,7 @@
               "format": "date-time"
             },
             "stageUpdateTime": {
-              "description": "Name in REST API: stage_updated_at",
+              "description": "host field: progress: stage_updated_at",
               "type": [
                 "string",
                 "null"
@@ -686,6 +732,42 @@
             "string",
             "null"
           ]
+        },
+        "validationsInfo": {
+          "description": "ValidationsInfo is a JSON-formatted string containing the validation results for each validation id grouped by category (network, hosts-data, etc.)",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "id",
+                "message",
+                "status"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
         }
       },
       "additionalProperties": false
