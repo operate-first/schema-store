@@ -26,12 +26,15 @@
       ]
     },
     "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "spec": {
+      "description": "Spec holds information about the request being evaluated",
       "$ref": "_definitions.json#/definitions/io.k8s.api.authentication.v1.TokenRequestSpec"
     },
     "status": {
+      "description": "Status is filled in by the server and indicates whether the token can be authenticated.",
       "$ref": "_definitions.json#/definitions/io.k8s.api.authentication.v1.TokenRequestStatus"
     }
   },
