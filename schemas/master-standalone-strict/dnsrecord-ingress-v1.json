@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
     },
     "spec": {
-      "description": "spec is the specification of the desired behavior of the dnsecord.",
+      "description": "spec is the specification of the desired behavior of the dnsRecord.",
       "type": [
         "object",
         "null"
