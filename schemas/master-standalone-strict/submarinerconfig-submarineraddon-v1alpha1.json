@@ -48,7 +48,7 @@
           ]
         },
         "NATTDiscoveryPort": {
-          "description": "NATTDiscoveryPort represents NAT-T Discovery port (default UDP/4900).",
+          "description": "NATTDiscoveryPort specifies the port used for NAT-T Discovery (default UDP/4900).",
           "type": [
             "integer",
             "null"
@@ -119,6 +119,13 @@
           },
           "additionalProperties": false
         },
+        "globalCIDR": {
+          "description": "GlobalCIDR specifies the global CIDR used by the cluster.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "imagePullSpecs": {
           "description": "ImagePullSpecs represents the desired images of submariner components installed on the managed cluster. If not specified, the default submariner images that was defined by submariner operator will be used.",
           "type": [
@@ -140,6 +147,13 @@
                 "null"
               ]
             },
+            "submarinerGlobalnetImagePullSpec": {
+              "description": "SubmarinerGlobalnetImagePullSpec represents the desired image of the submariner globalnet.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "submarinerImagePullSpec": {
               "description": "SubmarinerImagePullSpec represents the desired image of submariner.",
               "type": [
@@ -156,6 +170,13 @@
             }
           },
           "additionalProperties": false
+        },
+        "loadBalancerEnable": {
+          "description": "LoadBalancerEnable enables or disables load balancer mode. When enabled, a LoadBalancer is created in the submariner-operator namespace (default false).",
+          "type": [
+            "boolean",
+            "null"
+          ]
         },
         "subscriptionConfig": {
           "description": "SubscriptionConfig represents a Submariner subscription. SubscriptionConfig can be used to customize the Submariner subscription.",
