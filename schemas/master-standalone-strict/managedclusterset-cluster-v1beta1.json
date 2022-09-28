@@ -31,7 +31,30 @@
       "type": [
         "object",
         "null"
-      ]
+      ],
+      "properties": {
+        "clusterSelector": {
+          "description": "ClusterSelector represents a selector of ManagedClusters",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "selectorType": {
+              "description": "SelectorType could only be \"LegacyClusterSetLabel\" now, will support more SelectorType later \"LegacyClusterSetLabel\" means to use label \"cluster.open-cluster-management.io/clusterset:<ManagedClusterSet Name>\"\" to select target clusters.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "LegacyClusterSetLabel"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     },
     "status": {
       "description": "Status represents the current status of the ManagedClusterSet",
