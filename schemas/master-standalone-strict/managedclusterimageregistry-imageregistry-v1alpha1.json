@@ -38,8 +38,7 @@
       ],
       "required": [
         "placementRef",
-        "pullSecret",
-        "registry"
+        "pullSecret"
       ],
       "properties": {
         "placementRef": {
@@ -87,9 +86,42 @@
           },
           "additionalProperties": false
         },
+        "registries": {
+          "description": "Registries includes the mirror and source registries. The source registry will be replaced by the Mirror. The larger index will work if the Sources are the same.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "mirror"
+            ],
+            "properties": {
+              "mirror": {
+                "description": "Mirror is the mirrored registry of the Source. Will be ignored if Mirror is empty.",
+                "type": "string"
+              },
+              "source": {
+                "description": "Source is the source registry. All image registries will be replaced by Mirror if Source is empty.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
         "registry": {
-          "description": "Registry is the address of overridden image registry",
-          "type": "string"
+          "description": "Registry is the Mirror registry which will replace all images registries. will be ignored if Registries is not empty.",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "additionalProperties": false

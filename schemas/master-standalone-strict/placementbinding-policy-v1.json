@@ -1,6 +1,10 @@
 {
   "description": "PlacementBinding is the Schema for the placementbindings API",
   "type": "object",
+  "required": [
+    "placementRef",
+    "subjects"
+  ],
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -27,29 +31,36 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
     },
     "placementRef": {
-      "description": "Subject reference",
+      "description": "PlacementSubject reference",
       "type": [
         "object",
         "null"
       ],
+      "required": [
+        "apiGroup",
+        "kind",
+        "name"
+      ],
       "properties": {
         "apiGroup": {
-          "type": [
-            "string",
-            "null"
+          "type": "string",
+          "minLength": 1,
+          "enum": [
+            "apps.open-cluster-management.io",
+            "cluster.open-cluster-management.io"
           ]
         },
         "kind": {
-          "type": [
-            "string",
-            "null"
+          "type": "string",
+          "minLength": 1,
+          "enum": [
+            "PlacementRule",
+            "Placement"
           ]
         },
         "name": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string",
+          "minLength": 1
         }
       },
       "additionalProperties": false
@@ -66,30 +77,37 @@
         "array",
         "null"
       ],
+      "minItems": 1,
       "items": {
         "description": "Subject reference",
         "type": [
           "object",
           "null"
         ],
+        "required": [
+          "apiGroup",
+          "kind",
+          "name"
+        ],
         "properties": {
           "apiGroup": {
-            "type": [
-              "string",
-              "null"
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "policy.open-cluster-management.io"
             ]
           },
           "kind": {
-            "type": [
-              "string",
-              "null"
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "Policy",
+              "PolicySet"
             ]
           },
           "name": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": "string",
+            "minLength": 1
           }
         },
         "additionalProperties": false
