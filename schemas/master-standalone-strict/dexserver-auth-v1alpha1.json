@@ -243,7 +243,7 @@
                         ]
                       },
                       "userMatchers": {
-                        "description": "Array of the field pairs used to match a user to a group. See the \"UserMatcher\" struct for the exact field names \n Each pair adds an additional requirement to the filter that an attribute in the group match the user's attribute value. For example that the \"members\" attribute of a group matches the \"uid\" of the user. The exact filter being added is: \n   (userMatchers[n].<groupAttr>=userMatchers[n].<userAttr value>)",
+                        "description": "Array of the field pairs used to match a user to a group. See the \"UserMatcher\" struct for the exact field names \n Each pair adds an additional requirement to the filter that an attribute in the group match the user's attribute value. For example that the \"members\" attribute of a group matches the \"uid\" of the user. The exact filter being added is: \n (userMatchers[n].<groupAttr>=userMatchers[n].<userAttr value>)",
                         "type": [
                           "array",
                           "null"
@@ -617,7 +617,7 @@
             "null"
           ],
           "items": {
-            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }",
+            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n // other fields }",
             "type": [
               "object",
               "null"
