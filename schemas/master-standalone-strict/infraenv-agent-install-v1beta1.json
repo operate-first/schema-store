@@ -84,6 +84,13 @@
           },
           "additionalProperties": false
         },
+        "cpuArchitecture": {
+          "description": "CpuArchitecture specifies the target CPU architecture. Default is x86_64",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "ignitionConfigOverride": {
           "description": "Json formatted string containing the user overrides for the initial ignition config",
           "type": [
@@ -278,6 +285,44 @@
                   "null"
                 ]
               }
+            }
+          },
+          "additionalProperties": false
+        },
+        "bootArtifacts": {
+          "description": "BootArtifacts specifies the URLs for each boot artifact",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "initrd": {
+              "description": "InitrdURL specifies an HTTP/S URL that contains the initrd",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ipxeScript": {
+              "description": "IpxeScriptURL specifies an HTTP/S URL that contains the iPXE script",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "kernel": {
+              "description": "KernelURL specifies an HTTP/S URL that contains the kernel",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "rootfs": {
+              "description": "RootfsURL specifies an HTTP/S URL that contains the rootfs",
+              "type": [
+                "string",
+                "null"
+              ]
             }
           },
           "additionalProperties": false
