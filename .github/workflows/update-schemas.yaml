@@ -33,6 +33,7 @@ jobs:
         with:
           openshift_server_url: ${{ matrix.cluster_url }}
           openshift_token: ${{ secrets[matrix.cluster_secret] }}
+          name: ${{ matrix.environment }}
         continue-on-error: true
 
   prepare-pr:
@@ -53,8 +54,10 @@ jobs:
       - name: Move skip_kinds.txt to root folder
         shell: bash
         run: |
-          cp -r schemas-artifacts/* .
-          rm -rf schemas-artifacts
+          for i in $(ls -d artifact-* | sort -V); do
+            cp -r $i/* .
+          done
+          rm -rf artifact-*
 
       - name: Setup PR
         id: setup-pr

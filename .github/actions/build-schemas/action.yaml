@@ -7,6 +7,9 @@ inputs:
   openshift_token:
     description: Openshift Bearer Token. Store in a secret.
     required: true
+  name:
+    description: Openshift Cluster identifier.
+    default: ocp
 runs:
   using: composite
   steps:
@@ -22,10 +25,15 @@ runs:
         pip install openapi2jsonschema
         cd $GITHUB_WORKSPACE
         python build_schema.py -u $(oc whoami --show-server) -t $(oc whoami -t) -s STRICT
+    - name: Format artifact name
+      shell: bash
+      id: artifact
+      run: |
+        echo "::set-output name=name::artifact-$(oc version -o json | jq '.openshiftVersion')-${{ inputs.name }}"
     - name: Upload artifacts from generating schemas
       uses: actions/upload-artifact@v3
       with:
-        name: schemas-artifacts
+        name: ${{ steps.artifact.outputs.name }}
         path: |
           schemas/
           skip_kinds.txt
