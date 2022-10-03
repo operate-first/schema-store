@@ -31,8 +31,8 @@ jobs:
       - name: Get schemas from cluster
         uses: ./.github/actions/build-schemas
         with:
-          OPENSHIFT_SERVER: ${{ matrix.cluster_url }}
-          OPENSHIFT_TOKEN: ${{ secrets[matrix.cluster_secret] }}
+          openshift_server_url: ${{ matrix.cluster_url }}
+          openshift_token: ${{ secrets[matrix.cluster_secret] }}
         continue-on-error: true
 
   prepare-pr:
