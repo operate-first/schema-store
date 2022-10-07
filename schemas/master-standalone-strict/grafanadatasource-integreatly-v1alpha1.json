@@ -628,6 +628,13 @@
                       "null"
                     ]
                   },
+                  "timeout": {
+                    "description": "HTTP Request timeout in seconds. Overrides dataproxy.timeout option",
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
                   "timescaledb": {
                     "type": [
                       "boolean",

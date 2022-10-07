@@ -1,9 +1,6 @@
 {
+  "description": "GrafanaFolder is the Schema for the grafana folders and folderpermissions API",
   "type": "object",
-  "required": [
-    "metadata",
-    "spec"
-  ],
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -12,7 +9,7 @@
         "null"
       ],
       "enum": [
-        "ceph.rook.io/v1"
+        "integreatly.org/v1alpha1"
       ]
     },
     "kind": {
@@ -22,7 +19,7 @@
         "null"
       ],
       "enum": [
-        "CephObjectStoreUser"
+        "GrafanaFolder"
       ]
     },
     "metadata": {
@@ -34,31 +31,53 @@
         "object",
         "null"
       ],
+      "required": [
+        "title"
+      ],
       "properties": {
-        "displayName": {
+        "permissions": {
+          "description": "FolderPermissions shall contain the _complete_ permissions for the folder. Any permission not listed here, will be removed from the folder.",
           "type": [
-            "string",
+            "array",
             "null"
-          ]
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "permissionLevel",
+              "permissionTarget",
+              "permissionTargetType"
+            ],
+            "properties": {
+              "permissionLevel": {
+                "type": "integer"
+              },
+              "permissionTarget": {
+                "type": "string"
+              },
+              "permissionTargetType": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
         },
-        "store": {
-          "type": [
-            "string",
-            "null"
-          ]
+        "title": {
+          "description": "FolderName is the display-name of the folder and must match CustomFolderName of any GrafanaDashboard you want to put in",
+          "type": "string"
         }
       },
       "additionalProperties": false
-    },
-    "status": {
-      "x-kubernetes-preserve-unknown-fields": true
     }
   },
   "x-kubernetes-group-version-kind": [
     {
-      "group": "ceph.rook.io",
-      "kind": "CephObjectStoreUser",
-      "version": "v1"
+      "group": "integreatly.org",
+      "kind": "GrafanaFolder",
+      "version": "v1alpha1"
     }
   ],
   "additionalProperties": false,
