@@ -35,26 +35,10 @@
         "null"
       ],
       "required": [
-        "rados",
         "server"
       ],
       "properties": {
-        "rados": {
-          "type": "object",
-          "required": [
-            "namespace",
-            "pool"
-          ],
-          "properties": {
-            "namespace": {
-              "type": "string"
-            },
-            "pool": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false
-        },
+        "rados": {},
         "server": {
           "type": "object",
           "required": [
