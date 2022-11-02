@@ -1,4 +1,5 @@
 {
+  "description": "VolumeReplicationClass is the Schema for the volumereplicationclasses API.",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -26,6 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
     },
     "spec": {
+      "description": "VolumeReplicationClassSpec specifies parameters that an underlying storage system uses when creating a volume replica. A specific VolumeReplicationClass is used by specifying its name in a VolumeReplication object.",
       "type": [
         "object",
         "null"
@@ -35,6 +37,7 @@
       ],
       "properties": {
         "parameters": {
+          "description": "Parameters is a key-value map with storage provisioner specific configurations for creating volume replicas",
           "type": [
             "object",
             "null"
@@ -47,12 +50,14 @@
           }
         },
         "provisioner": {
+          "description": "Provisioner is the name of storage provisioner",
           "type": "string"
         }
       },
       "additionalProperties": false
     },
     "status": {
+      "description": "VolumeReplicationClassStatus defines the observed state of VolumeReplicationClass.",
       "type": [
         "object",
         "null"
