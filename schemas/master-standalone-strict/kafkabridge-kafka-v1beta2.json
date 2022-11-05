@@ -165,6 +165,13 @@
                 "null"
               ]
             },
+            "enableMetrics": {
+              "description": "Enable or disable OAuth metrics. Default value is `false`.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "maxTokenExpirySeconds": {
               "description": "Set or limit time-to-live of the access tokens to the specified number of seconds. This should be set if the authorization server returns opaque tokens.",
               "type": [
@@ -266,7 +273,7 @@
               ]
             },
             "type": {
-              "description": "Authentication type. Currently the only supported types are `tls`, `scram-sha-256`, `scram-sha-512`, and `plain`. `scram-sha-256` and `scram-sha-512` types use SASL SCRAM-SHA-256 and SASL SCRAM-SHA-512 Authentication, respectively. `plain` type uses SASL PLAIN Authentication. `oauth` type uses SASL OAUTHBEARER Authentication. The `tls` type uses TLS Client Authentication. The `tls` type is supported only over TLS connections.",
+              "description": "Authentication type. Currently the supported types are `tls`, `scram-sha-256`, `scram-sha-512`, `plain`, and 'oauth'. `scram-sha-256` and `scram-sha-512` types use SASL SCRAM-SHA-256 and SASL SCRAM-SHA-512 Authentication, respectively. `plain` type uses SASL PLAIN Authentication. `oauth` type uses SASL OAUTHBEARER Authentication. The `tls` type uses TLS Client Authentication. The `tls` type is supported only over TLS connections.",
               "type": "string",
               "enum": [
                 "tls",
@@ -289,6 +296,13 @@
         "bootstrapServers": {
           "description": "A list of host:port pairs for establishing the initial connection to the Kafka cluster.",
           "type": "string"
+        },
+        "clientRackInitImage": {
+          "description": "The image of the init container used for initializing the `client.rack`.",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "consumer": {
           "description": "Kafka consumer related configuration.",
@@ -560,6 +574,23 @@
             "config": {
               "description": "The Kafka producer configuration used for producer instances created by the bridge. Properties with the following prefixes cannot be set: ssl., bootstrap.servers, sasl., security. (with the exception of: ssl.endpoint.identification.algorithm, ssl.cipher.suites, ssl.protocol, ssl.enabled.protocols).",
               "x-kubernetes-preserve-unknown-fields": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "rack": {
+          "description": "Configuration of the node label which will be used as the client.rack consumer configuration.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "topologyKey"
+          ],
+          "properties": {
+            "topologyKey": {
+              "description": "A key that matches labels assigned to the Kubernetes cluster nodes. The value of the label is used to set a broker's `broker.rack` config, and the `client.rack` config for Kafka Connect or MirrorMaker 2.0.",
+              "type": "string"
             }
           },
           "additionalProperties": false
@@ -946,6 +977,218 @@
                     "labels": {
                       "description": "Labels added to the resource template. Can be applied to different resources such as `StatefulSets`, `Deployments`, `Pods`, and `Services`.",
                       "x-kubernetes-preserve-unknown-fields": true
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "initContainer": {
+              "description": "Template for the Kafka Bridge init container.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "env": {
+                  "description": "Environment variables which should be applied to the container.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "The environment variable key.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "value": {
+                        "description": "The environment variable value.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "securityContext": {
+                  "description": "Security context for the container.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "allowPrivilegeEscalation": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "capabilities": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "add": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "drop": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "privileged": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "procMount": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "readOnlyRootFilesystem": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "runAsGroup": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "runAsNonRoot": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "runAsUser": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "seLinuxOptions": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "level": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "role": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "user": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "seccompProfile": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "localhostProfile": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "windowsOptions": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "gmsaCredentialSpec": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "gmsaCredentialSpecName": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "hostProcess": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "runAsUserName": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false
@@ -2163,6 +2406,18 @@
                         },
                         "additionalProperties": false
                       },
+                      "matchLabelKeys": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
                       "maxSkew": {
                         "type": [
                           "integer",
@@ -2172,6 +2427,18 @@
                       "minDomains": {
                         "type": [
                           "integer",
+                          "null"
+                        ]
+                      },
+                      "nodeAffinityPolicy": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "nodeTaintsPolicy": {
+                        "type": [
+                          "string",
                           "null"
                         ]
                       },
@@ -2310,10 +2577,11 @@
           ],
           "properties": {
             "type": {
-              "description": "Type of the tracing used. Currently the only supported type is `jaeger` for Jaeger tracing. The Jaeger tracing is deprecated.",
+              "description": "Type of the tracing used. Currently the only supported types are `jaeger` for OpenTracing (Jaeger) tracing and `opentelemetry` for OpenTelemetry tracing. The OpenTracing (Jaeger) tracing is deprecated.",
               "type": "string",
               "enum": [
-                "jaeger"
+                "jaeger",
+                "opentelemetry"
               ]
             }
           },
