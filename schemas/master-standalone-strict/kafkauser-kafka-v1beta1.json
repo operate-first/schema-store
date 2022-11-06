@@ -122,7 +122,6 @@
                   "null"
                 ],
                 "required": [
-                  "operation",
                   "resource"
                 ],
                 "properties": {
@@ -135,7 +134,10 @@
                   },
                   "operation": {
                     "description": "Operation which will be allowed or denied. Supported operations are: Read, Write, Create, Delete, Alter, Describe, ClusterAction, AlterConfigs, DescribeConfigs, IdempotentWrite and All.",
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "Read",
                       "Write",
@@ -149,6 +151,32 @@
                       "IdempotentWrite",
                       "All"
                     ]
+                  },
+                  "operations": {
+                    "description": "List of operations which will be allowed or denied. Supported operations are: Read, Write, Create, Delete, Alter, Describe, ClusterAction, AlterConfigs, DescribeConfigs, IdempotentWrite and All.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "Read",
+                        "Write",
+                        "Create",
+                        "Delete",
+                        "Alter",
+                        "Describe",
+                        "ClusterAction",
+                        "AlterConfigs",
+                        "DescribeConfigs",
+                        "IdempotentWrite",
+                        "All"
+                      ]
+                    }
                   },
                   "resource": {
                     "description": "Indicates the resource for which given ACL rule applies.",
