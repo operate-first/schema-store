@@ -70,9 +70,15 @@ jobs:
 
       - name: Apply lgtm and approved labels so prow can merge PR
         uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ steps.setup-pr.outputs.pull-request-number }}
         with:
           number: ${{ steps.setup-pr.outputs.pull-request-number }}
           labels: |
             lgtm
             approved
             ok-to-test
+
+      - name: Warn if no PR was created
+        if: ${{ !steps.setup-pr.outputs.pull-request-number }}
+        run: |
+          echo "::warning ::No PR was created"
