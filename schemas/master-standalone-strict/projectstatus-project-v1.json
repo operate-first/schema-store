@@ -9,20 +9,16 @@
         "null"
       ],
       "items": {
-        "$ref": "_definitions.json#/definitions/io.k8s.api.core.v1.NamespaceCondition_v2"
+        "$ref": "_definitions.json#/definitions/io.k8s.api.core.v1.NamespaceCondition"
       },
       "x-kubernetes-patch-merge-key": "type",
       "x-kubernetes-patch-strategy": "merge"
     },
     "phase": {
-      "description": "Phase is the current lifecycle phase of the project\n\nPossible enum values:\n - `\"Active\"` means the namespace is available for use in the system\n - `\"Terminating\"` means the namespace is undergoing graceful termination",
+      "description": "Phase is the current lifecycle phase of the project",
       "type": [
         "string",
         "null"
-      ],
-      "enum": [
-        "Active",
-        "Terminating"
       ]
     }
   },
