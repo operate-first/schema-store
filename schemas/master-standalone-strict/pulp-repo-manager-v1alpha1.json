@@ -6749,7 +6749,7 @@
           ]
         },
         "image": {
-          "description": "The image name (repo name) for the pulp image. Default: \"quay.io/pulp/pulp-minimal\"",
+          "description": "The image name (repo name) for the pulp image. Default: \"quay.io/pulp/pulp-minimal:3.21.3\"",
           "type": [
             "string",
             "null"
@@ -6781,7 +6781,7 @@
           }
         },
         "image_version": {
-          "description": "The image version for the pulp image. Default: \"3.21.2\"",
+          "description": "The image version for the pulp image. Default: \"3.21.3\"",
           "type": [
             "string",
             "null"
@@ -6795,7 +6795,7 @@
           ]
         },
         "image_web_version": {
-          "description": "The image version for the pulp webserver image. Default: \"3.21.2\"",
+          "description": "The image version for the pulp webserver image. Default: \"3.21.3\"",
           "type": [
             "string",
             "null"
@@ -6816,6 +6816,13 @@
         },
         "ingress_host": {
           "description": "Ingress DNS host",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ingress_tls_secret": {
+          "description": "Ingress TLS secret",
           "type": [
             "string",
             "null"
@@ -6913,6 +6920,19 @@
             "string",
             "null"
           ]
+        },
+        "route_annotations": {
+          "description": "RouteAnnotations will append custom annotation(s) into routes (used by router shard routeSelector).",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
         },
         "route_host": {
           "description": "Route DNS host. Default: <operator's name> + \".\" + ingress.Spec.Domain",
