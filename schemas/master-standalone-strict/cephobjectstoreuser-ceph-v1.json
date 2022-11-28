@@ -35,12 +35,14 @@
         "null"
       ],
       "properties": {
+        "capabilities": {},
         "displayName": {
           "type": [
             "string",
             "null"
           ]
         },
+        "quotas": {},
         "store": {
           "type": [
             "string",
