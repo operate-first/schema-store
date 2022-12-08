@@ -33,68 +33,10 @@
         "null"
       ],
       "properties": {
-        "certConfig": {
-          "description": "certConfig holds the rotation policy for internal, self-signed certificates",
+        "bareMetalPlatform": {
+          "description": "BareMetalPlatform indicates whether the infrastructure is baremetal.",
           "type": [
-            "object",
-            "null"
-          ],
-          "properties": {
-            "ca": {
-              "description": "CA configuration - CA certs are kept in the CA bundle as long as they are valid",
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "duration": {
-                  "description": "The requested 'duration' (i.e. lifetime) of the Certificate. This should comply with golang's ParseDuration format (https://golang.org/pkg/time/#ParseDuration)",
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "renewBefore": {
-                  "description": "The amount of time before the currently issued certificate's `notAfter` time that we will begin to attempt to renew the certificate. This should comply with golang's ParseDuration format (https://golang.org/pkg/time/#ParseDuration)",
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                }
-              },
-              "additionalProperties": false
-            },
-            "server": {
-              "description": "Server configuration - Certs are rotated and discarded",
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "duration": {
-                  "description": "The requested 'duration' (i.e. lifetime) of the Certificate. This should comply with golang's ParseDuration format (https://golang.org/pkg/time/#ParseDuration)",
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "renewBefore": {
-                  "description": "The amount of time before the currently issued certificate's `notAfter` time that we will begin to attempt to renew the certificate. This should comply with golang's ParseDuration format (https://golang.org/pkg/time/#ParseDuration)",
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                }
-              },
-              "additionalProperties": false
-            }
-          },
-          "additionalProperties": false
-        },
-        "commonTemplatesNamespace": {
-          "description": "CommonTemplatesNamespace defines namespace in which common templates will be deployed. It overrides the default openshift namespace.",
-          "type": [
-            "string",
+            "boolean",
             "null"
           ]
         },
@@ -105,15 +47,8 @@
             "null"
           ],
           "properties": {
-            "sriovLiveMigration": {
-              "description": "Allow migrating a virtual machine with SRIOV interfaces.",
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
-            "withHostPassthroughCPU": {
-              "description": "Allow migrating a virtual machine with CPU host-passthrough mode. This should be enabled only when the Cluster is homogeneous from CPU HW perspective doc here",
+            "hotplugVolumes": {
+              "description": "Allow attaching a data volume to a running VMI",
               "type": [
                 "boolean",
                 "null"
@@ -477,73 +412,8 @@
                                     },
                                     "additionalProperties": false
                                   },
-                                  "namespaceSelector": {
-                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
-                                    "type": [
-                                      "object",
-                                      "null"
-                                    ],
-                                    "properties": {
-                                      "matchExpressions": {
-                                        "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                                        "type": [
-                                          "array",
-                                          "null"
-                                        ],
-                                        "items": {
-                                          "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
-                                          "type": [
-                                            "object",
-                                            "null"
-                                          ],
-                                          "required": [
-                                            "key",
-                                            "operator"
-                                          ],
-                                          "properties": {
-                                            "key": {
-                                              "description": "key is the label key that the selector applies to.",
-                                              "type": "string"
-                                            },
-                                            "operator": {
-                                              "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
-                                              "type": "string"
-                                            },
-                                            "values": {
-                                              "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
-                                              "type": [
-                                                "array",
-                                                "null"
-                                              ],
-                                              "items": {
-                                                "type": [
-                                                  "string",
-                                                  "null"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          "additionalProperties": false
-                                        }
-                                      },
-                                      "matchLabels": {
-                                        "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                                        "type": [
-                                          "object",
-                                          "null"
-                                        ],
-                                        "additionalProperties": {
-                                          "type": [
-                                            "string",
-                                            "null"
-                                          ]
-                                        }
-                                      }
-                                    },
-                                    "additionalProperties": false
-                                  },
                                   "namespaces": {
-                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                    "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
                                     "type": [
                                       "array",
                                       "null"
@@ -652,73 +522,8 @@
                                 },
                                 "additionalProperties": false
                               },
-                              "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
-                                "type": [
-                                  "object",
-                                  "null"
-                                ],
-                                "properties": {
-                                  "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                                    "type": [
-                                      "array",
-                                      "null"
-                                    ],
-                                    "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
-                                      "type": [
-                                        "object",
-                                        "null"
-                                      ],
-                                      "required": [
-                                        "key",
-                                        "operator"
-                                      ],
-                                      "properties": {
-                                        "key": {
-                                          "description": "key is the label key that the selector applies to.",
-                                          "type": "string"
-                                        },
-                                        "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
-                                          "type": "string"
-                                        },
-                                        "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
-                                          "type": [
-                                            "array",
-                                            "null"
-                                          ],
-                                          "items": {
-                                            "type": [
-                                              "string",
-                                              "null"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      "additionalProperties": false
-                                    }
-                                  },
-                                  "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                                    "type": [
-                                      "object",
-                                      "null"
-                                    ],
-                                    "additionalProperties": {
-                                      "type": [
-                                        "string",
-                                        "null"
-                                      ]
-                                    }
-                                  }
-                                },
-                                "additionalProperties": false
-                              },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
                                 "type": [
                                   "array",
                                   "null"
@@ -837,73 +642,8 @@
                                     },
                                     "additionalProperties": false
                                   },
-                                  "namespaceSelector": {
-                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
-                                    "type": [
-                                      "object",
-                                      "null"
-                                    ],
-                                    "properties": {
-                                      "matchExpressions": {
-                                        "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                                        "type": [
-                                          "array",
-                                          "null"
-                                        ],
-                                        "items": {
-                                          "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
-                                          "type": [
-                                            "object",
-                                            "null"
-                                          ],
-                                          "required": [
-                                            "key",
-                                            "operator"
-                                          ],
-                                          "properties": {
-                                            "key": {
-                                              "description": "key is the label key that the selector applies to.",
-                                              "type": "string"
-                                            },
-                                            "operator": {
-                                              "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
-                                              "type": "string"
-                                            },
-                                            "values": {
-                                              "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
-                                              "type": [
-                                                "array",
-                                                "null"
-                                              ],
-                                              "items": {
-                                                "type": [
-                                                  "string",
-                                                  "null"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          "additionalProperties": false
-                                        }
-                                      },
-                                      "matchLabels": {
-                                        "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                                        "type": [
-                                          "object",
-                                          "null"
-                                        ],
-                                        "additionalProperties": {
-                                          "type": [
-                                            "string",
-                                            "null"
-                                          ]
-                                        }
-                                      }
-                                    },
-                                    "additionalProperties": false
-                                  },
                                   "namespaces": {
-                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                    "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
                                     "type": [
                                       "array",
                                       "null"
@@ -1012,73 +752,8 @@
                                 },
                                 "additionalProperties": false
                               },
-                              "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
-                                "type": [
-                                  "object",
-                                  "null"
-                                ],
-                                "properties": {
-                                  "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                                    "type": [
-                                      "array",
-                                      "null"
-                                    ],
-                                    "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
-                                      "type": [
-                                        "object",
-                                        "null"
-                                      ],
-                                      "required": [
-                                        "key",
-                                        "operator"
-                                      ],
-                                      "properties": {
-                                        "key": {
-                                          "description": "key is the label key that the selector applies to.",
-                                          "type": "string"
-                                        },
-                                        "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
-                                          "type": "string"
-                                        },
-                                        "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
-                                          "type": [
-                                            "array",
-                                            "null"
-                                          ],
-                                          "items": {
-                                            "type": [
-                                              "string",
-                                              "null"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      "additionalProperties": false
-                                    }
-                                  },
-                                  "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                                    "type": [
-                                      "object",
-                                      "null"
-                                    ],
-                                    "additionalProperties": {
-                                      "type": [
-                                        "string",
-                                        "null"
-                                      ]
-                                    }
-                                  }
-                                },
-                                "additionalProperties": false
-                              },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
                                 "type": [
                                   "array",
                                   "null"
@@ -1176,56 +851,6 @@
           },
           "additionalProperties": false
         },
-        "liveMigrationConfig": {
-          "description": "Live migration limits and timeouts are applied so that migration processes do not overwhelm the cluster.",
-          "type": [
-            "object",
-            "null"
-          ],
-          "properties": {
-            "bandwidthPerMigration": {
-              "description": "Bandwidth limit of each migration, in MiB/s.",
-              "type": [
-                "string",
-                "null"
-              ],
-              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
-            },
-            "completionTimeoutPerGiB": {
-              "description": "The migration will be canceled if it has not completed in this time, in seconds per GiB of memory. For example, a virtual machine instance with 6GiB memory will timeout if it has not completed migration in 4800 seconds. If the Migration Method is BlockMigration, the size of the migrating disks is included in the calculation.",
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "int64"
-            },
-            "parallelMigrationsPerCluster": {
-              "description": "Number of migrations running in parallel in the cluster.",
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "int32"
-            },
-            "parallelOutboundMigrationsPerNode": {
-              "description": "Maximum number of outbound migrations per node.",
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "int32"
-            },
-            "progressTimeout": {
-              "description": "The migration will be canceled if memory copy fails to make progress in this time, in seconds.",
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "int64"
-            }
-          },
-          "additionalProperties": false
-        },
         "localStorageClassName": {
           "description": "LocalStorageClassName the name of the local storage class.",
           "type": [
@@ -1233,254 +858,12 @@
             "null"
           ]
         },
-        "obsoleteCPUs": {
-          "description": "ObsoleteCPUs allows avoiding scheduling of VMs for obsolete CPU models",
-          "type": [
-            "object",
-            "null"
-          ],
-          "properties": {
-            "cpuModels": {
-              "description": "CPUModels is a list of obsolete CPU models. When the node-labeller obtains the list of obsolete CPU models, it eliminates those CPU models and creates labels for valid CPU models. The default values for this field is nil, however, HCO uses opinionated values, and adding values to this list will add them to the opinionated values.",
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              }
-            },
-            "minCPUModel": {
-              "description": "MinCPUModel is the Minimum CPU model that is used for basic CPU features; e.g. Penryn or Haswell. The default value for this field is nil, but in KubeVirt, the default value is \"Penryn\", if nothing else is set. Use this field to override KubeVirt default value.",
-              "type": [
-                "string",
-                "null"
-              ]
-            }
-          },
-          "additionalProperties": false
-        },
-        "permittedHostDevices": {
-          "description": "PermittedHostDevices holds information about devices allowed for passthrough",
-          "type": [
-            "object",
-            "null"
-          ],
-          "properties": {
-            "mediatedDevices": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "description": "MediatedHostDevice represents a host mediated device allowed for passthrough",
-                "type": [
-                  "object",
-                  "null"
-                ],
-                "required": [
-                  "mdevNameSelector",
-                  "resourceName"
-                ],
-                "properties": {
-                  "disabled": {
-                    "description": "HCO enforces the existence of several MediatedHostDevice objects. Set disabled field to true instead of remove these objects.",
-                    "type": [
-                      "boolean",
-                      "null"
-                    ]
-                  },
-                  "externalResourceProvider": {
-                    "description": "indicates that this resource is being provided by an external device plugin",
-                    "type": [
-                      "boolean",
-                      "null"
-                    ]
-                  },
-                  "mdevNameSelector": {
-                    "description": "name of a mediated device type required to identify a mediated device on a host",
-                    "type": "string"
-                  },
-                  "resourceName": {
-                    "description": "name by which a device is advertised and being requested",
-                    "type": "string"
-                  }
-                },
-                "additionalProperties": false
-              },
-              "x-kubernetes-list-map-keys": [
-                "mdevNameSelector"
-              ],
-              "x-kubernetes-list-type": "map"
-            },
-            "pciHostDevices": {
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "description": "PciHostDevice represents a host PCI device allowed for passthrough",
-                "type": [
-                  "object",
-                  "null"
-                ],
-                "required": [
-                  "pciDeviceSelector",
-                  "resourceName"
-                ],
-                "properties": {
-                  "disabled": {
-                    "description": "HCO enforces the existence of several PciHostDevice objects. Set disabled field to true instead of remove these objects.",
-                    "type": [
-                      "boolean",
-                      "null"
-                    ]
-                  },
-                  "externalResourceProvider": {
-                    "description": "indicates that this resource is being provided by an external device plugin",
-                    "type": [
-                      "boolean",
-                      "null"
-                    ]
-                  },
-                  "pciDeviceSelector": {
-                    "description": "a combination of a vendor_id:product_id required to identify a PCI device on a host.",
-                    "type": "string"
-                  },
-                  "resourceName": {
-                    "description": "name by which a device is advertised and being requested",
-                    "type": "string"
-                  }
-                },
-                "additionalProperties": false
-              },
-              "x-kubernetes-list-map-keys": [
-                "pciDeviceSelector"
-              ],
-              "x-kubernetes-list-type": "map"
-            }
-          },
-          "additionalProperties": false
-        },
-        "resourceRequirements": {
-          "description": "ResourceRequirements describes the resource requirements for the operand workloads.",
-          "type": [
-            "object",
-            "null"
-          ],
-          "properties": {
-            "storageWorkloads": {
-              "description": "StorageWorkloads defines the resources requirements for storage workloads. It will propagate to the CDI custom resource",
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "limits": {
-                  "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "additionalProperties": {
-                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
-                    "x-kubernetes-int-or-string": true
-                  }
-                },
-                "requests": {
-                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "additionalProperties": {
-                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
-                    "x-kubernetes-int-or-string": true
-                  }
-                }
-              },
-              "additionalProperties": false
-            }
-          },
-          "additionalProperties": false
-        },
-        "scratchSpaceStorageClass": {
-          "description": "Override the storage class used for scratch space during transfer operations. The scratch space storage class is determined in the following order: value of scratchSpaceStorageClass, if that doesn't exist, use the default storage class, if there is no default storage class, use the storage class of the DataVolume, if no storage class specified, use no storage class for scratch space",
+        "version": {
+          "description": "operator version",
           "type": [
             "string",
             "null"
           ]
-        },
-        "storageImport": {
-          "description": "StorageImport contains configuration for importing containerized data",
-          "type": [
-            "object",
-            "null"
-          ],
-          "properties": {
-            "insecureRegistries": {
-              "description": "InsecureRegistries is a list of image registries URLs that are not secured. Setting an insecure registry URL in this list allows pulling images from this registry.",
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              }
-            }
-          },
-          "additionalProperties": false
-        },
-        "vddkInitImage": {
-          "description": "VDDK Init Image eventually used to import VMs from external providers",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "workloadUpdateStrategy": {
-          "description": "WorkloadUpdateStrategy defines at the cluster level how to handle automated workload updates",
-          "type": [
-            "object",
-            "null"
-          ],
-          "properties": {
-            "batchEvictionInterval": {
-              "description": "BatchEvictionInterval Represents the interval to wait before issuing the next batch of shutdowns",
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "batchEvictionSize": {
-              "description": "BatchEvictionSize Represents the number of VMIs that can be forced updated per the BatchShutdownInteral interval",
-              "type": [
-                "integer",
-                "null"
-              ]
-            },
-            "workloadUpdateMethods": {
-              "description": "WorkloadUpdateMethods defines the methods that can be used to disrupt workloads during automated workload updates. When multiple methods are present, the least disruptive method takes precedence over more disruptive methods. For example if both LiveMigrate and Evict methods are listed, only VMs which are not live migratable will be restarted/shutdown. An empty list defaults to no automated workload updating.",
-              "type": [
-                "array",
-                "null"
-              ],
-              "items": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "x-kubernetes-list-type": "atomic"
-            }
-          },
-          "additionalProperties": false
         },
         "workloads": {
           "description": "workloads HyperConvergedConfig influences the pod configuration (currently only placement) of components which need to be running on a node where virtualization workloads should be able to run. Changes to Workloads HyperConvergedConfig can be applied only without existing workload.",
@@ -1837,73 +1220,8 @@
                                     },
                                     "additionalProperties": false
                                   },
-                                  "namespaceSelector": {
-                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
-                                    "type": [
-                                      "object",
-                                      "null"
-                                    ],
-                                    "properties": {
-                                      "matchExpressions": {
-                                        "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                                        "type": [
-                                          "array",
-                                          "null"
-                                        ],
-                                        "items": {
-                                          "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
-                                          "type": [
-                                            "object",
-                                            "null"
-                                          ],
-                                          "required": [
-                                            "key",
-                                            "operator"
-                                          ],
-                                          "properties": {
-                                            "key": {
-                                              "description": "key is the label key that the selector applies to.",
-                                              "type": "string"
-                                            },
-                                            "operator": {
-                                              "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
-                                              "type": "string"
-                                            },
-                                            "values": {
-                                              "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
-                                              "type": [
-                                                "array",
-                                                "null"
-                                              ],
-                                              "items": {
-                                                "type": [
-                                                  "string",
-                                                  "null"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          "additionalProperties": false
-                                        }
-                                      },
-                                      "matchLabels": {
-                                        "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                                        "type": [
-                                          "object",
-                                          "null"
-                                        ],
-                                        "additionalProperties": {
-                                          "type": [
-                                            "string",
-                                            "null"
-                                          ]
-                                        }
-                                      }
-                                    },
-                                    "additionalProperties": false
-                                  },
                                   "namespaces": {
-                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                    "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
                                     "type": [
                                       "array",
                                       "null"
@@ -2012,73 +1330,8 @@
                                 },
                                 "additionalProperties": false
                               },
-                              "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
-                                "type": [
-                                  "object",
-                                  "null"
-                                ],
-                                "properties": {
-                                  "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                                    "type": [
-                                      "array",
-                                      "null"
-                                    ],
-                                    "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
-                                      "type": [
-                                        "object",
-                                        "null"
-                                      ],
-                                      "required": [
-                                        "key",
-                                        "operator"
-                                      ],
-                                      "properties": {
-                                        "key": {
-                                          "description": "key is the label key that the selector applies to.",
-                                          "type": "string"
-                                        },
-                                        "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
-                                          "type": "string"
-                                        },
-                                        "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
-                                          "type": [
-                                            "array",
-                                            "null"
-                                          ],
-                                          "items": {
-                                            "type": [
-                                              "string",
-                                              "null"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      "additionalProperties": false
-                                    }
-                                  },
-                                  "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                                    "type": [
-                                      "object",
-                                      "null"
-                                    ],
-                                    "additionalProperties": {
-                                      "type": [
-                                        "string",
-                                        "null"
-                                      ]
-                                    }
-                                  }
-                                },
-                                "additionalProperties": false
-                              },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
                                 "type": [
                                   "array",
                                   "null"
@@ -2197,73 +1450,8 @@
                                     },
                                     "additionalProperties": false
                                   },
-                                  "namespaceSelector": {
-                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
-                                    "type": [
-                                      "object",
-                                      "null"
-                                    ],
-                                    "properties": {
-                                      "matchExpressions": {
-                                        "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                                        "type": [
-                                          "array",
-                                          "null"
-                                        ],
-                                        "items": {
-                                          "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
-                                          "type": [
-                                            "object",
-                                            "null"
-                                          ],
-                                          "required": [
-                                            "key",
-                                            "operator"
-                                          ],
-                                          "properties": {
-                                            "key": {
-                                              "description": "key is the label key that the selector applies to.",
-                                              "type": "string"
-                                            },
-                                            "operator": {
-                                              "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
-                                              "type": "string"
-                                            },
-                                            "values": {
-                                              "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
-                                              "type": [
-                                                "array",
-                                                "null"
-                                              ],
-                                              "items": {
-                                                "type": [
-                                                  "string",
-                                                  "null"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          "additionalProperties": false
-                                        }
-                                      },
-                                      "matchLabels": {
-                                        "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                                        "type": [
-                                          "object",
-                                          "null"
-                                        ],
-                                        "additionalProperties": {
-                                          "type": [
-                                            "string",
-                                            "null"
-                                          ]
-                                        }
-                                      }
-                                    },
-                                    "additionalProperties": false
-                                  },
                                   "namespaces": {
-                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                    "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
                                     "type": [
                                       "array",
                                       "null"
@@ -2372,73 +1560,8 @@
                                 },
                                 "additionalProperties": false
                               },
-                              "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is alpha-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
-                                "type": [
-                                  "object",
-                                  "null"
-                                ],
-                                "properties": {
-                                  "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                                    "type": [
-                                      "array",
-                                      "null"
-                                    ],
-                                    "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
-                                      "type": [
-                                        "object",
-                                        "null"
-                                      ],
-                                      "required": [
-                                        "key",
-                                        "operator"
-                                      ],
-                                      "properties": {
-                                        "key": {
-                                          "description": "key is the label key that the selector applies to.",
-                                          "type": "string"
-                                        },
-                                        "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
-                                          "type": "string"
-                                        },
-                                        "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
-                                          "type": [
-                                            "array",
-                                            "null"
-                                          ],
-                                          "items": {
-                                            "type": [
-                                              "string",
-                                              "null"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      "additionalProperties": false
-                                    }
-                                  },
-                                  "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                                    "type": [
-                                      "object",
-                                      "null"
-                                    ],
-                                    "additionalProperties": {
-                                      "type": [
-                                        "string",
-                                        "null"
-                                      ]
-                                    }
-                                  }
-                                },
-                                "additionalProperties": false
-                              },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
                                 "type": [
                                   "array",
                                   "null"
@@ -2553,71 +1676,52 @@
             "null"
           ],
           "items": {
-            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }",
+            "description": "Condition represents the state of the operator's reconciliation functionality.",
             "type": [
               "object",
               "null"
             ],
             "required": [
-              "lastTransitionTime",
-              "message",
-              "reason",
               "status",
               "type"
             ],
             "properties": {
+              "lastHeartbeatTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
               "lastTransitionTime": {
-                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time"
               },
               "message": {
-                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
-                "type": "string",
-                "maxLength": 32768
-              },
-              "observedGeneration": {
-                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
                 "type": [
-                  "integer",
+                  "string",
                   "null"
-                ],
-                "format": "int64",
-                "minimum": 0
-              },
-              "reason": {
-                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
-                "type": "string",
-                "maxLength": 1024,
-                "minLength": 1,
-                "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
-              },
-              "status": {
-                "description": "status of the condition, one of True, False, Unknown.",
-                "type": "string",
-                "enum": [
-                  "True",
-                  "False",
-                  "Unknown"
                 ]
               },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": "string"
+              },
               "type": {
-                "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
-                "type": "string",
-                "maxLength": 316,
-                "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"
+                "description": "ConditionType is the state of the operator's reconciliation functionality.",
+                "type": "string"
               }
             },
             "additionalProperties": false
           }
-        },
-        "observedGeneration": {
-          "description": "ObservedGeneration reflects the HyperConverged resource generation. If the ObservedGeneration is less than the resource generation in metadata, the status is out of date",
-          "type": [
-            "integer",
-            "null"
-          ],
-          "format": "int64"
         },
         "relatedObjects": {
           "description": "RelatedObjects is a list of objects created and maintained by this operator. Object references will be added to this list after they have been created AND found in the cluster.",
