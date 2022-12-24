@@ -1680,28 +1680,21 @@
           ],
           "properties": {
             "caOverlapInterval": {
-              "description": "CAOverlapInterval defines the duration where expired CA certificate can overlap with new one, in order to allow fluent CA rotation transitioning",
+              "description": "CAOverlapInterval defines the duration of CA Certificates at CABundle if not set it will default to CARotateInterval",
               "type": [
                 "string",
                 "null"
               ]
             },
             "caRotateInterval": {
-              "description": "CARotateInterval defines duration for CA expiration",
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "certOverlapInterval": {
-              "description": "CertOverlapInterval defines the duration where expired service certificate can overlap with new one, in order to allow fluent service rotation transitioning",
+              "description": "CARotateInterval defines duration for CA and certificate",
               "type": [
                 "string",
                 "null"
               ]
             },
             "certRotateInterval": {
-              "description": "CertRotateInterval defines duration for of service certificate expiration",
+              "description": "CertRotateInterval defines duration for of service certificate",
               "type": [
                 "string",
                 "null"
