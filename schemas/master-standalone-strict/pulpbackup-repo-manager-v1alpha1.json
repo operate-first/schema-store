@@ -34,7 +34,6 @@
       ],
       "required": [
         "deployment_type",
-        "instance_name",
         "postgres_configuration_secret"
       ],
       "properties": {
@@ -1060,10 +1059,18 @@
           ]
         },
         "deployment_type": {
-          "type": "string"
+          "description": "Name of the deployment type. Can be one of {galaxy,pulp}.",
+          "type": "string",
+          "enum": [
+            "pulp",
+            "galaxy"
+          ]
         },
         "instance_name": {
-          "type": "string"
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "postgres_configuration_secret": {
           "description": "Secret where the database configuration can be found",

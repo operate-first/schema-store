@@ -6709,8 +6709,26 @@
             "null"
           ]
         },
+        "deploy_ee_defaults": {
+          "description": "Define if the operator should or should not deploy the default Execution Environments. Default: false",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "deployment_type": {
           "description": "Name of the deployment type. Default: \"pulp\"",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "pulp",
+            "galaxy"
+          ]
+        },
+        "ee_defaults": {
+          "description": "Name of the ConfigMap with the list of Execution Environments that should be synchronized. Default: ee-default-images",
           "type": [
             "string",
             "null"
@@ -6749,7 +6767,7 @@
           ]
         },
         "image": {
-          "description": "The image name (repo name) for the pulp image. Default: \"quay.io/pulp/pulp-minimal:3.21.3\"",
+          "description": "The image name (repo name) for the pulp image. Default: \"quay.io/pulp/pulp-minimal:3.22.0\"",
           "type": [
             "string",
             "null"
@@ -6781,7 +6799,7 @@
           }
         },
         "image_version": {
-          "description": "The image version for the pulp image. Default: \"3.21.3\"",
+          "description": "The image version for the pulp image. Default: \"3.22.0\"",
           "type": [
             "string",
             "null"
@@ -6795,7 +6813,7 @@
           ]
         },
         "image_web_version": {
-          "description": "The image version for the pulp webserver image. Default: \"3.21.3\"",
+          "description": "The image version for the pulp webserver image. Default: \"3.22.0\"",
           "type": [
             "string",
             "null"

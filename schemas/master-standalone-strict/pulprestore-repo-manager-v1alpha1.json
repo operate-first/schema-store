@@ -80,6 +80,7 @@
           ]
         },
         "deployment_type": {
+          "description": "Name of the deployment type. Can be one of {galaxy,pulp}.",
           "type": [
             "string",
             "null"
