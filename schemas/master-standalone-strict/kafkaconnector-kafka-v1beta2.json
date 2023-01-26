@@ -32,6 +32,23 @@
         "null"
       ],
       "properties": {
+        "autoRestart": {
+          "description": "Automatic restart of connector and tasks configuration.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "enabled": {
+              "description": "Whether automatic restart for failed connectors and tasks should be enabled or disabled.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
         "class": {
           "description": "The Class for the Kafka Connector.",
           "type": [
@@ -68,6 +85,37 @@
         "null"
       ],
       "properties": {
+        "autoRestart": {
+          "description": "The auto restart status.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "connectorName": {
+              "description": "The name of the connector being restarted.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "count": {
+              "description": "The number of times the connector or task is restarted.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "lastRestartTimestamp": {
+              "description": "The last time the automatic restart was attempted. The required format is 'yyyy-MM-ddTHH:mm:ssZ' in the UTC time zone.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
         "conditions": {
           "description": "List of status conditions.",
           "type": [

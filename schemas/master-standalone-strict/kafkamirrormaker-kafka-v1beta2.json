@@ -1000,7 +1000,7 @@
               ],
               "properties": {
                 "deploymentStrategy": {
-                  "description": "DeploymentStrategy which will be used for this Deployment. Valid values are `RollingUpdate` and `Recreate`. Defaults to `RollingUpdate`.",
+                  "description": "Pod replacement strategy for deployment configuration changes. Valid values are `RollingUpdate` and `Recreate`. Defaults to `RollingUpdate`.",
                   "type": [
                     "string",
                     "null"
