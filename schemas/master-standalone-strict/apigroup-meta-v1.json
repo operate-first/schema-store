@@ -11,9 +11,6 @@
       "type": [
         "string",
         "null"
-      ],
-      "enum": [
-        "v1"
       ]
     },
     "kind": {
@@ -21,9 +18,6 @@
       "type": [
         "string",
         "null"
-      ],
-      "enum": [
-        "APIGroup"
       ]
     },
     "name": {
@@ -35,7 +29,7 @@
     },
     "preferredVersion": {
       "description": "preferredVersion is the version preferred by the API server, which probably is the storage version.",
-      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.GroupVersionForDiscovery"
+      "$ref": "_definitions.json#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.GroupVersionForDiscovery"
     },
     "serverAddressByClientCIDRs": {
       "description": "a map of client CIDR to server address that is serving this group. This is to help clients reach servers in the most network-efficient way possible. Clients can use the appropriate server address as per the CIDR that they match. In case of multiple matches, clients should use the longest matching CIDR. The server returns only those CIDRs that it thinks that the client can match. For example: the master will return an internal IP CIDR only, if the client reaches the server using an internal IP. Server looks at X-Forwarded-For header or X-Real-Ip header or request.RemoteAddr (in that order) to get the client IP.",
@@ -44,7 +38,7 @@
         "null"
       ],
       "items": {
-        "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ServerAddressByClientCIDR"
+        "$ref": "_definitions.json#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.ServerAddressByClientCIDR"
       }
     },
     "versions": {
@@ -54,17 +48,10 @@
         "null"
       ],
       "items": {
-        "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.GroupVersionForDiscovery"
+        "$ref": "_definitions.json#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.GroupVersionForDiscovery"
       }
     }
   },
-  "x-kubernetes-group-version-kind": [
-    {
-      "group": "",
-      "kind": "APIGroup",
-      "version": "v1"
-    }
-  ],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }
