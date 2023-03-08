@@ -47,6 +47,14 @@
             "server"
           ],
           "properties": {
+            "caBundle": {
+              "description": "Base64-encoded bundle of PEM CAs which can be used to validate the certificate chain presented by the ACME server. Mutually exclusive with SkipTLSVerify; prefer using CABundle to prevent various kinds of security vulnerabilities. If CABundle and SkipTLSVerify are unset, the system certificate bundle inside the container is used to validate the TLS connection.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "byte"
+            },
             "disableAccountKeyGeneration": {
               "description": "Enables or disables generating a new ACME account key. If true, the Issuer resource will *not* request a new account but will expect the account key to be supplied via an existing secret. If false, the cert-manager system will generate a new ACME account key for the Issuer. Defaults to false.",
               "type": [
@@ -153,7 +161,7 @@
               "type": "string"
             },
             "skipTLSVerify": {
-              "description": "Enables or disables validation of the ACME server TLS certificate. If true, requests to the ACME server will not have their TLS certificate validated (i.e. insecure connections will be allowed). Only enable this option in development environments. The cert-manager system installed roots will be used to verify connections to the ACME server if this is false. Defaults to false.",
+              "description": "INSECURE: Enables or disables validation of the ACME server TLS certificate. If true, requests to the ACME server will not have the TLS certificate chain validated. Mutually exclusive with CABundle; prefer using CABundle to prevent various kinds of security vulnerabilities. Only enable this option in development environments. If CABundle and SkipTLSVerify are unset, the system certificate bundle inside the container is used to validate the TLS connection. Defaults to false.",
               "type": [
                 "boolean",
                 "null"
@@ -758,7 +766,7 @@
                             }
                           },
                           "parentRefs": {
-                            "description": "When solving an HTTP-01 challenge, cert-manager creates an HTTPRoute. cert-manager needs to know which parentRefs should be used when creating the HTTPRoute. Usually, the parentRef references a Gateway. See: https://gateway-api.sigs.k8s.io/v1alpha2/api-types/httproute/#attaching-to-gateways",
+                            "description": "When solving an HTTP-01 challenge, cert-manager creates an HTTPRoute. cert-manager needs to know which parentRefs should be used when creating the HTTPRoute. Usually, the parentRef references a Gateway. See: https://gateway-api.sigs.k8s.io/api-types/httproute/#attaching-to-gateways",
                             "type": [
                               "array",
                               "null"
@@ -774,7 +782,7 @@
                               ],
                               "properties": {
                                 "group": {
-                                  "description": "Group is the group of the referent. \n Support: Core",
+                                  "description": "Group is the group of the referent. When unspecified, \"gateway.networking.k8s.io\" is inferred. To set the core API group (such as for a \"Service\" kind referent), Group must be explicitly set to \"\" (empty string). \n Support: Core",
                                   "type": [
                                     "string",
                                     "null"
@@ -783,7 +791,7 @@
                                   "pattern": "^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
                                 },
                                 "kind": {
-                                  "description": "Kind is kind of the referent. \n Support: Core (Gateway) \n Support: Custom (Other Resources)",
+                                  "description": "Kind is kind of the referent. \n Support: Core (Gateway) \n Support: Implementation-specific (Other Resources)",
                                   "type": [
                                     "string",
                                     "null"
@@ -799,7 +807,7 @@
                                   "minLength": 1
                                 },
                                 "namespace": {
-                                  "description": "Namespace is the namespace of the referent. When unspecified (or empty string), this refers to the local namespace of the Route. \n Support: Core",
+                                  "description": "Namespace is the namespace of the referent. When unspecified, this refers to the local namespace of the Route. \n Note that there are specific rules for ParentRefs which cross namespace boundaries. Cross-namespace references are only valid if they are explicitly allowed by something in the namespace they are referring to. For example: Gateway has the AllowedRoutes field, and ReferenceGrant provides a generic way to enable any other kind of cross-namespace reference. \n Support: Core",
                                   "type": [
                                     "string",
                                     "null"
@@ -2171,7 +2179,7 @@
               "additionalProperties": false
             },
             "caBundle": {
-              "description": "PEM-encoded CA bundle (base64-encoded) used to validate Vault server certificate. Only used if the Server URL is using HTTPS protocol. This parameter is ignored for plain HTTP protocol connection. If not set the system root certificates are used to validate the TLS connection. Mutually exclusive with CABundleSecretRef. If neither CABundle nor CABundleSecretRef are defined, the cert-manager controller system root certificates are used to validate the TLS connection.",
+              "description": "Base64-encoded bundle of PEM CAs which will be used to validate the certificate chain presented by Vault. Only used if using HTTPS to connect to Vault and ignored for HTTP connections. Mutually exclusive with CABundleSecretRef. If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in the cert-manager controller container is used to validate the TLS connection.",
               "type": [
                 "string",
                 "null"
@@ -2179,7 +2187,7 @@
               "format": "byte"
             },
             "caBundleSecretRef": {
-              "description": "CABundleSecretRef is a reference to a Secret which contains the CABundle which will be used when connecting to Vault when using HTTPS. Mutually exclusive with CABundle. If neither CABundleSecretRef nor CABundle are defined, the cert-manager controller system root certificates are used to validate the TLS connection. If no key for the Secret is specified, cert-manager will default to 'ca.crt'.",
+              "description": "Reference to a Secret containing a bundle of PEM-encoded CAs to use when verifying the certificate chain presented by Vault when using HTTPS. Mutually exclusive with CABundle. If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in the cert-manager controller container is used to validate the TLS connection. If no key for the Secret is specified, cert-manager will default to 'ca.crt'.",
               "type": [
                 "object",
                 "null"
@@ -2283,7 +2291,7 @@
               ],
               "properties": {
                 "caBundle": {
-                  "description": "CABundle is a PEM encoded TLS certificate to use to verify connections to the TPP instance. If specified, system roots will not be used and the issuing CA for the TPP instance must be verifiable using the provided root. If not specified, the connection will be verified using the cert-manager system root certificates.",
+                  "description": "Base64-encoded bundle of PEM CAs which will be used to validate the certificate chain presented by the TPP server. Only used if using HTTPS; ignored for HTTP. If undefined, the certificate bundle in the cert-manager controller container is used to validate the chain.",
                   "type": [
                     "string",
                     "null"
