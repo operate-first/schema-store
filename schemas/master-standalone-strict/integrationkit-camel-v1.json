@@ -34,7 +34,7 @@
       ],
       "properties": {
         "configuration": {
-          "description": "configuration used by the kit TODO: we should deprecate in future releases in favour of mount, openapi or camel traits",
+          "description": "Deprecated: Use camel trait (camel.properties) to manage properties Use mount trait (mount.configs) to manage configs Use mount trait (mount.resources) to manage resources Use mount trait (mount.volumes) to manage volumes configuration used by the kit",
           "type": [
             "array",
             "null"
@@ -50,27 +50,6 @@
               "value"
             ],
             "properties": {
-              "resourceKey": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "resourceMountPoint": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "resourceType": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
               "type": {
                 "description": "represents the type of configuration, ie: property, configmap, secret, ...",
                 "type": "string"
@@ -121,6 +100,127 @@
               "string",
               "null"
             ]
+          }
+        },
+        "sources": {
+          "description": "the sources to add at build time",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "SourceSpec defines the configuration for one or more routes to be executed in a certain Camel DSL language",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "compression": {
+                "description": "if the content is compressed (base64 encrypted)",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "content": {
+                "description": "the source code (plain text)",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "contentKey": {
+                "description": "the confimap key holding the source content",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "contentRef": {
+                "description": "the confimap reference holding the source content",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "contentType": {
+                "description": "the content type (tipically text or binary)",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "interceptors": {
+                "description": "Interceptors are optional identifiers the org.apache.camel.k.RoutesLoader uses to pre/post process sources",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "language": {
+                "description": "specify which is the language (Camel DSL) used to interpret this source code",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "loader": {
+                "description": "Loader is an optional id of the org.apache.camel.k.RoutesLoader that will interpret this source at runtime",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "description": "the name of the specification",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "path": {
+                "description": "the path where the file is stored",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "property-names": {
+                "description": "List of property names defined in the source (e.g. if type is \"template\")",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "rawContent": {
+                "description": "the source code (binary)",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "byte"
+              },
+              "type": {
+                "description": "Type defines the kind of source described by this object",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
           }
         },
         "traits": {
@@ -183,6 +283,48 @@
               },
               "additionalProperties": false
             },
+            "camel": {
+              "description": "The Camel trait sets up Camel configuration.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "configuration": {
+                  "description": "Legacy trait configuration parameters. Deprecated: for backward compatibility.",
+                  "x-kubernetes-preserve-unknown-fields": true
+                },
+                "enabled": {
+                  "description": "Can be used to enable or disable a trait. All traits share this common property.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "properties": {
+                  "description": "A list of properties to be provided to the Integration runtime",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "runtimeVersion": {
+                  "description": "The camel-k-runtime version to use for the integration. It overrides the default version set in the Integration Platform.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "additionalProperties": false
+              },
+              "additionalProperties": false
+            },
             "quarkus": {
               "description": "The Quarkus trait configures the Quarkus runtime. It's enabled by default. NOTE: Compiling to a native executable, i.e. when using `package-type=native`, is only supported for kamelets, as well as YAML and XML integrations. It also requires at least 4GiB of memory, so the Pod running the native build, that is either the operator Pod, or the build Pod (depending on the build strategy configured for the platform), must have enough memory available.",
               "type": [
@@ -212,6 +354,10 @@
                     "type": [
                       "string",
                       "null"
+                    ],
+                    "enum": [
+                      "fast-jar",
+                      "native"
                     ]
                   }
                 }

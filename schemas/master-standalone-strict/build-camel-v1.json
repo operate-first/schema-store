@@ -78,6 +78,13 @@
                       "null"
                     ]
                   },
+                  "executorImage": {
+                    "description": "docker image to use",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
                   "image": {
                     "description": "final image name",
                     "type": [
@@ -195,37 +202,6 @@
                       "null"
                     ],
                     "properties": {
-                      "caSecret": {
-                        "description": "Deprecated: use CASecrets The Secret name and key, containing the CA certificate(s) used to connect to remote Maven repositories. It can contain X.509 certificates, and PKCS#7 formatted certificate chains. A JKS formatted keystore is automatically created to store the CA certificate(s), and configured to be used as a trusted certificate(s) by the Maven commands. Note that the root CA certificates are also imported into the created keystore.",
-                        "type": [
-                          "object",
-                          "null"
-                        ],
-                        "required": [
-                          "key"
-                        ],
-                        "properties": {
-                          "key": {
-                            "description": "The key of the secret to select from.  Must be a valid secret key.",
-                            "type": "string"
-                          },
-                          "name": {
-                            "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
-                            "type": [
-                              "string",
-                              "null"
-                            ]
-                          },
-                          "optional": {
-                            "description": "Specify whether the Secret or its key must be defined",
-                            "type": [
-                              "boolean",
-                              "null"
-                            ]
-                          }
-                        },
-                        "additionalProperties": false
-                      },
                       "caSecrets": {
                         "description": "The Secrets name and key, containing the CA certificate(s) used to connect to remote Maven repositories. It can contain X.509 certificates, and PKCS#7 formatted certificate chains. A JKS formatted keystore is automatically created to store the CA certificate(s), and configured to be used as a trusted certificate(s) by the Maven commands. Note that the root CA certificates are also imported into the created keystore.",
                         "type": [
@@ -632,94 +608,6 @@
                       "null"
                     ]
                   },
-                  "resources": {
-                    "description": "Deprecated: no longer in use",
-                    "type": [
-                      "array",
-                      "null"
-                    ],
-                    "items": {
-                      "description": "ResourceSpec represent an attached resource which will be materialized as a file on the running `Pod` TODO: we should deprecate in future releases in favour of mount, openapi or camel traits",
-                      "type": [
-                        "object",
-                        "null"
-                      ],
-                      "properties": {
-                        "compression": {
-                          "description": "if the content is compressed (base64 encrypted)",
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "content": {
-                          "description": "the source code (plain text)",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "contentKey": {
-                          "description": "the confimap key holding the source content",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "contentRef": {
-                          "description": "the confimap reference holding the source content",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "contentType": {
-                          "description": "the content type (tipically text or binary)",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "mountPath": {
-                          "description": "the mount path on destination `Pod`",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "name": {
-                          "description": "the name of the specification",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "path": {
-                          "description": "the path where the file is stored",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "rawContent": {
-                          "description": "the source code (binary)",
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "byte"
-                        },
-                        "type": {
-                          "description": "the kind of data to expect",
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        }
-                      },
-                      "additionalProperties": false
-                    }
-                  },
                   "runtime": {
                     "description": "the configuration required for the runtime application",
                     "type": [
@@ -784,19 +672,6 @@
                                 },
                                 "additionalProperties": false
                               }
-                            },
-                            "metadata": {
-                              "description": "Deprecated: not in use",
-                              "type": [
-                                "object",
-                                "null"
-                              ],
-                              "additionalProperties": {
-                                "type": [
-                                  "string",
-                                  "null"
-                                ]
-                              }
                             }
                           },
                           "additionalProperties": false
@@ -860,7 +735,7 @@
                     "additionalProperties": false
                   },
                   "sources": {
-                    "description": "Deprecated: no longer in use the source code for the Route(s)",
+                    "description": "the sources to add at build time",
                     "type": [
                       "array",
                       "null"
@@ -1036,6 +911,13 @@
                   },
                   "contextDir": {
                     "description": "can be useful to share info with other tasks",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "executorImage": {
+                    "description": "docker image to use",
                     "type": [
                       "string",
                       "null"

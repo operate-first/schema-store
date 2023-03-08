@@ -33,13 +33,6 @@
         "null"
       ],
       "properties": {
-        "authorization": {
-          "description": "Deprecated: unused",
-          "type": [
-            "object",
-            "null"
-          ]
-        },
         "definition": {
           "description": "defines the formal configuration of the Kamelet",
           "type": [
@@ -299,10 +292,6 @@
               "null"
             ]
           }
-        },
-        "flow": {
-          "description": "Deprecated: use Template instead the main source in YAML DSL",
-          "x-kubernetes-preserve-unknown-fields": true
         },
         "sources": {
           "description": "sources in any Camel DSL supported",

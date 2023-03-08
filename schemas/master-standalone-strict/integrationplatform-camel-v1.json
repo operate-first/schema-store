@@ -41,6 +41,7 @@
           ],
           "properties": {
             "PublishStrategyOptions": {
+              "description": "Generic options that can used by each publish strategy",
               "type": [
                 "object",
                 "null"
@@ -70,13 +71,6 @@
                 "pod"
               ]
             },
-            "kanikoBuildCache": {
-              "description": "Deprecated: Use PublishStrategyOptions instead enables Kaniko publish strategy cache",
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
             "maven": {
               "description": "Maven configuration used to build the Camel/Camel-Quarkus applications",
               "type": [
@@ -84,37 +78,6 @@
                 "null"
               ],
               "properties": {
-                "caSecret": {
-                  "description": "Deprecated: use CASecrets The Secret name and key, containing the CA certificate(s) used to connect to remote Maven repositories. It can contain X.509 certificates, and PKCS#7 formatted certificate chains. A JKS formatted keystore is automatically created to store the CA certificate(s), and configured to be used as a trusted certificate(s) by the Maven commands. Note that the root CA certificates are also imported into the created keystore.",
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "required": [
-                    "key"
-                  ],
-                  "properties": {
-                    "key": {
-                      "description": "The key of the secret to select from.  Must be a valid secret key.",
-                      "type": "string"
-                    },
-                    "name": {
-                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "optional": {
-                      "description": "Specify whether the Secret or its key must be defined",
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    }
-                  },
-                  "additionalProperties": false
-                },
                 "caSecrets": {
                   "description": "The Secrets name and key, containing the CA certificate(s) used to connect to remote Maven repositories. It can contain X.509 certificates, and PKCS#7 formatted certificate chains. A JKS formatted keystore is automatically created to store the CA certificate(s), and configured to be used as a trusted certificate(s) by the Maven commands. Note that the root CA certificates are also imported into the created keystore.",
                   "type": [
@@ -370,13 +333,6 @@
               },
               "additionalProperties": false
             },
-            "persistentVolumeClaim": {
-              "description": "Deprecated: Use PublishStrategyOptions instead the Persistent Volume Claim used by Kaniko publish strategy, if cache is enabled",
-              "type": [
-                "string",
-                "null"
-              ]
-            },
             "publishStrategy": {
               "description": "the strategy to adopt for publishing an Integration base image",
               "type": [
@@ -461,7 +417,7 @@
           ]
         },
         "configuration": {
-          "description": "list of configuration properties to be attached to all the Integration/IntegrationKits built from this IntegrationPlatform",
+          "description": "Deprecated: Use camel trait (camel.properties) to manage properties Use mount trait (mount.configs) to manage configs Use mount trait (mount.resources) to manage resources Use mount trait (mount.volumes) to manage volumes list of configuration properties to be attached to all the Integration/IntegrationKits built from this IntegrationPlatform",
           "type": [
             "array",
             "null"
@@ -477,27 +433,6 @@
               "value"
             ],
             "properties": {
-              "resourceKey": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "resourceMountPoint": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "resourceType": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
               "type": {
                 "description": "represents the type of configuration, ie: property, configmap, secret, ...",
                 "type": "string"
@@ -548,13 +483,6 @@
           "description": "the profile you wish to use. It will apply certain traits which are required by the specific profile chosen. It usually relates the Cluster with the optional definition of special profiles (ie, Knative)",
           "type": [
             "string",
-            "null"
-          ]
-        },
-        "resources": {
-          "description": "Deprecated: not used",
-          "type": [
-            "object",
             "null"
           ]
         },
@@ -795,6 +723,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "Always",
+                    "Never",
+                    "IfNotPresent"
                   ]
                 },
                 "limitCPU": {
@@ -810,53 +743,6 @@
                     "string",
                     "null"
                   ]
-                },
-                "livenessFailureThreshold": {
-                  "description": "Minimum consecutive failures for the probe to be considered failed after having succeeded. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "livenessInitialDelay": {
-                  "description": "Number of seconds after the container has started before liveness probes are initiated. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "livenessPeriod": {
-                  "description": "How often to perform the probe. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "livenessScheme": {
-                  "description": "Scheme to use when connecting. Defaults to HTTP. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "livenessSuccessThreshold": {
-                  "description": "Minimum consecutive successes for the probe to be considered successful after having failed. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "livenessTimeout": {
-                  "description": "Number of seconds after which the probe times out. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
                 },
                 "name": {
                   "description": "The main container name. It's named `integration` by default.",
@@ -878,60 +764,6 @@
                     "string",
                     "null"
                   ]
-                },
-                "probesEnabled": {
-                  "description": "DeprecatedProbesEnabled enable/disable probes on the container (default `false`). Deprecated: replaced by the health trait.",
-                  "type": [
-                    "boolean",
-                    "null"
-                  ]
-                },
-                "readinessFailureThreshold": {
-                  "description": "Minimum consecutive failures for the probe to be considered failed after having succeeded. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "readinessInitialDelay": {
-                  "description": "Number of seconds after the container has started before readiness probes are initiated. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "readinessPeriod": {
-                  "description": "How often to perform the probe. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "readinessScheme": {
-                  "description": "Scheme to use when connecting. Defaults to HTTP. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "readinessSuccessThreshold": {
-                  "description": "Minimum consecutive successes for the probe to be considered successful after having failed. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "readinessTimeout": {
-                  "description": "Number of seconds after which the probe times out. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
                 },
                 "requestCPU": {
                   "description": "The minimum amount of CPU required.",
@@ -980,7 +812,7 @@
                   "format": "int64"
                 },
                 "auto": {
-                  "description": "Automatically deploy the integration as CronJob when all routes are either starting from a periodic consumer (only `cron`, `timer` and `quartz` are supported) or a passive consumer (e.g. `direct` is a passive consumer). \n It's required that all periodic consumers have the same period and it can be expressed as cron schedule (e.g. `1m` can be expressed as `0/1 * * * *`, while `35m` or `50s` cannot).",
+                  "description": "Automatically deploy the integration as CronJob when all routes are either starting from a periodic consumer (only `cron`, `timer` and `quartz` are supported) or a passive consumer (e.g. `direct` is a passive consumer). \n It's required that all periodic consumers have the same period, and it can be expressed as cron schedule (e.g. `1m` can be expressed as `0/1 * * * *`, while `35m` or `50s` cannot).",
                   "type": [
                     "boolean",
                     "null"
@@ -1006,6 +838,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "Allow",
+                    "Forbid",
+                    "Replace"
                   ]
                 },
                 "configuration": {
@@ -1088,6 +925,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "deployment",
+                    "cron-job",
+                    "knative-service"
                   ]
                 },
                 "useSSA": {
@@ -1242,10 +1084,15 @@
                   "x-kubernetes-preserve-unknown-fields": true
                 },
                 "discoveryCache": {
-                  "description": "Discovery client cache to be used, either `disabled`, `disk` or `memory` (default `memory`)",
+                  "description": "Discovery client cache to be used, either `disabled`, `disk` or `memory` (default `memory`). Deprecated: to be removed from trait configuration.",
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "disabled",
+                    "disk",
+                    "memory"
                   ]
                 },
                 "enabled": {
@@ -1395,7 +1242,7 @@
               ],
               "properties": {
                 "auto": {
-                  "description": "To automatically add an ingress whenever the integration uses a HTTP endpoint consumer.",
+                  "description": "To automatically add an ingress whenever the integration uses an HTTP endpoint consumer.",
                   "type": [
                     "boolean",
                     "null"
@@ -1413,7 +1260,7 @@
                   ]
                 },
                 "host": {
-                  "description": "**Required**. To configure the host exposed by the ingress.",
+                  "description": "To configure the host exposed by the ingress.",
                   "type": [
                     "string",
                     "null"
@@ -1823,7 +1670,7 @@
               ],
               "properties": {
                 "auto": {
-                  "description": "Automatically deploy the integration as Knative service when all conditions hold: \n * Integration is using the Knative profile * All routes are either starting from a HTTP based consumer or a passive consumer (e.g. `direct` is a passive consumer)",
+                  "description": "Automatically deploy the integration as Knative service when all conditions hold: \n * Integration is using the Knative profile * All routes are either starting from an HTTP based consumer or a passive consumer (e.g. `direct` is a passive consumer)",
                   "type": [
                     "boolean",
                     "null"
@@ -1848,6 +1695,10 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "kpa.autoscaling.knative.dev",
+                    "hpa.autoscaling.knative.dev"
                   ]
                 },
                 "configuration": {
@@ -1887,6 +1738,9 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "cluster-local"
                   ]
                 }
               },
@@ -1943,6 +1797,13 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "FATAL",
+                    "WARN",
+                    "INFO",
+                    "DEBUG",
+                    "TRACE"
                   ]
                 }
               },
@@ -2316,6 +2177,10 @@
                     "type": [
                       "string",
                       "null"
+                    ],
+                    "enum": [
+                      "fast-jar",
+                      "native"
                     ]
                   }
                 }
@@ -2415,6 +2280,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "None",
+                    "Allow",
+                    "Redirect"
                   ]
                 },
                 "tlsKey": {
@@ -2436,6 +2306,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "edge",
+                    "reencrypt",
+                    "passthrough"
                   ]
                 }
               },
@@ -2467,10 +2342,22 @@
                   ]
                 },
                 "nodePort": {
-                  "description": "Enable Service to be exposed as NodePort (default `false`).",
+                  "description": "Enable Service to be exposed as NodePort (default `false`). Deprecated: Use service type instead.",
                   "type": [
                     "boolean",
                     "null"
+                  ]
+                },
+                "type": {
+                  "description": "The type of service to be used, either 'ClusterIP', 'NodePort' or 'LoadBalancer'.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "ClusterIP",
+                    "NodePort",
+                    "LoadBalancer"
                   ]
                 }
               },
@@ -2599,6 +2486,7 @@
           ],
           "properties": {
             "PublishStrategyOptions": {
+              "description": "Generic options that can used by each publish strategy",
               "type": [
                 "object",
                 "null"
@@ -2628,13 +2516,6 @@
                 "pod"
               ]
             },
-            "kanikoBuildCache": {
-              "description": "Deprecated: Use PublishStrategyOptions instead enables Kaniko publish strategy cache",
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
             "maven": {
               "description": "Maven configuration used to build the Camel/Camel-Quarkus applications",
               "type": [
@@ -2642,37 +2523,6 @@
                 "null"
               ],
               "properties": {
-                "caSecret": {
-                  "description": "Deprecated: use CASecrets The Secret name and key, containing the CA certificate(s) used to connect to remote Maven repositories. It can contain X.509 certificates, and PKCS#7 formatted certificate chains. A JKS formatted keystore is automatically created to store the CA certificate(s), and configured to be used as a trusted certificate(s) by the Maven commands. Note that the root CA certificates are also imported into the created keystore.",
-                  "type": [
-                    "object",
-                    "null"
-                  ],
-                  "required": [
-                    "key"
-                  ],
-                  "properties": {
-                    "key": {
-                      "description": "The key of the secret to select from.  Must be a valid secret key.",
-                      "type": "string"
-                    },
-                    "name": {
-                      "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "optional": {
-                      "description": "Specify whether the Secret or its key must be defined",
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    }
-                  },
-                  "additionalProperties": false
-                },
                 "caSecrets": {
                   "description": "The Secrets name and key, containing the CA certificate(s) used to connect to remote Maven repositories. It can contain X.509 certificates, and PKCS#7 formatted certificate chains. A JKS formatted keystore is automatically created to store the CA certificate(s), and configured to be used as a trusted certificate(s) by the Maven commands. Note that the root CA certificates are also imported into the created keystore.",
                   "type": [
@@ -2927,13 +2777,6 @@
                 "additionalProperties": false
               },
               "additionalProperties": false
-            },
-            "persistentVolumeClaim": {
-              "description": "Deprecated: Use PublishStrategyOptions instead the Persistent Volume Claim used by Kaniko publish strategy, if cache is enabled",
-              "type": [
-                "string",
-                "null"
-              ]
             },
             "publishStrategy": {
               "description": "the strategy to adopt for publishing an Integration base image",
@@ -3078,7 +2921,7 @@
           }
         },
         "configuration": {
-          "description": "list of configuration properties to be attached to all the Integration/IntegrationKits built from this IntegrationPlatform",
+          "description": "Deprecated: Use camel trait (camel.properties) to manage properties Use mount trait (mount.configs) to manage configs Use mount trait (mount.resources) to manage resources Use mount trait (mount.volumes) to manage volumes list of configuration properties to be attached to all the Integration/IntegrationKits built from this IntegrationPlatform",
           "type": [
             "array",
             "null"
@@ -3094,27 +2937,6 @@
               "value"
             ],
             "properties": {
-              "resourceKey": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "resourceMountPoint": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "resourceType": {
-                "description": "Deprecated: no longer used",
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
               "type": {
                 "description": "represents the type of configuration, ie: property, configmap, secret, ...",
                 "type": "string"
@@ -3193,13 +3015,6 @@
           "description": "the profile you wish to use. It will apply certain traits which are required by the specific profile chosen. It usually relates the Cluster with the optional definition of special profiles (ie, Knative)",
           "type": [
             "string",
-            "null"
-          ]
-        },
-        "resources": {
-          "description": "Deprecated: not used",
-          "type": [
-            "object",
             "null"
           ]
         },
@@ -3440,6 +3255,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "Always",
+                    "Never",
+                    "IfNotPresent"
                   ]
                 },
                 "limitCPU": {
@@ -3455,53 +3275,6 @@
                     "string",
                     "null"
                   ]
-                },
-                "livenessFailureThreshold": {
-                  "description": "Minimum consecutive failures for the probe to be considered failed after having succeeded. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "livenessInitialDelay": {
-                  "description": "Number of seconds after the container has started before liveness probes are initiated. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "livenessPeriod": {
-                  "description": "How often to perform the probe. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "livenessScheme": {
-                  "description": "Scheme to use when connecting. Defaults to HTTP. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "livenessSuccessThreshold": {
-                  "description": "Minimum consecutive successes for the probe to be considered successful after having failed. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "livenessTimeout": {
-                  "description": "Number of seconds after which the probe times out. Applies to the liveness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
                 },
                 "name": {
                   "description": "The main container name. It's named `integration` by default.",
@@ -3523,60 +3296,6 @@
                     "string",
                     "null"
                   ]
-                },
-                "probesEnabled": {
-                  "description": "DeprecatedProbesEnabled enable/disable probes on the container (default `false`). Deprecated: replaced by the health trait.",
-                  "type": [
-                    "boolean",
-                    "null"
-                  ]
-                },
-                "readinessFailureThreshold": {
-                  "description": "Minimum consecutive failures for the probe to be considered failed after having succeeded. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "readinessInitialDelay": {
-                  "description": "Number of seconds after the container has started before readiness probes are initiated. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "readinessPeriod": {
-                  "description": "How often to perform the probe. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "readinessScheme": {
-                  "description": "Scheme to use when connecting. Defaults to HTTP. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "readinessSuccessThreshold": {
-                  "description": "Minimum consecutive successes for the probe to be considered successful after having failed. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
-                },
-                "readinessTimeout": {
-                  "description": "Number of seconds after which the probe times out. Applies to the readiness probe. Deprecated: replaced by the health trait.",
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "format": "int32"
                 },
                 "requestCPU": {
                   "description": "The minimum amount of CPU required.",
@@ -3625,7 +3344,7 @@
                   "format": "int64"
                 },
                 "auto": {
-                  "description": "Automatically deploy the integration as CronJob when all routes are either starting from a periodic consumer (only `cron`, `timer` and `quartz` are supported) or a passive consumer (e.g. `direct` is a passive consumer). \n It's required that all periodic consumers have the same period and it can be expressed as cron schedule (e.g. `1m` can be expressed as `0/1 * * * *`, while `35m` or `50s` cannot).",
+                  "description": "Automatically deploy the integration as CronJob when all routes are either starting from a periodic consumer (only `cron`, `timer` and `quartz` are supported) or a passive consumer (e.g. `direct` is a passive consumer). \n It's required that all periodic consumers have the same period, and it can be expressed as cron schedule (e.g. `1m` can be expressed as `0/1 * * * *`, while `35m` or `50s` cannot).",
                   "type": [
                     "boolean",
                     "null"
@@ -3651,6 +3370,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "Allow",
+                    "Forbid",
+                    "Replace"
                   ]
                 },
                 "configuration": {
@@ -3733,6 +3457,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "deployment",
+                    "cron-job",
+                    "knative-service"
                   ]
                 },
                 "useSSA": {
@@ -3887,10 +3616,15 @@
                   "x-kubernetes-preserve-unknown-fields": true
                 },
                 "discoveryCache": {
-                  "description": "Discovery client cache to be used, either `disabled`, `disk` or `memory` (default `memory`)",
+                  "description": "Discovery client cache to be used, either `disabled`, `disk` or `memory` (default `memory`). Deprecated: to be removed from trait configuration.",
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "disabled",
+                    "disk",
+                    "memory"
                   ]
                 },
                 "enabled": {
@@ -4040,7 +3774,7 @@
               ],
               "properties": {
                 "auto": {
-                  "description": "To automatically add an ingress whenever the integration uses a HTTP endpoint consumer.",
+                  "description": "To automatically add an ingress whenever the integration uses an HTTP endpoint consumer.",
                   "type": [
                     "boolean",
                     "null"
@@ -4058,7 +3792,7 @@
                   ]
                 },
                 "host": {
-                  "description": "**Required**. To configure the host exposed by the ingress.",
+                  "description": "To configure the host exposed by the ingress.",
                   "type": [
                     "string",
                     "null"
@@ -4468,7 +4202,7 @@
               ],
               "properties": {
                 "auto": {
-                  "description": "Automatically deploy the integration as Knative service when all conditions hold: \n * Integration is using the Knative profile * All routes are either starting from a HTTP based consumer or a passive consumer (e.g. `direct` is a passive consumer)",
+                  "description": "Automatically deploy the integration as Knative service when all conditions hold: \n * Integration is using the Knative profile * All routes are either starting from an HTTP based consumer or a passive consumer (e.g. `direct` is a passive consumer)",
                   "type": [
                     "boolean",
                     "null"
@@ -4493,6 +4227,10 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "kpa.autoscaling.knative.dev",
+                    "hpa.autoscaling.knative.dev"
                   ]
                 },
                 "configuration": {
@@ -4532,6 +4270,9 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "cluster-local"
                   ]
                 }
               },
@@ -4588,6 +4329,13 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "FATAL",
+                    "WARN",
+                    "INFO",
+                    "DEBUG",
+                    "TRACE"
                   ]
                 }
               },
@@ -4961,6 +4709,10 @@
                     "type": [
                       "string",
                       "null"
+                    ],
+                    "enum": [
+                      "fast-jar",
+                      "native"
                     ]
                   }
                 }
@@ -5060,6 +4812,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "None",
+                    "Allow",
+                    "Redirect"
                   ]
                 },
                 "tlsKey": {
@@ -5081,6 +4838,11 @@
                   "type": [
                     "string",
                     "null"
+                  ],
+                  "enum": [
+                    "edge",
+                    "reencrypt",
+                    "passthrough"
                   ]
                 }
               },
@@ -5112,10 +4874,22 @@
                   ]
                 },
                 "nodePort": {
-                  "description": "Enable Service to be exposed as NodePort (default `false`).",
+                  "description": "Enable Service to be exposed as NodePort (default `false`). Deprecated: Use service type instead.",
                   "type": [
                     "boolean",
                     "null"
+                  ]
+                },
+                "type": {
+                  "description": "The type of service to be used, either 'ClusterIP', 'NodePort' or 'LoadBalancer'.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "ClusterIP",
+                    "NodePort",
+                    "LoadBalancer"
                   ]
                 }
               },
