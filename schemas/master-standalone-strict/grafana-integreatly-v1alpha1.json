@@ -7683,6 +7683,12 @@
                 ]
               }
             },
+            "appProtocol": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "clusterIP": {
               "type": [
                 "string",
