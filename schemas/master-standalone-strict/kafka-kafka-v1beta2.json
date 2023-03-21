@@ -845,6 +845,17 @@
                     "null"
                   ],
                   "properties": {
+                    "deploymentStrategy": {
+                      "description": "Pod replacement strategy for deployment configuration changes. Valid values are `RollingUpdate` and `Recreate`. Defaults to `RollingUpdate`.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "RollingUpdate",
+                        "Recreate"
+                      ]
+                    },
                     "metadata": {
                       "description": "Metadata applied to the resource.",
                       "type": [
@@ -2584,6 +2595,17 @@
                     "null"
                   ],
                   "properties": {
+                    "deploymentStrategy": {
+                      "description": "Pod replacement strategy for deployment configuration changes. Valid values are `RollingUpdate` and `Recreate`. Defaults to `RollingUpdate`.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "RollingUpdate",
+                        "Recreate"
+                      ]
+                    },
                     "metadata": {
                       "description": "Metadata applied to the resource.",
                       "type": [
@@ -5779,6 +5801,17 @@
                     "null"
                   ],
                   "properties": {
+                    "deploymentStrategy": {
+                      "description": "Pod replacement strategy for deployment configuration changes. Valid values are `RollingUpdate` and `Recreate`. Defaults to `RollingUpdate`.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "RollingUpdate",
+                        "Recreate"
+                      ]
+                    },
                     "metadata": {
                       "description": "Metadata applied to the resource.",
                       "type": [
@@ -7191,6 +7224,14 @@
                   ],
                   "minimum": 1
                 },
+                "httpRetries": {
+                  "description": "The maximum number of retries to attempt if an initial HTTP request fails. If not set, the default is to not attempt any retries.",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
                 "initialCacheCapacity": {
                   "description": "Initial capacity of the local cache used by the authorizer to avoid querying the Open Policy Agent for every request Defaults to `5000`.",
                   "type": [
@@ -7581,6 +7622,20 @@
                         "description": "A delimiter used to parse groups when they are extracted as a single String value rather than a JSON array. Default value is ',' (comma).",
                         "type": [
                           "string",
+                          "null"
+                        ]
+                      },
+                      "httpRetries": {
+                        "description": "The maximum number of retries to attempt if an initial HTTP request fails. If not set, the default is to not attempt any retries.",
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "httpRetryPauseMs": {
+                        "description": "The pause to take before retrying a failed HTTP request. If not set, the default is to not pause at all but to immediately repeat a request.",
+                        "type": [
+                          "integer",
                           "null"
                         ]
                       },
