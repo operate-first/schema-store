@@ -121,6 +121,13 @@
             "skip_tls_verification"
           ],
           "properties": {
+            "collect_previous_data": {
+              "description": "CollectPreviousData is a field of KokuMetricsConfig to represent whether or not the operator will gather previous data upon KokuMetricsConfig creation. This toggle only changes operator behavior when a new KokuMetricsConfig is created. When `true`, the operator will gather all existing Prometheus data for the current month. The default is true.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "context_timeout": {
               "description": "ContextTimeout is a field of KokuMetricsConfig to represent how long a query to prometheus should run in seconds before timing out. The default is 120 seconds.",
               "type": [
@@ -130,6 +137,20 @@
               "format": "int64",
               "maximum": 180,
               "minimum": 10
+            },
+            "disable_metrics_collection_cost_management": {
+              "description": "DisableMetricsCollectionCostManagement is a field of KokuMetricsConfig to represent whether or not the operator will generate reports for cost-management metrics. The default is false.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "disable_metrics_collection_resource_optimization": {
+              "description": "DisableMetricsCollectionResourceOptimization is a field of KokuMetricsConfig to represent whether or not the operator will generate reports for resource-optimization metrics. The default is false.",
+              "type": [
+                "boolean",
+                "null"
+              ]
             },
             "service_address": {
               "description": "FOR DEVELOPMENT ONLY. SvcAddress is a field of KokuMetricsConfig to represent the thanos-querier address. The default is `https://thanos-querier.openshift-monitoring.svc:9091`.",
@@ -287,7 +308,7 @@
               ],
               "properties": {
                 "accessModes": {
-                  "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                  "description": "accessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
                   "type": [
                     "array",
                     "null"
@@ -300,7 +321,36 @@
                   }
                 },
                 "dataSource": {
-                  "description": "This field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) * An existing custom resource that implements data population (Alpha) In order to use custom resource types that implement data population, the AnyVolumeDataSource feature gate must be enabled. If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source.",
+                  "description": "dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. If the AnyVolumeDataSource feature gate is enabled, this field will always have the same contents as the DataSourceRef field.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "kind",
+                    "name"
+                  ],
+                  "properties": {
+                    "apiGroup": {
+                      "description": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "kind": {
+                      "description": "Kind is the type of resource being referenced",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "Name is the name of resource being referenced",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "dataSourceRef": {
+                  "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef   allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef   preserves all values, and generates an error if a disallowed value is   specified. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.",
                   "type": [
                     "object",
                     "null"
@@ -329,14 +379,14 @@
                   "additionalProperties": false
                 },
                 "resources": {
-                  "description": "Resources represents the minimum resources the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                  "description": "resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "limits": {
-                      "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+                      "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
                         "object",
                         "null"
@@ -347,7 +397,7 @@
                       }
                     },
                     "requests": {
-                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
                         "object",
                         "null"
@@ -361,7 +411,7 @@
                   "additionalProperties": false
                 },
                 "selector": {
-                  "description": "A label query over volumes to consider for binding.",
+                  "description": "selector is a label query over volumes to consider for binding.",
                   "type": [
                     "object",
                     "null"
@@ -426,7 +476,7 @@
                   "additionalProperties": false
                 },
                 "storageClassName": {
-                  "description": "Name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
+                  "description": "storageClassName is the name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
                   "type": [
                     "string",
                     "null"
@@ -440,7 +490,7 @@
                   ]
                 },
                 "volumeName": {
-                  "description": "VolumeName is the binding reference to the PersistentVolume backing this claim.",
+                  "description": "volumeName is the binding reference to the PersistentVolume backing this claim.",
                   "type": [
                     "string",
                     "null"
@@ -673,7 +723,7 @@
               ],
               "properties": {
                 "accessModes": {
-                  "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                  "description": "accessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
                   "type": [
                     "array",
                     "null"
@@ -686,7 +736,36 @@
                   }
                 },
                 "dataSource": {
-                  "description": "This field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) * An existing custom resource that implements data population (Alpha) In order to use custom resource types that implement data population, the AnyVolumeDataSource feature gate must be enabled. If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source.",
+                  "description": "dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. If the AnyVolumeDataSource feature gate is enabled, this field will always have the same contents as the DataSourceRef field.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "kind",
+                    "name"
+                  ],
+                  "properties": {
+                    "apiGroup": {
+                      "description": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "kind": {
+                      "description": "Kind is the type of resource being referenced",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "Name is the name of resource being referenced",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "dataSourceRef": {
+                  "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef   allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef   preserves all values, and generates an error if a disallowed value is   specified. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.",
                   "type": [
                     "object",
                     "null"
@@ -715,14 +794,14 @@
                   "additionalProperties": false
                 },
                 "resources": {
-                  "description": "Resources represents the minimum resources the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                  "description": "resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "limits": {
-                      "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+                      "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
                         "object",
                         "null"
@@ -733,7 +812,7 @@
                       }
                     },
                     "requests": {
-                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
                         "object",
                         "null"
@@ -747,7 +826,7 @@
                   "additionalProperties": false
                 },
                 "selector": {
-                  "description": "A label query over volumes to consider for binding.",
+                  "description": "selector is a label query over volumes to consider for binding.",
                   "type": [
                     "object",
                     "null"
@@ -812,7 +891,7 @@
                   "additionalProperties": false
                 },
                 "storageClassName": {
-                  "description": "Name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
+                  "description": "storageClassName is the name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
                   "type": [
                     "string",
                     "null"
@@ -826,7 +905,7 @@
                   ]
                 },
                 "volumeName": {
-                  "description": "VolumeName is the binding reference to the PersistentVolume backing this claim.",
+                  "description": "volumeName is the binding reference to the PersistentVolume backing this claim.",
                   "type": [
                     "string",
                     "null"
@@ -864,6 +943,20 @@
               ],
               "format": "int64"
             },
+            "disabled_metrics_collection_cost_management": {
+              "description": "DisabledMetricsCollectionCostManagement is a field of KokuMetricsConfigStatus to represent whether or not collecting cost-management metrics is disabled. The default is false.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "disabled_metrics_collection_resource_optimization": {
+              "description": "DisabledMetricsCollectionResourceOptimization is a field of KokuMetricsConfigStatus to represent whether or not collecting resource-optimzation metrics is disabled. The default is true.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "last_query_start_time": {
               "description": "LastQueryStartTime is a field of KokuMetricsConfigStatus to represent the last time queries were started.",
               "format": "date-time"
@@ -871,6 +964,13 @@
             "last_query_success_time": {
               "description": "LastQuerySuccessTime is a field of KokuMetricsConfigStatus to represent the last time queries were successful.",
               "format": "date-time"
+            },
+            "previous_data_collected": {
+              "description": "PreviousDataCollected is a field of KokuMetricsConfigStatus to represent whether or not the operator gathered the available Prometheus data upon KokuMetricsConfig creation.",
+              "type": [
+                "boolean",
+                "null"
+              ]
             },
             "prometheus_configured": {
               "description": "PrometheusConfigured is a field of KokuMetricsConfigStatus to represent if the operator is configured to connect to prometheus.",
