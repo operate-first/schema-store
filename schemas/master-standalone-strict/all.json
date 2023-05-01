@@ -904,6 +904,12 @@
       "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.PasswordList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.VaultDynamicSecret"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.VaultDynamicSecretList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.external-secrets.operator.v1alpha1.OperatorConfig"
     },
     {
