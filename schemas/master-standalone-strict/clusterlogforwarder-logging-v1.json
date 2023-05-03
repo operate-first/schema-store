@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
     },
     "spec": {
-      "description": "Specification of the desired behavior of ClusterLogForwarder",
+      "description": "ClusterLogForwarderSpec defines how logs should be forwarded to remote targets.",
       "type": [
         "object",
         "null"
@@ -50,7 +50,7 @@
             ],
             "properties": {
               "application": {
-                "description": "Application, if present, enables named set of `application` logs that can specify a set of match criteria",
+                "description": "Application, if present, enables `application` logs.",
                 "type": [
                   "object",
                   "null"
@@ -76,6 +76,48 @@
                       "null"
                     ],
                     "properties": {
+                      "matchExpressions": {
+                        "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "key",
+                            "operator"
+                          ],
+                          "properties": {
+                            "key": {
+                              "description": "key is the label key that the selector applies to.",
+                              "type": "string"
+                            },
+                            "operator": {
+                              "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                              "type": "string"
+                            },
+                            "values": {
+                              "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
                       "matchLabels": {
                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                         "type": [
@@ -118,7 +160,7 @@
           }
         },
         "outputDefaults": {
-          "description": "DEPRECATED OutputDefaults specify forwarder config explicitly for the default managed log store named 'default'.  If there is a need to spec the managed logstore, define an outputSpec like the following where the managed fields (e.g. URL, Secret.Name) will be replaced with the required values: spec: - outputs: - name: default type: elasticsearch elasticsearch: structuredTypeKey: kubernetes.labels.myvalue",
+          "description": "OutputDefaults are used to specify default values for OutputSpec",
           "type": [
             "object",
             "null"
@@ -236,14 +278,6 @@
                       "string",
                       "null"
                     ]
-                  },
-                  "version": {
-                    "description": "Version specifies the version of Elasticsearch to be used. Must be one of: - 6 - Default for internal ES store - 7 - 8 - Latest for external ES store",
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": 6
                   }
                 },
                 "additionalProperties": false
@@ -361,7 +395,7 @@
                 "type": "string"
               },
               "secret": {
-                "description": "Secret for authentication. \n Names a secret in the same namespace as the ClusterLogForwarder. Sensitive authentication information is stored in a separate Secret object. A Secret is like a ConfigMap, where the keys are strings and the values are base64-encoded binary data, for example TLS certificates. \n Common keys are described here. Some output types support additional keys, documented with the output-specific configuration field. All secret keys are optional, enable the security features you want by setting the relevant keys. \n Transport Layer Security (TLS) \n Using a TLS URL (`https://...` or `tls://...`) without any secret enables basic TLS: client authenticates server using system default certificate authority. \n Additional TLS features are enabled by referencing a Secret with the following optional fields in its spec.data. All data fields are base64 encoded. \n * `tls.crt`: A client certificate, for mutual authentication. Requires `tls.key`. * `tls.key`: Private key to unlock the client certificate. Requires `tls.crt` * `passphrase`: Passphrase to decode an encoded TLS private key. Requires tls.key. * `ca-bundle.crt`: Custom CA to validate certificates. \n Username and Password \n * `username`: Authentication user name. Requires `password`. * `password`: Authentication password. Requires `username`. \n Simple Authentication Security Layer (SASL) \n * `sasl.enable`: (boolean) Explicitly enable or disable SASL. If missing, SASL is automatically enabled if any `sasl.*` keys are set. * `sasl.mechanisms`: (array of string) List of allowed SASL mechanism names. If missing or empty, the system defaults are used. * `sasl.allow-insecure`: (boolean) Allow mechanisms that send clear-text passwords. Default false.",
+                "description": "Secret for authentication. \n Names a secret in the same namespace as the ClusterLogForwarder. \n Sensitive authentication information is stored in a separate Secret object. A Secret is like a ConfigMap, where the keys are strings and the values are base64-encoded binary data, for example TLS certificates. \n Common keys are described here. Some output types support additional keys, documented with the output-specific configuration field. All secret keys are optional, enable the security features you want by setting the relevant keys. \n Transport Layer Security (TLS) \n Using a TLS URL ('https://...' or 'tls://...') without any secret enables basic TLS: client authenticates server using system default certificate authority. \n Additional TLS features are enabled by referencing a Secret with the following optional fields in its spec.data. All data fields are base64 encoded. \n `tls.crt`: A client certificate, for mutual authentication. Requires `tls.key`. `tls.key`: Private key to unlock the client certificate. Requires `tls.crt` `passphrase`: Passphrase to decode an encoded TLS private key. Requires tls.key. `ca-bundle.crt`: Custom CA to validate certificates. \n Username and Password \n `username`: Authentication user name. Requires `password`. `password`: Authentication password. Requires `username`. \n Simple Authentication Security Layer (SASL) \n `sasl.enable`: (boolean) Explicitly enable or disable SASL. If missing, SASL is automatically enabled if any `sasl.*` keys are set. `sasl.mechanisms`: (array of string) List of allowed SASL mechanism names. If missing or empty, the system defaults are used. `sasl.allow-insecure`: (boolean) Allow mechanisms that send clear-text passwords. Default false.",
                 "type": [
                   "object",
                   "null"
@@ -373,29 +407,6 @@
                   "name": {
                     "description": "Name of a secret in the namespace configured for log forwarder secrets.",
                     "type": "string"
-                  }
-                },
-                "additionalProperties": false
-              },
-              "splunk": {
-                "description": "Splunk Deliver log data to Splunk\u2019s HTTP Event Collector Provides optional extra properties for `type: splunk_hec` ('splunk_hec_logs' after Vector 0.23",
-                "type": [
-                  "object",
-                  "null"
-                ],
-                "properties": {
-                  "fields": {
-                    "description": "Fields to be added to Splunk index. https://docs.splunk.com/Documentation/Splunk/8.0.0/Data/IFXandHEC Should be a valid JSON object",
-                    "type": [
-                      "array",
-                      "null"
-                    ],
-                    "items": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    }
                   }
                 },
                 "additionalProperties": false
@@ -511,8 +522,7 @@
                   "kafka",
                   "cloudwatch",
                   "loki",
-                  "googleCloudLogging",
-                  "splunk"
+                  "googleCloudLogging"
                 ]
               },
               "url": {
@@ -534,7 +544,6 @@
             "null"
           ],
           "items": {
-            "description": "PipelinesSpec link a set of inputs to a set of outputs.",
             "type": [
               "object",
               "null"
@@ -609,7 +618,7 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "Status of the ClusterLogForwarder",
+      "description": "ClusterLogForwarderStatus defines the observed state of ClusterLogForwarder",
       "type": [
         "object",
         "null"

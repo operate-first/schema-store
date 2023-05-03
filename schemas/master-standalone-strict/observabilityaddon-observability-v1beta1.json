@@ -1,5 +1,4 @@
 {
-  "description": "ObservabilityAddon is the Schema for the observabilityaddon API",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -27,21 +26,18 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
     },
     "spec": {
-      "description": "ObservabilityAddonSpec is the spec of observability addon",
       "type": [
         "object",
         "null"
       ],
       "properties": {
         "enableMetrics": {
-          "description": "EnableMetrics indicates the observability addon push metrics to hub server.",
           "type": [
             "boolean",
             "null"
           ]
         },
         "interval": {
-          "description": "Interval for the observability addon push metrics to hub server.",
           "type": [
             "integer",
             "null"
@@ -51,14 +47,12 @@
           "minimum": 15
         },
         "resources": {
-          "description": "Resource requirement for metrics-collector",
           "type": [
             "object",
             "null"
           ],
           "properties": {
             "limits": {
-              "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
               "type": [
                 "object",
                 "null"
@@ -69,7 +63,6 @@
               }
             },
             "requests": {
-              "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
               "type": [
                 "object",
                 "null"
@@ -86,7 +79,6 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "ObservabilityAddonStatus defines the observed state of ObservabilityAddon",
       "type": [
         "object",
         "null"
@@ -98,7 +90,6 @@
         "conditions": {
           "type": "array",
           "items": {
-            "description": "StatusCondition contains condition information for an observability addon",
             "type": [
               "object",
               "null"
