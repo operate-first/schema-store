@@ -1,0 +1,285 @@
+{
+  "description": "GrafanaDatasource is the Schema for the grafanadatasources API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "grafana.integreatly.org/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "GrafanaDatasource"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "GrafanaDatasourceSpec defines the desired state of GrafanaDatasource",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "instanceSelector"
+      ],
+      "properties": {
+        "allowCrossNamespaceImport": {
+          "description": "allow to import this resources from an operator in a different namespace",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "datasource": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "access": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "basicAuth": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "basicAuthUser": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "database": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "editable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "isDefault": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "jsonData": {
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "orgId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int64"
+            },
+            "secureJsonData": {
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "uid": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "url": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "user": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "instanceSelector": {
+          "description": "selects Grafana instances for import",
+          "type": "object",
+          "properties": {
+            "matchExpressions": {
+              "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                    "type": "string"
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "x-kubernetes-map-type": "atomic",
+          "additionalProperties": false
+        },
+        "plugins": {
+          "description": "plugins",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "name",
+              "version"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "resyncPeriod": {
+          "description": "how often the datasource is refreshed, defaults to 24h if not set",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "secrets": {
+          "description": "secrets used for variable expansion",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "GrafanaDatasourceStatus defines the observed state of GrafanaDatasource",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "NoMatchingInstances": {
+          "description": "The datasource instanceSelector can't find matching grafana instances",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastMessage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "grafana.integreatly.org",
+      "kind": "GrafanaDatasource",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
