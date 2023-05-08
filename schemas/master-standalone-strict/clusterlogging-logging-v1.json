@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
     },
     "spec": {
-      "description": "ClusterLoggingSpec defines the desired state of ClusterLogging",
+      "description": "Specification of the desired behavior of ClusterLogging",
       "type": [
         "object",
         "null"
@@ -72,7 +72,7 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "ClusterLoggingStatus defines the observed state of ClusterLogging",
+      "description": "Status defines the observed state of ClusterLogging",
       "type": [
         "object",
         "null"
