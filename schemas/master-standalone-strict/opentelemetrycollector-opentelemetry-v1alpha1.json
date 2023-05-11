@@ -1166,8 +1166,32 @@
               },
               "additionalProperties": false
             },
+            "maxReplicas": {
+              "description": "MaxReplicas sets an upper bound to the autoscaling feature. If MaxReplicas is set autoscaling is enabled.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "minReplicas": {
+              "description": "MinReplicas sets a lower bound to the autoscaling feature.  Set this if your are using autoscaling. It must be at least 1",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
             "targetCPUUtilization": {
               "description": "TargetCPUUtilization sets the target average CPU used across all replicas. If average CPU exceeds this value, the HPA will scale up. Defaults to 90 percent.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "targetMemoryUtilization": {
+              "description": "TargetMemoryUtilization sets the target average memory utilization across all replicas",
               "type": [
                 "integer",
                 "null"
@@ -1466,6 +1490,36 @@
                 "null"
               ]
             },
+            "ingressClassName": {
+              "description": "IngressClassName is the name of an IngressClass cluster resource. Ingress controller implementations use this field to know whether they should be serving this Ingress resource.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "route": {
+              "description": "Route is an OpenShift specific section that is only considered when type \"route\" is used.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "termination": {
+                  "description": "Termination indicates termination type. By default \"edge\" is used.",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "insecure",
+                    "edge",
+                    "passthrough",
+                    "reencrypt"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
             "tls": {
               "description": "TLS configuration.",
               "type": [
@@ -1511,14 +1565,15 @@
                 "null"
               ],
               "enum": [
-                "ingress"
+                "ingress",
+                "route"
               ]
             }
           },
           "additionalProperties": false
         },
         "maxReplicas": {
-          "description": "MaxReplicas sets an upper bound to the autoscaling feature. If MaxReplicas is set autoscaling is enabled.",
+          "description": "MaxReplicas sets an upper bound to the autoscaling feature. If MaxReplicas is set autoscaling is enabled. Deprecated: use \"OpenTelemetryCollector.Spec.Autoscaler.MaxReplicas\" instead.",
           "type": [
             "integer",
             "null"
@@ -1526,7 +1581,7 @@
           "format": "int32"
         },
         "minReplicas": {
-          "description": "MinReplicas sets a lower bound to the autoscaling feature.  Set this if your are using autoscaling. It must be at least 1",
+          "description": "MinReplicas sets a lower bound to the autoscaling feature.  Set this if your are using autoscaling. It must be at least 1 Deprecated: use \"OpenTelemetryCollector.Spec.Autoscaler.MinReplicas\" instead.",
           "type": [
             "integer",
             "null"
@@ -1680,7 +1735,7 @@
               "additionalProperties": false
             },
             "supplementalGroups": {
-              "description": "A list of groups applied to the first process run in each container, in addition to the container's primary GID.  If unspecified, no groups will be added to any container. Note that this field cannot be set when spec.os.name is windows.",
+              "description": "A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.",
               "type": [
                 "array",
                 "null"
@@ -1844,6 +1899,34 @@
             "null"
           ],
           "properties": {
+            "claims": {
+              "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "x-kubernetes-list-map-keys": [
+                "name"
+              ],
+              "x-kubernetes-list-type": "map"
+            },
             "limits": {
               "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
               "type": [
@@ -2069,7 +2152,7 @@
           "additionalProperties": false
         },
         "serviceAccount": {
-          "description": "ServiceAccount indicates the name of an existing service account to use with this instance.",
+          "description": "ServiceAccount indicates the name of an existing service account to use with this instance. When set, the operator will not automatically create a ServiceAccount for the collector.",
           "type": [
             "string",
             "null"
@@ -2087,12 +2170,23 @@
               "type": [
                 "string",
                 "null"
+              ],
+              "enum": [
+                "least-weighted",
+                "consistent-hashing"
               ]
             },
             "enabled": {
               "description": "Enabled indicates whether to use a target allocation mechanism for Prometheus targets or not.",
               "type": [
                 "boolean",
+                "null"
+              ]
+            },
+            "filterStrategy": {
+              "description": "FilterStrategy determines how to filter targets before allocating them among the collectors. The only current option is relabel-config (drops targets based on prom relabel_config). Filtering is disabled by default.",
+              "type": [
+                "string",
                 "null"
               ]
             },
@@ -2116,6 +2210,32 @@
                     "boolean",
                     "null"
                   ]
+                },
+                "podMonitorSelector": {
+                  "description": "PodMonitors to be selected for target discovery. This is a map of {key,value} pairs. Each {key,value} in the map is going to exactly match a label in a PodMonitor's meta labels. The requirements are ANDed.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "serviceMonitorSelector": {
+                  "description": "ServiceMonitors to be selected for target discovery. This is a map of {key,value} pairs. Each {key,value} in the map is going to exactly match a label in a ServiceMonitor's meta labels. The requirements are ANDed.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
                 }
               },
               "additionalProperties": false
@@ -2129,7 +2249,7 @@
               "format": "int32"
             },
             "serviceAccount": {
-              "description": "ServiceAccount indicates the name of an existing service account to use with this instance.",
+              "description": "ServiceAccount indicates the name of an existing service account to use with this instance. When set, the operator will not automatically create a ServiceAccount for the TargetAllocator.",
               "type": [
                 "string",
                 "null"
@@ -2308,7 +2428,7 @@
                     }
                   },
                   "dataSource": {
-                    "description": "dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. If the AnyVolumeDataSource feature gate is enabled, this field will always have the same contents as the DataSourceRef field.",
+                    "description": "dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified. If the namespace is specified, then dataSourceRef will not be copied to dataSource.",
                     "type": [
                       "object",
                       "null"
@@ -2338,7 +2458,7 @@
                     "additionalProperties": false
                   },
                   "dataSourceRef": {
-                    "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef preserves all values, and generates an error if a disallowed value is specified. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.",
+                    "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the dataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, when namespace isn't specified in dataSourceRef, both fields (dataSource and dataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. When namespace is specified in dataSourceRef, dataSource isn't set to the same value and must be empty. There are three important differences between dataSource and dataSourceRef: * While dataSource only allows two specific types of objects, dataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While dataSource ignores disallowed values (dropping them), dataSourceRef preserves all values, and generates an error if a disallowed value is specified. * While dataSource only allows local objects, dataSourceRef allows objects in any namespaces. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled. (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
                     "type": [
                       "object",
                       "null"
@@ -2362,9 +2482,15 @@
                       "name": {
                         "description": "Name is the name of resource being referenced",
                         "type": "string"
+                      },
+                      "namespace": {
+                        "description": "Namespace is the namespace of resource being referenced Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGrant object is required in the referent namespace to allow that namespace's owner to accept the reference. See the ReferenceGrant documentation for details. (Alpha) This field requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       }
                     },
-                    "x-kubernetes-map-type": "atomic",
                     "additionalProperties": false
                   },
                   "resources": {
@@ -2374,6 +2500,34 @@
                       "null"
                     ],
                     "properties": {
+                      "claims": {
+                        "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "name"
+                          ],
+                          "properties": {
+                            "name": {
+                              "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "x-kubernetes-list-map-keys": [
+                          "name"
+                        ],
+                        "x-kubernetes-list-type": "map"
+                      },
                       "limits": {
                         "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                         "type": [
@@ -3273,7 +3427,7 @@
                             }
                           },
                           "dataSource": {
-                            "description": "dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. If the AnyVolumeDataSource feature gate is enabled, this field will always have the same contents as the DataSourceRef field.",
+                            "description": "dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified. If the namespace is specified, then dataSourceRef will not be copied to dataSource.",
                             "type": [
                               "object",
                               "null"
@@ -3303,7 +3457,7 @@
                             "additionalProperties": false
                           },
                           "dataSourceRef": {
-                            "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef preserves all values, and generates an error if a disallowed value is specified. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.",
+                            "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the dataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, when namespace isn't specified in dataSourceRef, both fields (dataSource and dataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. When namespace is specified in dataSourceRef, dataSource isn't set to the same value and must be empty. There are three important differences between dataSource and dataSourceRef: * While dataSource only allows two specific types of objects, dataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While dataSource ignores disallowed values (dropping them), dataSourceRef preserves all values, and generates an error if a disallowed value is specified. * While dataSource only allows local objects, dataSourceRef allows objects in any namespaces. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled. (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
                             "type": [
                               "object",
                               "null"
@@ -3327,9 +3481,15 @@
                               "name": {
                                 "description": "Name is the name of resource being referenced",
                                 "type": "string"
+                              },
+                              "namespace": {
+                                "description": "Namespace is the namespace of resource being referenced Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGrant object is required in the referent namespace to allow that namespace's owner to accept the reference. See the ReferenceGrant documentation for details. (Alpha) This field requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
                               }
                             },
-                            "x-kubernetes-map-type": "atomic",
                             "additionalProperties": false
                           },
                           "resources": {
@@ -3339,6 +3499,34 @@
                               "null"
                             ],
                             "properties": {
+                              "claims": {
+                                "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "name"
+                                  ],
+                                  "properties": {
+                                    "name": {
+                                      "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                },
+                                "x-kubernetes-list-map-keys": [
+                                  "name"
+                                ],
+                                "x-kubernetes-list-type": "map"
+                              },
                               "limits": {
                                 "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                                 "type": [
