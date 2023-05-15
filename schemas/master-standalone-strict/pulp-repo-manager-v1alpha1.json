@@ -32,6 +32,9 @@
         "object",
         "null"
       ],
+      "required": [
+        "api"
+      ],
       "properties": {
         "admin_password_secret": {
           "description": "Secret where the administrator password can be found. Default: <operator's name> + \"-admin-password\"",
@@ -40,12 +43,260 @@
             "null"
           ]
         },
-        "api": {
-          "description": "Api defines desired state of pulpcore-api resources",
+        "affinity": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Affinity is a group of affinity scheduling rules.",
           "type": [
             "object",
             "null"
           ],
+          "properties": {
+            "node_affinity": {
+              "description": "Node affinity is a group of node affinity scheduling rules.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "preferredDuringSchedulingIgnoredDuringExecution": {
+                  "description": "The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding \"weight\" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "preference",
+                      "weight"
+                    ],
+                    "properties": {
+                      "preference": {
+                        "description": "A node selector term, associated with the corresponding weight.",
+                        "type": "object",
+                        "properties": {
+                          "matchExpressions": {
+                            "description": "A list of node selector requirements by node's labels.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "description": "A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "required": [
+                                "key",
+                                "operator"
+                              ],
+                              "properties": {
+                                "key": {
+                                  "description": "The label key that the selector applies to.",
+                                  "type": "string"
+                                },
+                                "operator": {
+                                  "description": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+                                  "type": "string"
+                                },
+                                "values": {
+                                  "description": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.",
+                                  "type": [
+                                    "array",
+                                    "null"
+                                  ],
+                                  "items": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "matchFields": {
+                            "description": "A list of node selector requirements by node's fields.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "description": "A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "required": [
+                                "key",
+                                "operator"
+                              ],
+                              "properties": {
+                                "key": {
+                                  "description": "The label key that the selector applies to.",
+                                  "type": "string"
+                                },
+                                "operator": {
+                                  "description": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+                                  "type": "string"
+                                },
+                                "values": {
+                                  "description": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.",
+                                  "type": [
+                                    "array",
+                                    "null"
+                                  ],
+                                  "items": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "x-kubernetes-map-type": "atomic",
+                        "additionalProperties": false
+                      },
+                      "weight": {
+                        "description": "Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.",
+                        "type": "integer",
+                        "format": "int32"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "requiredDuringSchedulingIgnoredDuringExecution": {
+                  "description": "If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "nodeSelectorTerms"
+                  ],
+                  "properties": {
+                    "nodeSelectorTerms": {
+                      "description": "Required. A list of node selector terms. The terms are ORed.",
+                      "type": "array",
+                      "items": {
+                        "description": "A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "matchExpressions": {
+                            "description": "A list of node selector requirements by node's labels.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "description": "A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "required": [
+                                "key",
+                                "operator"
+                              ],
+                              "properties": {
+                                "key": {
+                                  "description": "The label key that the selector applies to.",
+                                  "type": "string"
+                                },
+                                "operator": {
+                                  "description": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+                                  "type": "string"
+                                },
+                                "values": {
+                                  "description": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.",
+                                  "type": [
+                                    "array",
+                                    "null"
+                                  ],
+                                  "items": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "matchFields": {
+                            "description": "A list of node selector requirements by node's fields.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "description": "A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "required": [
+                                "key",
+                                "operator"
+                              ],
+                              "properties": {
+                                "key": {
+                                  "description": "The label key that the selector applies to.",
+                                  "type": "string"
+                                },
+                                "operator": {
+                                  "description": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+                                  "type": "string"
+                                },
+                                "values": {
+                                  "description": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.",
+                                  "type": [
+                                    "array",
+                                    "null"
+                                  ],
+                                  "items": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "x-kubernetes-map-type": "atomic",
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "x-kubernetes-map-type": "atomic",
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "api": {
+          "description": "Api defines desired state of pulpcore-api resources",
+          "type": "object",
           "properties": {
             "affinity": {
               "description": "Affinity is a group of affinity scheduling rules.",
@@ -1237,6 +1488,13 @@
               },
               "additionalProperties": false
             },
+            "log_level": {
+              "description": "[TODO] I couldnt find a reference for this var in ansible [DEPRECATED?] Temporarily adding to keep compatibility with ansible version.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "node_selector": {
               "description": "NodeSelector for the Pulp pods.",
               "type": [
@@ -1330,6 +1588,13 @@
                   },
                   "x-kubernetes-map-type": "atomic",
                   "additionalProperties": false
+                },
+                "unhealthyPodEvictionPolicy": {
+                  "description": "UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction. Current implementation considers healthy pods, as pods that have status.conditions item with type=\"Ready\",status=\"True\". \n Valid policies are IfHealthyBudget and AlwaysAllow. If no policy is specified, the default behavior will be used, which corresponds to the IfHealthyBudget policy. \n IfHealthyBudget policy means that running pods (status.phase=\"Running\"), but not yet healthy can be evicted only if the guarded application is not disrupted (status.currentHealthy is at least equal to status.desiredHealthy). Healthy pods will be subject to the PDB for eviction. \n AlwaysAllow policy means that all running pods (status.phase=\"Running\"), but not yet healthy are considered disrupted and can be evicted regardless of whether the criteria in a PDB is met. This means perspective running pods of a disrupted application might not get a chance to become healthy. Healthy pods will be subject to the PDB for eviction. \n Additional policies may be added in the future. Clients making eviction decisions should disallow eviction of unhealthy pods if they encounter an unrecognized policy in this field. \n This field is alpha-level. The eviction API uses this field when the feature gate PDBUnhealthyPodEvictionPolicy is enabled (disabled by default).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false
@@ -1543,6 +1808,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -1768,14 +2061,14 @@
                     "format": "int32"
                   },
                   "nodeAffinityPolicy": {
-                    "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a alpha-level feature enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                    "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
                     "type": [
                       "string",
                       "null"
                     ]
                   },
                   "nodeTaintsPolicy": {
-                    "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a alpha-level feature enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                    "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
                     "type": [
                       "string",
                       "null"
@@ -3231,6 +3524,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -4572,6 +4893,13 @@
               },
               "additionalProperties": false
             },
+            "log_level": {
+              "description": "[TODO] Implement this like in ansible version [DEPRECATED?] Temporarily adding to keep compatibility with ansible version.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "node_selector": {
               "description": "NodeSelector for the Pulp pods.",
               "type": [
@@ -4665,6 +4993,13 @@
                   },
                   "x-kubernetes-map-type": "atomic",
                   "additionalProperties": false
+                },
+                "unhealthyPodEvictionPolicy": {
+                  "description": "UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction. Current implementation considers healthy pods, as pods that have status.conditions item with type=\"Ready\",status=\"True\". \n Valid policies are IfHealthyBudget and AlwaysAllow. If no policy is specified, the default behavior will be used, which corresponds to the IfHealthyBudget policy. \n IfHealthyBudget policy means that running pods (status.phase=\"Running\"), but not yet healthy can be evicted only if the guarded application is not disrupted (status.currentHealthy is at least equal to status.desiredHealthy). Healthy pods will be subject to the PDB for eviction. \n AlwaysAllow policy means that all running pods (status.phase=\"Running\"), but not yet healthy are considered disrupted and can be evicted regardless of whether the criteria in a PDB is met. This means perspective running pods of a disrupted application might not get a chance to become healthy. Healthy pods will be subject to the PDB for eviction. \n Additional policies may be added in the future. Clients making eviction decisions should disallow eviction of unhealthy pods if they encounter an unrecognized policy in this field. \n This field is alpha-level. The eviction API uses this field when the feature gate PDBUnhealthyPodEvictionPolicy is enabled (disabled by default).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false
@@ -4878,6 +5213,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -5103,14 +5466,14 @@
                     "format": "int32"
                   },
                   "nodeAffinityPolicy": {
-                    "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a alpha-level feature enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                    "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
                     "type": [
                       "string",
                       "null"
                     ]
                   },
                   "nodeTaintsPolicy": {
-                    "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a alpha-level feature enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                    "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
                     "type": [
                       "string",
                       "null"
@@ -6389,6 +6752,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -6759,6 +7150,27 @@
             "null"
           ]
         },
+        "gunicorn_api_workers": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. The number of gunicorn workers to use for the api.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "gunicorn_content_workers": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. The number of gunicorn workers to use for the api.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "gunicorn_timeout": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. The timeout for the gunicorn process.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
         "haproxy_timeout": {
           "description": "The timeout for HAProxy. Default: \"180s\"",
           "type": [
@@ -6766,8 +7178,15 @@
             "null"
           ]
         },
+        "hostname": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Ingress DNS host",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "image": {
-          "description": "The image name (repo name) for the pulp image. Default: \"quay.io/pulp/pulp-minimal:3.22.0\"",
+          "description": "The image name (repo name) for the pulp image. Default: \"quay.io/pulp/pulp-minimal:stable\"",
           "type": [
             "string",
             "null"
@@ -6785,6 +7204,13 @@
             "Never"
           ]
         },
+        "image_pull_secret": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Image pull secret for container images. Default: \"\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "image_pull_secrets": {
           "description": "Image pull secrets for container images. Default: []",
           "type": [
@@ -6799,7 +7225,7 @@
           }
         },
         "image_version": {
-          "description": "The image version for the pulp image. Default: \"3.22.0\"",
+          "description": "The image version for the pulp image. Default: \"stable\"",
           "type": [
             "string",
             "null"
@@ -6813,7 +7239,7 @@
           ]
         },
         "image_web_version": {
-          "description": "The image version for the pulp webserver image. Default: \"3.22.0\"",
+          "description": "The image version for the pulp webserver image. Default: \"stable\"",
           "type": [
             "string",
             "null"
@@ -6871,6 +7297,25 @@
             "nodeport"
           ]
         },
+        "loadbalancer_port": {
+          "description": "Port exposed by pulp-web service when ingress_type==loadbalancer",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        },
+        "loadbalancer_protocol": {
+          "description": "Protocol used by pulp-web service when ingress_type==loadbalancer",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "http",
+            "https"
+          ]
+        },
         "mount_trusted_ca": {
           "description": "Define if the operator should or should not mount the custom CA certificates added to the cluster via cluster-wide proxy config. Default: false",
           "type": [
@@ -6913,6 +7358,19 @@
             "null"
           ]
         },
+        "node_selector": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. NodeSelector for the Pulp pods.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
         "nodeport_port": {
           "description": "Provide requested port value",
           "type": [
@@ -6935,12 +7393,447 @@
             "null"
           ]
         },
+        "postgres_configuration_secret": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Custom configuration secret of database pods",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "postgres_data_path": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Registry path to the PostgreSQL container to use. Default: \"/var/lib/postgresql/data/pgdata\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "postgres_extra_args": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Arguments to pass to postgres process",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "postgres_host_auth_method": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. PostgreSQL host authentication method. Default: \"scram-sha-256\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "postgres_image": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. PostgreSQL container image. Default: \"postgres:13\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "postgres_initdb_args": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Arguments to pass to PostgreSQL initdb command when creating a new cluster. Default: \"--auth-host=scram-sha-256\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "postgres_resource_requirements": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Resource requirements for the database container.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "claims": {
+              "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "x-kubernetes-list-map-keys": [
+                "name"
+              ],
+              "x-kubernetes-list-type": "map"
+            },
+            "limits": {
+              "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                "x-kubernetes-int-or-string": true
+              }
+            },
+            "requests": {
+              "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                "x-kubernetes-int-or-string": true
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "postgres_selector": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. NodeSelector for the database pod.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "postgres_storage_class": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Name of the StorageClass required by the claim.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "postgres_storage_requirements": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Storage resource requirements for the database container.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "claims": {
+              "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "x-kubernetes-list-map-keys": [
+                "name"
+              ],
+              "x-kubernetes-list-type": "map"
+            },
+            "limits": {
+              "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                "x-kubernetes-int-or-string": true
+              }
+            },
+            "requests": {
+              "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                "x-kubernetes-int-or-string": true
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "postgres_tolerations": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Node tolerations for the Database pods.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "effect": {
+                "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "key": {
+                "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "operator": {
+                "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "tolerationSeconds": {
+                "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64"
+              },
+              "value": {
+                "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
         "pulp_settings": {
           "description": "Definition of /etc/pulp/settings.py config file.",
           "x-kubernetes-preserve-unknown-fields": true
         },
         "pvc": {
           "description": "PersistenVolumeClaim name that will be used by Pulp pods. If defined, the PVC must be provisioned by the user and the operator will only configure the deployment to use it",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "redis": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Redis defines desired state of cache resources",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "replicas"
+          ],
+          "properties": {
+            "log_level": {
+              "description": "[TODO] Implement this like in ansible version [DEPRECATED?] Temporarily adding to keep compatibility with ansible version.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "redis_resource_requirements": {
+              "description": "ResourceRequirements describes the compute resource requirements.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
+                "limits": {
+                  "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                    "x-kubernetes-int-or-string": true
+                  }
+                },
+                "requests": {
+                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                    "x-kubernetes-int-or-string": true
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "replicas": {
+              "description": "[TODO] THIS SHOULD BE REMOVED SINCE WE WILL NOT SUPPORT REDIS CLUSTER Keeping it just as a matter of compatibility",
+              "type": "integer",
+              "format": "int32"
+            },
+            "resource_requirements": {
+              "description": "ResourceRequirements describes the compute resource requirements.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
+                "limits": {
+                  "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                    "x-kubernetes-int-or-string": true
+                  }
+                },
+                "requests": {
+                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                    "x-kubernetes-int-or-string": true
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "strategy": {
+              "description": "DeploymentStrategy describes how to replace existing pods with new ones.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "rollingUpdate": {
+                  "description": "Rolling update config params. Present only if DeploymentStrategyType = RollingUpdate. --- TODO: Update this to follow our convention for oneOf, whatever we decide it to be.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "maxSurge": {
+                      "description": "The maximum number of pods that can be scheduled above the desired number of pods. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 25%. Example: when this is set to 30%, the new ReplicaSet can be scaled up immediately when the rolling update starts, such that the total number of old and new pods do not exceed 130% of desired pods. Once old pods have been killed, new ReplicaSet can be scaled up further, ensuring that total number of pods running at any time during the update is at most 130% of desired pods.",
+                      "x-kubernetes-int-or-string": true
+                    },
+                    "maxUnavailable": {
+                      "description": "The maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. Defaults to 25%. Example: when this is set to 30%, the old ReplicaSet can be scaled down to 70% of desired pods immediately when the rolling update starts. Once new pods are ready, old ReplicaSet can be scaled down further, followed by scaling up the new ReplicaSet, ensuring that the total number of pods available at all times during the update is at least 70% of desired pods.",
+                      "x-kubernetes-int-or-string": true
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "type": {
+                  "description": "Type of deployment. Can be \"Recreate\" or \"RollingUpdate\". Default is RollingUpdate.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "redis_image": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. The image name for the redis image. Default: \"redis:latest\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "redis_storage_class": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Storage class to use for the Redis PVC",
           "type": [
             "string",
             "null"
@@ -6986,6 +7879,26 @@
             "null"
           ]
         },
+        "route_tls_termination_mechanism": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. The secure TLS termination mechanism to use in pulp-web pods. Default: \"edge\"",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "edge",
+            "Edge",
+            "passthrough",
+            "Passthrough"
+          ]
+        },
+        "service_annotations": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. pulp-web service annotations",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "signing_scripts_configmap": {
           "description": "ConfigMap where the signing scripts are stored. Default: <operators's name>-\"-signing-scripts\"",
           "type": [
@@ -7022,6 +7935,196 @@
             "Azure",
             "azure"
           ]
+        },
+        "tolerations": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Node tolerations for the Pulp pods.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "effect": {
+                "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "key": {
+                "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "operator": {
+                "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "tolerationSeconds": {
+                "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64"
+              },
+              "value": {
+                "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "topology_spread_constraints": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version. Topology rule(s) for the pods.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "TopologySpreadConstraint specifies how to spread matching pods among the given topology.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "maxSkew",
+              "topologyKey",
+              "whenUnsatisfiable"
+            ],
+            "properties": {
+              "labelSelector": {
+                "description": "LabelSelector is used to find matching pods. Pods that match this label selector are counted to determine the number of pods in their corresponding topology domain.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "matchExpressions": {
+                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "key",
+                        "operator"
+                      ],
+                      "properties": {
+                        "key": {
+                          "description": "key is the label key that the selector applies to.",
+                          "type": "string"
+                        },
+                        "operator": {
+                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                          "type": "string"
+                        },
+                        "values": {
+                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "matchLabels": {
+                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "x-kubernetes-map-type": "atomic",
+                "additionalProperties": false
+              },
+              "matchLabelKeys": {
+                "description": "MatchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. Keys that don't exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector.",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "x-kubernetes-list-type": "atomic"
+              },
+              "maxSkew": {
+                "description": "MaxSkew describes the degree to which pods may be unevenly distributed. When `whenUnsatisfiable=DoNotSchedule`, it is the maximum permitted difference between the number of matching pods in the target topology and the global minimum. The global minimum is the minimum number of matching pods in an eligible domain or zero if the number of eligible domains is less than MinDomains. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 2/2/1: In this case, the global minimum is 1. | zone1 | zone2 | zone3 | |  P P  |  P P  |   P   | - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2; scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2) violate MaxSkew(1). - if MaxSkew is 2, incoming pod can be scheduled onto any zone. When `whenUnsatisfiable=ScheduleAnyway`, it is used to give higher precedence to topologies that satisfy it. It's a required field. Default value is 1 and 0 is not allowed.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "minDomains": {
+                "description": "MinDomains indicates a minimum number of eligible domains. When the number of eligible domains with matching topology keys is less than minDomains, Pod Topology Spread treats \"global minimum\" as 0, and then the calculation of Skew is performed. And when the number of eligible domains with matching topology keys equals or greater than minDomains, this value has no effect on scheduling. As a result, when the number of eligible domains is less than minDomains, scheduler won't schedule more than maxSkew Pods to those domains. If value is nil, the constraint behaves as if MinDomains is equal to 1. Valid values are integers greater than 0. When value is not nil, WhenUnsatisfiable must be DoNotSchedule. \n For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same labelSelector spread as 2/2/2: | zone1 | zone2 | zone3 | |  P P  |  P P  |  P P  | The number of domains is less than 5(MinDomains), so \"global minimum\" is treated as 0. In this situation, new pod with the same labelSelector cannot be scheduled, because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones, it will violate MaxSkew. \n This is a beta field and requires the MinDomainsInPodTopologySpread feature gate to be enabled (enabled by default).",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int32"
+              },
+              "nodeAffinityPolicy": {
+                "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "nodeTaintsPolicy": {
+                "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "topologyKey": {
+                "description": "TopologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a \"bucket\", and try to put balanced number of pods into each bucket. We define a domain as a particular instance of a topology. Also, we define an eligible domain as a domain whose nodes meet the requirements of nodeAffinityPolicy and nodeTaintsPolicy. e.g. If TopologyKey is \"kubernetes.io/hostname\", each Node is a domain of that topology. And, if TopologyKey is \"topology.kubernetes.io/zone\", each zone is a domain of that topology. It's a required field.",
+                "type": "string"
+              },
+              "whenUnsatisfiable": {
+                "description": "WhenUnsatisfiable indicates how to deal with a pod if it doesn't satisfy the spread constraint. - DoNotSchedule (default) tells the scheduler not to schedule it. - ScheduleAnyway tells the scheduler to schedule the pod in any location, but giving higher precedence to topologies that would help reduce the skew. A constraint is considered \"Unsatisfiable\" for an incoming pod if and only if every possible node assignment for that pod would violate \"MaxSkew\" on some topology. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 3/1/1: | zone1 | zone2 | zone3 | | P P P |   P   |   P   | If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler won't make it *more* imbalanced. It's a required field.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
         },
         "unmanaged": {
           "description": "Define if the operator should stop managing Pulp resources. If set to true, the operator will not execute any task (it will be \"disabled\"). Default: false",
@@ -7327,6 +8430,13 @@
                   },
                   "x-kubernetes-map-type": "atomic",
                   "additionalProperties": false
+                },
+                "unhealthyPodEvictionPolicy": {
+                  "description": "UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction. Current implementation considers healthy pods, as pods that have status.conditions item with type=\"Ready\",status=\"True\". \n Valid policies are IfHealthyBudget and AlwaysAllow. If no policy is specified, the default behavior will be used, which corresponds to the IfHealthyBudget policy. \n IfHealthyBudget policy means that running pods (status.phase=\"Running\"), but not yet healthy can be evicted only if the guarded application is not disrupted (status.currentHealthy is at least equal to status.desiredHealthy). Healthy pods will be subject to the PDB for eviction. \n AlwaysAllow policy means that all running pods (status.phase=\"Running\"), but not yet healthy are considered disrupted and can be evicted regardless of whether the criteria in a PDB is met. This means perspective running pods of a disrupted application might not get a chance to become healthy. Healthy pods will be subject to the PDB for eviction. \n Additional policies may be added in the future. Clients making eviction decisions should disallow eviction of unhealthy pods if they encounter an unrecognized policy in this field. \n This field is alpha-level. The eviction API uses this field when the feature gate PDBUnhealthyPodEvictionPolicy is enabled (disabled by default).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false
@@ -7540,6 +8650,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -7564,6 +8702,67 @@
                 }
               },
               "additionalProperties": false
+            },
+            "service_annotations": {
+              "description": "Annotations for the service",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "strategy": {
+              "description": "The deployment strategy to use to replace existing pods with new ones.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "rollingUpdate": {
+                  "description": "Rolling update config params. Present only if DeploymentStrategyType = RollingUpdate. --- TODO: Update this to follow our convention for oneOf, whatever we decide it to be.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "maxSurge": {
+                      "description": "The maximum number of pods that can be scheduled above the desired number of pods. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 25%. Example: when this is set to 30%, the new ReplicaSet can be scaled up immediately when the rolling update starts, such that the total number of old and new pods do not exceed 130% of desired pods. Once old pods have been killed, new ReplicaSet can be scaled up further, ensuring that total number of pods running at any time during the update is at most 130% of desired pods.",
+                      "x-kubernetes-int-or-string": true
+                    },
+                    "maxUnavailable": {
+                      "description": "The maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. Defaults to 25%. Example: when this is set to 30%, the old ReplicaSet can be scaled down to 70% of desired pods immediately when the rolling update starts. Once new pods are ready, old ReplicaSet can be scaled down further, followed by scaling up the new ReplicaSet, ensuring that the total number of pods available at all times during the update is at least 70% of desired pods.",
+                      "x-kubernetes-int-or-string": true
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "type": {
+                  "description": "Type of deployment. Can be \"Recreate\" or \"RollingUpdate\". Default is RollingUpdate.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "tls_termination_mechanism": {
+              "description": "The secure TLS termination mechanism to use Default: \"edge\"",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "edge",
+                "Edge",
+                "passthrough",
+                "Passthrough"
+              ]
             }
           },
           "additionalProperties": false
@@ -8844,6 +10043,13 @@
                   },
                   "x-kubernetes-map-type": "atomic",
                   "additionalProperties": false
+                },
+                "unhealthyPodEvictionPolicy": {
+                  "description": "UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction. Current implementation considers healthy pods, as pods that have status.conditions item with type=\"Ready\",status=\"True\". \n Valid policies are IfHealthyBudget and AlwaysAllow. If no policy is specified, the default behavior will be used, which corresponds to the IfHealthyBudget policy. \n IfHealthyBudget policy means that running pods (status.phase=\"Running\"), but not yet healthy can be evicted only if the guarded application is not disrupted (status.currentHealthy is at least equal to status.desiredHealthy). Healthy pods will be subject to the PDB for eviction. \n AlwaysAllow policy means that all running pods (status.phase=\"Running\"), but not yet healthy are considered disrupted and can be evicted regardless of whether the criteria in a PDB is met. This means perspective running pods of a disrupted application might not get a chance to become healthy. Healthy pods will be subject to the PDB for eviction. \n Additional policies may be added in the future. Clients making eviction decisions should disallow eviction of unhealthy pods if they encounter an unrecognized policy in this field. \n This field is alpha-level. The eviction API uses this field when the feature gate PDBUnhealthyPodEvictionPolicy is enabled (disabled by default).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false
@@ -9057,6 +10263,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -9282,14 +10516,14 @@
                     "format": "int32"
                   },
                   "nodeAffinityPolicy": {
-                    "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a alpha-level feature enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                    "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
                     "type": [
                       "string",
                       "null"
                     ]
                   },
                   "nodeTaintsPolicy": {
-                    "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a alpha-level feature enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                    "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
                     "type": [
                       "string",
                       "null"
@@ -9398,8 +10632,32 @@
             "null"
           ]
         },
+        "databaseConfigurationSecret": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dbFieldsEncryptionSecret": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "db_fields_encryption_secret": {
           "description": "Secret where the Fernet symmetric encryption key is stored.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "deployedImage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "deployedVersion": {
           "type": [
             "string",
             "null"
@@ -9433,6 +10691,18 @@
             "null"
           ]
         },
+        "migrantDatabaseConfigurationSecret": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "migration_done": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "object_storage_azure_secret": {
           "description": "The secret for Azure compliant object storage configuration.",
           "type": [
@@ -9442,6 +10712,37 @@
         },
         "object_storage_s3_secret": {
           "description": "The secret for S3 compliant object storage configuration.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "storagePersistentVolumeClaim": {
+          "description": "[DEPRECATED] Temporarily adding to keep compatibility with ansible version.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "storageSecret": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "storageType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "upgradedPostgresVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "webURL": {
           "type": [
             "string",
             "null"
