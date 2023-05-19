@@ -3,7 +3,8 @@
   "type": "object",
   "required": [
     "currentReplicas",
-    "desiredReplicas"
+    "desiredReplicas",
+    "conditions"
   ],
   "properties": {
     "conditions": {
