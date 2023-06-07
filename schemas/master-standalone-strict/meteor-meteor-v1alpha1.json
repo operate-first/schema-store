@@ -1,5 +1,5 @@
 {
-  "description": "Meteor is the Schema for the meteors API",
+  "description": "Meteor resource represents a repository build. It defines which pipelines are executed and what is the livespan of the produced resources",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -9,7 +9,7 @@
         "null"
       ],
       "enum": [
-        "meteor.operate-first.cloud/v1alpha1"
+        "meteor.zone/v1alpha1"
       ]
     },
     "kind": {
@@ -35,7 +35,6 @@
       "required": [
         "pipelines",
         "ref",
-        "ttl",
         "url"
       ],
       "properties": {
@@ -54,8 +53,11 @@
           "type": "string"
         },
         "ttl": {
-          "description": "Time to live after the resource was created. If empty default ttl will be enforced.",
-          "type": "integer",
+          "description": "Time to live after the resource was created.",
+          "type": [
+            "integer",
+            "null"
+          ],
           "format": "int64"
         },
         "url": {
@@ -260,7 +262,7 @@
   },
   "x-kubernetes-group-version-kind": [
     {
-      "group": "meteor.operate-first.cloud",
+      "group": "meteor.zone",
       "kind": "Meteor",
       "version": "v1alpha1"
     }
