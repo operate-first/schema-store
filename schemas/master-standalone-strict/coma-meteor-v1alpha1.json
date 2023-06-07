@@ -1,0 +1,107 @@
+{
+  "description": "Coma is a complementary resource to Meteor in namespaces defined by Shower's externalServices property. This resource is generated automatically.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "meteor.zone/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Coma"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+    },
+    "spec": {
+      "description": "ComaSpec defines the desired state of Coma",
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "status": {
+      "description": "ComaStatus defines the observed state of Coma",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "owner"
+      ],
+      "properties": {
+        "owner": {
+          "description": "Meteor owning this coma in a different namespace",
+          "type": "object",
+          "required": [
+            "apiVersion",
+            "kind",
+            "name",
+            "namespace",
+            "uid"
+          ],
+          "properties": {
+            "apiVersion": {
+              "description": "API version of the referent.",
+              "type": "string"
+            },
+            "blockOwnerDeletion": {
+              "description": "If true, AND if the owner has the \"foregroundDeletion\" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. Defaults to false. To set this field, a user needs \"delete\" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "controller": {
+              "description": "If true, this reference points to the managing controller.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "kind": {
+              "description": "Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+              "type": "string"
+            },
+            "name": {
+              "description": "Name of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#names",
+              "type": "string"
+            },
+            "namespace": {
+              "description": "Namespace of the resource",
+              "type": "string"
+            },
+            "uid": {
+              "description": "UID of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#uids",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "meteor.zone",
+      "kind": "Coma",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

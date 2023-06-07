@@ -11,7 +11,7 @@
         "null"
       ],
       "enum": [
-        "meteor.operate-first.cloud/v1alpha1"
+        "meteor.zone/v1alpha1"
       ]
     },
     "items": {
@@ -21,7 +21,7 @@
         "null"
       ],
       "items": {
-        "$ref": "_definitions.json#/definitions/cloud.operate-first.meteor.v1alpha1.Meteor"
+        "$ref": "_definitions.json#/definitions/zone.meteor.v1alpha1.Meteor"
       }
     },
     "kind": {
@@ -41,7 +41,7 @@
   },
   "x-kubernetes-group-version-kind": [
     {
-      "group": "meteor.operate-first.cloud",
+      "group": "meteor.zone",
       "kind": "MeteorList",
       "version": "v1alpha1"
     }
